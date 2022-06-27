@@ -18,6 +18,10 @@ const routes: RouteItem[] = [
         path: pathName.MENU,
         component: React.lazy(() => import('container/Page/Page')),
       },
+      {
+        path: pathName.LOUNGE,
+        component: React.lazy(() => import('container/Lounge/Lounge')),
+      },
     ],
   },
 ]
