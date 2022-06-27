@@ -1,19 +1,13 @@
 import React from 'react';
-import images from '../../constants/images';
-import { MdOutlineRestaurantMenu } from 'react-icons/md';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import { AboutUs, Chef, Header, SpecialMenu } from 'container';
-import { Navbar } from 'components';
+import 'container/PublicPage/PublicPage.css';
 const Page = () => {
 
   return (
-    <div>
-      <Navbar />
-      <Header />
-      <AboutUs />
-      <SpecialMenu />
-      <Chef />
-  </div>
+      <nav className='app__navbar'>
+          <div className='app__navbar-logo' >
+              Menu
+          </div>
+      </nav>
   );
 };
 
