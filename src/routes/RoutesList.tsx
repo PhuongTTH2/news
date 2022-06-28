@@ -15,12 +15,20 @@ const routes: RouteItem[] = [
         component: React.lazy(() => import('container/PublicPage/PublicPage')),
       },
       {
-        path: pathName.MENU,
-        component: React.lazy(() => import('container/Page/Page')),
+        path: pathName.WRITING,
+        component: React.lazy(() => import('container/Writing/Writing')),
       },
       {
         path: pathName.LOUNGE,
         component: React.lazy(() => import('container/Lounge/Lounge')),
+      },
+      {
+        path: pathName.PROFILE,
+        component: React.lazy(() => import('container/Profile/Profile')),
+      },
+      {
+        path: pathName.PERSONAL_PROFILE,
+        component: React.lazy(() => import('container/PersonalProfile/PersonalProfile')),
       },
     ],
   },
