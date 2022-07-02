@@ -688,26 +688,26 @@ p.user span{
 	margin-bottom: 9px;
 }
 .rateBarWrapper .progress {
-	background: url("../img/bar_bg1.png")repeat-x;
+	background: url("/public/img/bar_bg1.png")repeat-x;
 	background-position: 0px 2px;
 }
 .rateBarWrapper1 .progress {
-	background: url("../img/bar_bg1_dark.png")repeat-x;
+	background: url("/public/img/bar_bg1_dark.png")repeat-x;
 	background-position: 0px 2px;
 }
 .rateBarWrapper .progress-bar {
-	background: url("../img/progress_bar_bg.png")repeat-x;
+	background: url("/public/img/progress_bar_bg.png")repeat-x;
 	position: relative;
 	top: 2px;	
 }
 .rateBarWrapper1 .progress-bar {
-	background: url("../img/progress_bar_white_bg.png")repeat-x;
+	background: url("/public/img/progress_bar_white_bg.png")repeat-x;
 	position: relative;
 	top: 2px;	
 }
 .rateBarWrapper1 .progress-bar::after,
 .rateBarWrapper .progress-bar::after {
-    content: url("../img/three_bars.png");
+    content: url("/public/img/three_bars.png");
     text-align: right;
     z-index: 999;
     position: absolute;
@@ -3063,7 +3063,7 @@ p.user span{
 }
 
 input#ccdetails {
-    background-image: url('../img/ccicon.png');
+    background-image: url('/public/img/ccicon.png');
     background-repeat: no-repeat;
     text-indent: 35px;
     background-position: 4px;
@@ -3211,7 +3211,7 @@ input#ccdetails:focus {
 
 #eventWrapper .timeDateAddressWrapper1 .iconAfter::after {
 	content: "";
-	background: url('../img/wrong-red-icon.png');
+	background: url('/public/img/wrong-red-icon.png');
 	height: 17px;
 	width: 17px;
 	display: inline-block;
@@ -3225,7 +3225,7 @@ input#ccdetails:focus {
 
 #eventWrapper .iconAfter::after {
     content: "";
-    background: url('../img/duplicate-icon.png');
+    background: url('/public/img/duplicate-icon.png');
 	height: 30px;
 	width: 45px;
 	display: inline-block;

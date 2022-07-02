@@ -1,9 +1,10 @@
 import React, { Fragment, Suspense } from 'react'
 import { RouteItem } from 'utils/types'
 import { Route, Routes } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { pathName } from 'constants/index'
-
 import BaseLayout from 'container/Layouts/BaseLayout'
+import { isEmpty } from 'lodash'
 
 const routes: RouteItem[] = [
   {
@@ -13,6 +14,7 @@ const routes: RouteItem[] = [
       {
         path: pathName.HOME,
         component: React.lazy(() => import('container/PublicPage/PublicPage')),
+        
       },
       {
         path: pathName.WRITING,
@@ -30,7 +32,24 @@ const routes: RouteItem[] = [
         path: pathName.PERSONAL_PROFILE,
         component: React.lazy(() => import('container/PersonalProfile/PersonalProfile')),
       },
-    ],
+      {
+        path: pathName.CREATE_RELIGION,
+        component: React.lazy(() => import('container/CreateReligion/CreateReligion')),
+      },
+    ] ,
+  },
+]
+const routeslogin: RouteItem[] = [
+  {
+    path: '/',
+    component: BaseLayout,
+    routes: [
+      {
+        path: pathName.HOME,
+        component: React.lazy(() => import('container/PublicPage/PublicPage')),
+        
+      }
+    ] ,
   },
 ]
 
@@ -45,10 +64,11 @@ const renderRoutes = (routes: RouteItem[]) => {
         path={route.path}
         element={
           <Guard>
-            <Suspense fallback={<></>}>
-              <Component />
-            </Suspense>
+              <Suspense fallback={<></>}>
+                <Component />
+              </Suspense>
           </Guard>
+          
         }
       >
         {route.routes && renderRoutes(route.routes)}
@@ -58,7 +78,12 @@ const renderRoutes = (routes: RouteItem[]) => {
 }
 
 function RoutesList() {
-  return <Routes>{renderRoutes(routes)}</Routes>
+  console.log(localStorage.getItem('accessToken'))
+  // if(!isEmpty(localStorage.getItem('accessToken'))) {
+    return <Routes>{renderRoutes(routes)}</Routes>
+  // }else{
+  //   return <Routes>{renderRoutes(routeslogin)}</Routes>
+  // }
 }
 
 export default RoutesList

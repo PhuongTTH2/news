@@ -10,6 +10,7 @@ import "./assets/css/fonts.css";
 import "./assets/css/styles.css";
 import "./assets/css/responsive.css";
 import "./assets/datepicker/bootstrap-datetimepicker.css";
+
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
