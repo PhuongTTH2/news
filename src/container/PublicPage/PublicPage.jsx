@@ -1,5 +1,6 @@
 import React from 'react';
-
+// import { Button,Modal} from 'react-bootstrap'
+import Footer from '../../components/Footer'
 const PublicPage = () => {
   const [toggleMenu, setToggleMenu] = React.useState(false);
   return (
@@ -11,25 +12,26 @@ const PublicPage = () => {
                       <div className="holder">
                           <div className="logoHolder width154">
                               <a href="/" className="logo">
-                                  <img alt="alt"src="img/logo.png"/>
+                                   <img alt="alt" src="img/logo.png"/>
                               </a>
                               <a href="/" className="showOnMobile text-white fs--20">
-                                  N<span className="colorYellow2">L</span>
+                               N<span className="colorYellow2">L</span>
                               </a>
                           </div>
                           <div className="width145 hideOnMobile">
                               <ul className="menuIcon ">
                                   <li>
                                       <a href="/">
-                                          <img
+                                           <img alt="alt" 
                                               className="iconasset mt--5"
                                               src="img/icons/folder_96px.png"
+                                              
                                           />
                                       </a>
                                   </li>
                                   <li>
                                       <a href="/">
-                                          <img
+                                           <img alt="alt"
                                               className="iconasset mt--5"
                                               src="img/icons/create_96px.png"
                                           />
@@ -37,7 +39,7 @@ const PublicPage = () => {
                                   </li>
                                   <li>
                                       <a href="/">
-                                          <img
+                                           <img alt="alt"
                                               className="iconasset mt--5"
                                               src="img/icons/speech_96px.png"
                                           />
@@ -50,17 +52,17 @@ const PublicPage = () => {
                                   {/* show on mobile */}
                                   <li>
                                       <a href="/">
-                                          <img alt="alt"className="mt--5" src="img/line-folder.png"/>
+                                           <img alt="alt" className="mt--5" src="img/line-folder.png"/>
                                       </a>
                                   </li>
                                   <li>
                                       <a href="/">
-                                          <img alt="alt"className="mt--5" src="img/line-pencil.png"/>
+                                           <img alt="alt" className="mt--5" src="img/line-pencil.png"/>
                                       </a>
                                   </li>
                                   <li>
                                       <a href="/">
-                                          <img alt="alt"className="mt--5" src="img/line-chat.png"/>
+                                           <img alt="alt" className="mt--5" src="img/line-chat.png"/>
                                       </a>
                                   </li>
                                   {/* end of show on mobile */}
@@ -75,7 +77,7 @@ const PublicPage = () => {
                                           placeholder="Search"
                                       />
                                       <button className="submitBtn" type="submit">
-                                          <img
+                                           <img alt="alt"
                                               className="iconasset"
                                               src="img/icons/search_reverse_96px.png"
                                           />
@@ -125,7 +127,7 @@ const PublicPage = () => {
                           {/* mobile menu icon */}
                           <div className="mobeMenuIconWrapper width128">
                               <a id="rside-btn" href="/">
-                                  <img alt="alt"src="img/mmemu_icon.png"/>
+                                   <img alt="alt" src="img/mmemu_icon.png"/>
                               </a>
                           </div>
                           {/* end of mobile menu icon */}
@@ -142,12 +144,12 @@ const PublicPage = () => {
                   <div className="input-container searchWrapper">
                       <input className="input-field" type="text" placeholder="Search"/>
                       <button className="submitBtn" type="submit">
-                          <img alt="alt"className="iconasset" src="img/icons/search_reverse_96px.png"/>
+                           <img alt="alt" className="iconasset" src="img/icons/search_reverse_96px.png"/>
                       </button>
                   </div>
                   <div className="width15">
                       <a id="lside-btn" href="/">
-                          <img alt="alt"src="img/mmemu_dark_icon.png"/>
+                           <img alt="alt" src="img/mmemu_dark_icon.png"/>
                       </a>
                   </div>
                   <div className="clearfix"/>
@@ -170,7 +172,7 @@ const PublicPage = () => {
                               <div className="card-header">Today's Featured NRM</div>
                               <div className="card-body">
                                   <div className="author">
-                                      <img alt="alt"className="avatarIcon" src="img/avatar/jordanism.png"/>
+                                       <img alt="alt" className="avatarIcon" src="img/avatar/jordanism.png"/>
                                       <p>
                                           <a href="/" className="bright-blue">
                                               Jordanism
@@ -199,7 +201,7 @@ const PublicPage = () => {
                                   {/* start of group */}
                                   <div className="author">
                                       <div className="leftAuthor">
-                                          <img alt="alt"className="avatarIcon" src="img/avatar/sophists.png"/>
+                                           <img alt="alt" className="avatarIcon" src="img/avatar/sophists.png"/>
                                           <p className="fs--12">
                                               <a href="/" className="bright-blue">
                                                   The Sophists Union{" "}
@@ -218,7 +220,7 @@ const PublicPage = () => {
                                   {/* start of group */}
                                   <div className="author mt--5">
                                       <div className="leftAuthor">
-                                          <img alt="alt"className="avatarIcon" src="img/avatar/passbarn.png"/>
+                                           <img alt="alt" className="avatarIcon" src="img/avatar/passbarn.png"/>
                                           <p className="fs--12">
                                               <a href="/" className="bright-blue">
                                                   Passbarn Study Union{" "}
@@ -237,7 +239,7 @@ const PublicPage = () => {
                                   {/* start of group */}
                                   <div className="author mt--5">
                                       <div className="leftAuthor">
-                                          <img
+                                           <img alt="alt"
                                               className="avatarIcon"
                                               src="img/avatar/passbarn_study.png"
                                           />
@@ -259,7 +261,7 @@ const PublicPage = () => {
                                   {/* start of group */}
                                   <div className="author mt--5">
                                       <div className="leftAuthor">
-                                          <img
+                                           <img alt="alt"
                                               className="avatarIcon"
                                               src="img/avatar/sophistry_collective.png"
                                           />
@@ -288,7 +290,7 @@ const PublicPage = () => {
                                   {/* start of group */}
                                   <div className="author">
                                       <div className="leftAuthor">
-                                          <img alt="alt"className="avatarIcon" src="img/avatar/sophists.png"/>
+                                           <img alt="alt" className="avatarIcon" src="img/avatar/sophists.png"/>
                                           <p className="fs--12">
                                               <a href="/" className="bright-blue">
                                                   The Sophists Union{" "}
@@ -307,7 +309,7 @@ const PublicPage = () => {
                                   {/* start of group */}
                                   <div className="author mt--5">
                                       <div className="leftAuthor">
-                                          <img alt="alt"className="avatarIcon" src="img/avatar/passbarn.png"/>
+                                           <img alt="alt" className="avatarIcon" src="img/avatar/passbarn.png"/>
                                           <p className="fs--12">
                                               <a href="/" className="bright-blue">
                                                   Passbarn Study Union{" "}
@@ -326,7 +328,7 @@ const PublicPage = () => {
                                   {/* start of group */}
                                   <div className="author mt--5">
                                       <div className="leftAuthor">
-                                          <img
+                                           <img alt="alt"
                                               className="avatarIcon"
                                               src="img/avatar/passbarn_study.png"
                                           />
@@ -348,7 +350,7 @@ const PublicPage = () => {
                                   {/* start of group */}
                                   <div className="author mt--5">
                                       <div className="leftAuthor">
-                                          <img
+                                           <img alt="alt"
                                               className="avatarIcon"
                                               src="img/avatar/sophistry_collective.png"
                                           />
@@ -370,7 +372,7 @@ const PublicPage = () => {
                                   {/* start of group */}
                                   <div className="author mt--5">
                                       <div className="leftAuthor">
-                                          <img alt="alt"className="avatarIcon" src="img/avatar/sophists.png"/>
+                                           <img alt="alt" className="avatarIcon" src="img/avatar/sophists.png"/>
                                           <p className="fs--12">
                                               <a href="/" className="bright-blue">
                                                   The Sophists Union{" "}
@@ -389,7 +391,7 @@ const PublicPage = () => {
                                   {/* start of group */}
                                   <div className="author mt--5">
                                       <div className="leftAuthor">
-                                          <img alt="alt"className="avatarIcon" src="img/avatar/passbarn.png"/>
+                                           <img alt="alt" className="avatarIcon" src="img/avatar/passbarn.png"/>
                                           <p className="fs--12">
                                               <a href="/" className="bright-blue">
                                                   Passbarn Study Union{" "}
@@ -408,7 +410,7 @@ const PublicPage = () => {
                                   {/* start of group */}
                                   <div className="author mt--5">
                                       <div className="leftAuthor">
-                                          <img
+                                           <img alt="alt"
                                               className="avatarIcon"
                                               src="img/avatar/passbarn_study.png"
                                           />
@@ -430,7 +432,7 @@ const PublicPage = () => {
                                   {/* start of group */}
                                   <div className="author mt--5">
                                       <div className="leftAuthor">
-                                          <img
+                                           <img alt="alt"
                                               className="avatarIcon"
                                               src="img/avatar/sophistry_collective.png"
                                           />
@@ -667,7 +669,7 @@ const PublicPage = () => {
                                   </p>
                               </div>
                               <div className="author">
-                                  <img alt="alt"className="avatarIcon" src="img/avatar/jordanism.png"/>
+                                   <img alt="alt" className="avatarIcon" src="img/avatar/jordanism.png"/>
                                   <p>
                                       <a href="/">The Sophists Union</a> -{" "}
                                       <span className="fw--300">God Is You!</span>
@@ -691,7 +693,7 @@ const PublicPage = () => {
                                   <div className="clearfix"/>
                                   <div className="videoWrapper">
                                       <a href="/">
-                                          <img alt="alt"src="img/videosample.jpg"/>
+                                           <img alt="alt" src="img/videosample.jpg"/>
                                       </a>
                                   </div>
                               </div>
@@ -705,7 +707,7 @@ const PublicPage = () => {
                                               className="no-text-decoration text--black"
                                               title="comment"
                                           >
-                                              <img
+                                               <img alt="alt"
                                                   className="iconasset opacity--50"
                                                   src="img/icons/comments_96px.png"
                                               />{" "}
@@ -718,7 +720,7 @@ const PublicPage = () => {
                                               className="no-text-decoration text--black"
                                               title="share"
                                           >
-                                              <img
+                                               <img alt="alt"
                                                   className="iconasset opacity--50"
                                                   src="img/icons/share_96px.png"
                                               />{" "}
@@ -731,7 +733,7 @@ const PublicPage = () => {
                                               className="no-text-decoration text--black"
                                               title="report"
                                           >
-                                              <img
+                                               <img alt="alt"
                                                   className="iconasset opacity--50"
                                                   src="img/icons/flagpole_96px.png"
                                               />{" "}
@@ -748,7 +750,7 @@ const PublicPage = () => {
                       <div className="feedsWrapper mt--5">
                           <div className="feedsContent pb--20">
                               <div className="author">
-                                  <img alt="alt"className="avatarIcon" src="img/avatar/passbarn.png"/>
+                                   <img alt="alt" className="avatarIcon" src="img/avatar/passbarn.png"/>
                                   <p>
                                       <a href="/">Passbarn Study Union</a> -{" "}
                                       <span className="fw--300">Life is precious - </span>
@@ -898,7 +900,7 @@ const PublicPage = () => {
                                               className="no-text-decoration colorDarkBlue"
                                               title="comment"
                                           >
-                                              <img
+                                               <img alt="alt"
                                                   className="iconasset opacity--50"
                                                   src="img/icons/comments_96px.png"
                                               />{" "}
@@ -911,7 +913,7 @@ const PublicPage = () => {
                                               className="no-text-decoration text--black"
                                               title="share"
                                           >
-                                              <img
+                                               <img alt="alt"
                                                   className="iconasset opacity--50"
                                                   src="img/icons/share_96px.png"
                                               />{" "}
@@ -924,7 +926,7 @@ const PublicPage = () => {
                                               className="no-text-decoration text--black"
                                               title="report"
                                           >
-                                              <img
+                                               <img alt="alt"
                                                   className="iconasset opacity--50"
                                                   src="img/icons/flagpole_96px.png"
                                               />{" "}
@@ -1004,7 +1006,7 @@ const PublicPage = () => {
                                                   placeholder="Reply to Melissa Gertrude"
                                               />
                                               <button className="submitBtn" type="submit">
-                                                  <img
+                                                   <img alt="alt"
                                                       className="iconasset"
                                                       src="img/icons/telegram_app_96px.png"
                                                   />
@@ -1022,7 +1024,7 @@ const PublicPage = () => {
                               {/* start event content */}
                               <div className="feedsContent pb--20">
                                   <div className="author">
-                                      <img
+                                       <img alt="alt"
                                           className="avatarIcon"
                                           src="img/avatar/passbarn_study.png"
                                       />
@@ -1081,7 +1083,7 @@ const PublicPage = () => {
                                                   className="no-text-decoration text--black"
                                                   title="comment"
                                               >
-                                                  <img
+                                                   <img alt="alt"
                                                       className="iconasset opacity--50"
                                                       src="img/icons/comments_96px.png"
                                                   />{" "}
@@ -1094,7 +1096,7 @@ const PublicPage = () => {
                                                   className="no-text-decoration text--black"
                                                   title="share"
                                               >
-                                                  <img
+                                                   <img alt="alt"
                                                       className="iconasset opacity--50"
                                                       src="img/icons/share_96px.png"
                                                   />{" "}
@@ -1107,7 +1109,7 @@ const PublicPage = () => {
                                                   className="no-text-decoration text--black"
                                                   title="report"
                                               >
-                                                  <img
+                                                   <img alt="alt"
                                                       className="iconasset opacity--50"
                                                       src="img/icons/flagpole_96px.png"
                                                   />{" "}
@@ -1140,7 +1142,7 @@ const PublicPage = () => {
                                   {/* start of progress bars */}
                                   <div className="author">
                                       <div className="leftAuthor">
-                                          <img
+                                           <img alt="alt"
                                               className="avatarIcon"
                                               src="img/avatar/the_benabar.png"
                                           />
@@ -1172,7 +1174,7 @@ const PublicPage = () => {
                                   </div>
                                   <div className="author">
                                       <div className="leftAuthor">
-                                          <img
+                                           <img alt="alt"
                                               className="avatarIcon"
                                               src="img/avatar/croze_church.png"
                                           />
@@ -1204,7 +1206,7 @@ const PublicPage = () => {
                                   </div>
                                   <div className="author">
                                       <div className="leftAuthor">
-                                          <img
+                                           <img alt="alt"
                                               className="avatarIcon"
                                               src="img/avatar/hoshi_union.png"
                                           />
@@ -1236,7 +1238,7 @@ const PublicPage = () => {
                                   </div>
                                   <div className="author">
                                       <div className="leftAuthor">
-                                          <img
+                                           <img alt="alt"
                                               className="avatarIcon"
                                               src="img/avatar/caravane_church.png"
                                           />
@@ -1285,7 +1287,7 @@ const PublicPage = () => {
                                   {/* start of progress bars */}
                                   <div className="author">
                                       <div className="leftAuthor">
-                                          <img
+                                           <img alt="alt"
                                               className="avatarIcon"
                                               src="img/avatar/the_benabar.png"
                                           />
@@ -1317,7 +1319,7 @@ const PublicPage = () => {
                                   </div>
                                   <div className="author">
                                       <div className="leftAuthor">
-                                          <img
+                                           <img alt="alt"
                                               className="avatarIcon"
                                               src="img/avatar/croze_church.png"
                                           />
@@ -1349,7 +1351,7 @@ const PublicPage = () => {
                                   </div>
                                   <div className="author">
                                       <div className="leftAuthor">
-                                          <img
+                                           <img alt="alt"
                                               className="avatarIcon"
                                               src="img/avatar/hoshi_union.png"
                                           />
@@ -1381,7 +1383,7 @@ const PublicPage = () => {
                                   </div>
                                   <div className="author">
                                       <div className="leftAuthor">
-                                          <img
+                                           <img alt="alt"
                                               className="avatarIcon"
                                               src="img/avatar/caravane_church.png"
                                           />
@@ -1551,6 +1553,9 @@ const PublicPage = () => {
           </div>
           {" "}
           {/* .content */}
+       
+       
+       
           {/* forgot Account */}
           <div
               className="modal fade Acct"
@@ -1563,7 +1568,7 @@ const PublicPage = () => {
                   <div className="modal-content">
                       <div className="modal-header">
                           <a href="/" className="logo">
-                              <img alt="alt"src="img/logo.png"/>
+                               <img alt="alt" src="img/logo.png"/>
                           </a>
                       </div>
                       <div className="modal-body">
@@ -1626,7 +1631,7 @@ const PublicPage = () => {
                   <div className="modal-content">
                       <div className="modal-header">
                           <a href="/" className="logo">
-                              <img alt="alt"src="img/logo.png"/>
+                               <img alt="alt" src="img/logo.png"/>
                           </a>
                       </div>
                       <div className="modal-body">
@@ -1696,7 +1701,7 @@ const PublicPage = () => {
                   <div className="modal-content">
                       <div className="modal-header">
                           <a href="/" className="logo">
-                              <img alt="alt"src="img/logo.png"/>
+                               <img alt="alt" src="img/logo.png"/>
                           </a>
                       </div>
                       <div className="modal-body">
@@ -1737,18 +1742,18 @@ const PublicPage = () => {
                               <a
                                   href="/"
                                   className="bright-blue fw--700 firstLink"
-                                  data-toggle="modal"
-                                  data-target="#loginAcct"
-                                  data-dismiss="modal"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#loginAcct"
+                                //   data-dismiss="modal"
                               >
                                   LOG IN
                               </a>
                               <a
-                                  href="/"
+                                //   href="/"
                                   className="bright-blue fw--700"
-                                  data-toggle="modal"
-                                  data-target="#signUp1st"
-                                  data-dismiss="modal"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#signUp1st"
+                                //   data-dismiss="modal"
                               >
                                   SIGN UP
                               </a>
@@ -1772,7 +1777,7 @@ const PublicPage = () => {
                       </button>
                       <div className="signup-header">
                           <a href="/" className="logo">
-                              <img alt="alt"src="img/logo.png"/>
+                               <img alt="alt" src="img/logo.png"/>
                           </a>
                       </div>
                       <div className="signup-body">
@@ -1826,7 +1831,7 @@ const PublicPage = () => {
                   <div className="modal-content">
                       <div className="modal-header">
                           <a href="/" className="logo">
-                              <img alt="alt"src="img/logo.png"/>
+                               <img alt="alt" src="img/logo.png"/>
                           </a>
                       </div>
                       <div className="modal-body">
@@ -1844,7 +1849,7 @@ const PublicPage = () => {
                                   name="phone"
                               />
                           </p>
-                          <img alt="alt"src="img/captcha.jpg"/>
+                           <img alt="alt" src="img/captcha.jpg"/>
                       </div>
                       <div className="modal-footer">
                           <a
@@ -1869,113 +1874,7 @@ const PublicPage = () => {
           </div>
           {/* end of content */}
           {/* sart of footer */}
-          <footer>
-              {/* start of upper footer */}
-              <div className="no-gutters upperFooter">
-                  <div className="container no-padding-lr">
-                      <div className="row">
-                          <div className="col-lg-6 col-md-12 footerLeft">
-                              <ul className="list-unstyled footerNavigation">
-                                  <li>
-                                      <a href="/">Home</a>
-                                  </li>
-                                  <li>
-                                      <a href="personal_profile.html">Profile</a>
-                                  </li>
-                                  <li>
-                                      <a href="/">Directory</a>
-                                  </li>
-                                  <li>
-                                      <a href="/">Create</a>
-                                  </li>
-                                  <li>
-                                      <a
-                                          href="/"
-                                          data-toggle="modal"
-                                          data-target="#signUp1st"
-                                          data-dismiss="modal"
-                                      >
-                                          Join / Signin
-                                      </a>
-                                  </li>
-                                  <li>
-                                      <a href="/">Message</a>
-                                  </li>
-                              </ul>
-                          </div>
-                          <div className="col-lg-6 col-md-12 text-right footerRight">
-                              <ul className="list-unstyled">
-                                  <li>Newligion © 2019</li>
-                                  <li>
-                                      <a href="/">· Terms </a>
-                                  </li>
-                                  <li>
-                                      <a href="/">&nbsp;· Privacy </a>
-                                  </li>
-                                  <li>
-                                      <a href="/">&nbsp;· Program Policies</a>
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              {/* end of upper footer */}
-              {/* start of lower footer */}
-              <div className="no-gutters lowerFooter">
-                  <div className="container no-padding-lr">
-                      <div className="row">
-                          <div className="col-lg-6 col-md-12 footerlogoWrapper">
-                              <a href="/">
-                                  <img alt="alt"src="img/f-logo.png"/>
-                              </a>
-                          </div>
-                          <div className="col-lg-6 col-md-12 text-right socialNavigation">
-                              <ul className="list-unstyled">
-                                  <li>
-                                      <a href="/">
-                                          <img alt="alt"className="iconasset" src="img/icons/youtube_96px.png"/>
-                                      </a>
-                                  </li>
-                                  <li>
-                                      <a href="/">
-                                          <img
-                                              className="iconasset"
-                                              src="img/icons/instagram_96px.png"
-                                          />
-                                      </a>
-                                  </li>
-                                  <li>
-                                      <a href="/">
-                                          <img
-                                              className="iconasset"
-                                              src="img/icons/pinterest_96px.png"
-                                          />
-                                      </a>
-                                  </li>
-                                  <li>
-                                      <a href="/">
-                                          <img
-                                              className="iconasset"
-                                              src="img/icons/twitter_squared_96px.png"
-                                          />
-                                      </a>
-                                  </li>
-                                  <li>
-                                      <a href="/">
-                                          <img
-                                              className="iconasset"
-                                              src="img/icons/facebook_f_96px.png"
-                                          />
-                                      </a>
-                                  </li>
-                              </ul>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              {/* end of lower footer */}
-          </footer>
+          <Footer/>
           {/* end of footer */}
       </div>
 
