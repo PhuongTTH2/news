@@ -36,6 +36,10 @@ const routes: RouteItem[] = [
         path: pathName.CREATE_RELIGION,
         component: React.lazy(() => import('container/CreateReligion/CreateReligion')),
       },
+      {
+        path: pathName.SET_MEMBERSHIP,
+        component: React.lazy(() => import('container/SetMemberShip/SetMemberShip')),
+      },
     ] ,
   },
 ]
