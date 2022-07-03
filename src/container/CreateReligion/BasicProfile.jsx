@@ -1062,8 +1062,8 @@ const BasicProfile = ({handleStep}) =>{
                     </a>
                   </p>
                   <p>
-                    By continuing, you agree to our <a href="/">User Agreement</a>{" "}
-                    and <a href="/">Privacy Policy</a>
+                    By continuing, you agree to our <a href="/user-agreement">User Agreement</a>{" "}
+                    and <a href="/privacy">Privacy Policy</a>
                   </p>
                 </div>
               </div>

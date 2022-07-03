@@ -59,20 +59,17 @@ const ModalSignin = ({ modalOpen , close, handleModalOpen }) => {
               <button type="button" onClick= {() => handleSubmit()}className="btn btn-default fs--12">
                   SIGN IN
               </button>
-              <button type="button" onClick= {() => handleLogout()}className="btn btn-default fs--12">
-                  OUT
-              </button>
               <div className="login-signup-links">
-                <a onClick={() => { handleModalOpen('ForgotUsername') }}  style={{ color:'#00aeef', cursor: 'pointer'}}>
+                <a class="bright-blue firstLink pointerA " onClick={() =>  { handleModalOpen('ForgotUsername') }} >
                     Forgot username
                 </a>
-                <a onClick={() => { handleModalOpen('ForgotPassword') }}  style={{color:'#00aeef ', cursor: 'pointer'}}>
+                <a class="bright-blue  pointerA" onClick={() => { handleModalOpen('ForgotPassword') }} >
                     Forgot password
                 </a>
               </div>
               <p>
                   New to Newligion?{" "}
-                  <a onClick={() => { handleModalOpen('SignUp') }}  style={{ color:'#00aeef', cursor: 'pointer'}}>
+                  <a onClick={() => { handleModalOpen('SignUp') }}  class="bright-blue  pointerA ">
                       Sign Up
                   </a>
                   .

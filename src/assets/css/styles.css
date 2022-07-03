@@ -1860,7 +1860,7 @@ p.user span{
 /* signup */
 
 .signup .modal-content {
-    display: block;
+    display: flex;
 }
 
 .signup .btn {
@@ -1887,7 +1887,7 @@ p.user span{
 }
 
 #signUp1st .signup-header img {
-    width: 75%;
+    width: 100%;
 }
 
 #signUp1st .signup-body {
@@ -3278,3 +3278,11 @@ input#ccdetails:focus {
 #pollWrapper .create-inner label {
     display: block;
 }
+
+.pointerA {
+	cursor: pointer;
+}
+.signup-content {
+	background-color: #f5f6f7;
+  }
+  

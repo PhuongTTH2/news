@@ -6,5 +6,10 @@ const pathName = {
   PERSONAL_PROFILE:'/personal_profile',
   CREATE_RELIGION:'/create-religion',
   SET_MEMBERSHIP:'/set-membership',
+  TERMS:'/terms',
+  PRIVACY:'/privacy',
+  PROGRAM_POLICIES:'/program-policies',
+  USER_AGREEMENT:'/user-agreement',
+  ABOUT_US:'/about-us',
 }
 export default pathName;

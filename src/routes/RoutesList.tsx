@@ -40,6 +40,22 @@ const routes: RouteItem[] = [
         path: pathName.SET_MEMBERSHIP,
         component: React.lazy(() => import('container/SetMemberShip/SetMemberShip')),
       },
+      {
+        path: pathName.TERMS,
+        component: React.lazy(() => import('container/PublicPage/StaticPage/TermsServices')),
+      },
+      {
+        path: pathName.PRIVACY,
+        component: React.lazy(() => import('container/PublicPage/StaticPage/Privacy')),
+      },
+      {
+        path: pathName.USER_AGREEMENT,
+        component: React.lazy(() => import('container/PublicPage/StaticPage/UserAgreement')),
+      },
+      {
+        path: pathName.ABOUT_US,
+        component: React.lazy(() => import('container/PublicPage/StaticPage/AboutUs')),
+      },
     ] ,
   },
 ]

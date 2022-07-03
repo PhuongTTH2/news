@@ -43,11 +43,11 @@ const ModalForgotUsername = ({ modalOpen , close,handleModalOpen }) => {
                         .
                     </p>
                     <div className="login-signup-links">
-                        <a onClick={() => { handleModalOpen('Signin') }}  style={{ color:'#00aeef', cursor: 'pointer'}}>
+                        <a onClick={() => { handleModalOpen('Signin') }}  class="bright-blue fw--700 firstLink pointerA">
 
                             LOG IN
                         </a>
-                        <a onClick={() => { handleModalOpen('SignUp') }}  style={{ color:'#00aeef', cursor: 'pointer'}}>
+                        <a onClick={() => { handleModalOpen('SignUp') }}  class="bright-blue fw--700 pointerA">
 
                             SIGN UP
                         </a>

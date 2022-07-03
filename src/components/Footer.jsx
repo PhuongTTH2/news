@@ -10,9 +10,10 @@ const Footer = () =>{
     const [modalForgotUsername, setModalForgotUsername] = React.useState(false);
     const [modalSignUp, setModalSignUp] = React.useState(false);
     const handleToggleModal = () => {
-        // setModalOpen(!modalOpen);
+        handleModalOpen();
     }
     const handleModalOpen = (e) => {
+        console.log('return')
         setModalSignin(false)
         setModalForgotPassword(false)
         setModalForgotUsername(false)
@@ -60,13 +61,13 @@ const Footer = () =>{
                             <ul className="list-unstyled">
                                 <li>Newligion © 2019</li>
                                 <li>
-                                    <a href="/">· Terms </a>
+                                    <a href="/terms">· Terms </a>
                                 </li>
                                 <li>
-                                    <a href="/">&nbsp;· Privacy </a>
+                                    <a href="/privacy">&nbsp;· Privacy </a>
                                 </li>
                                 <li>
-                                    <a href="/">&nbsp;· Program Policies</a>
+                                    <a href="/program-policies">&nbsp;· Program Policies</a>
                                 </li>
                             </ul>
                         </div>
