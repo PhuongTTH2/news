@@ -1,10 +1,9 @@
 import React from "react";
-// import "./Modal.css";
-
 import { Modal} from 'react-bootstrap'
 import axiosClient from "api/rest/axiosClient";
 import { useNavigate } from 'react-router'
 import { pathName } from 'constants/index'
+
 const ModalSignin = ({ modalOpen , close, handleModalOpen }) => {
 
   const navigate = useNavigate();
@@ -12,22 +11,16 @@ const ModalSignin = ({ modalOpen , close, handleModalOpen }) => {
   const [password, setPassword] = React.useState('');
 
   const handleSubmit = async (e) => {
-    // const {data} = await axiosClient.post('login', {
-    //     username, password
-    // }, {withCredentials: true});
-    localStorage.setItem("accessToken", true)
-    handleModalOpen()
-    navigate(pathName.LOUNGE)
+    const data = await axiosClient.post('/api/login', {
+        username, password
+    });
+    if(data){
+        localStorage.setItem("accessToken", data.token)
+        handleModalOpen()
+        navigate(pathName.LOUNGE)
+        window.location.reload()
+    }
    }
-   const handleLogout = async (e) => {
-    localStorage.removeItem("accessToken")
-    navigate(pathName.HOME)
-
-   }
-   
-  if (!modalOpen) {
-    return null;
-  }
   return (
     <Modal show={modalOpen} onHide={close} size="lg">
     <div className="Acct">
@@ -43,7 +36,6 @@ const ModalSignin = ({ modalOpen , close, handleModalOpen }) => {
               <p>
                   <input
                       placeholder="USERNAME"
-                      onInput="this.className = ''"
                       name="username"
                       onChange={e => setUserName(e.target.value)}
                   />
@@ -51,12 +43,11 @@ const ModalSignin = ({ modalOpen , close, handleModalOpen }) => {
               <p>
                   <input
                       placeholder="PASSWORD"
-                      onInput="this.className = ''"
                       name="password"
                       onChange={e => setPassword(e.target.value)}
                   />
               </p>
-              <button type="button" onClick= {() => handleSubmit()}className="btn btn-default fs--12">
+              <button type="button" onClick= {() => handleSubmit()} className="btn btn-default fs--12">
                   SIGN IN
               </button>
               <div className="login-signup-links">

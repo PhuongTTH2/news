@@ -2007,7 +2007,7 @@ p.user span{
     width: 100%;
     border: solid 1px #aaaaaa;
     color: #a5a4a4;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
 }
 
 .Acct .btn {
@@ -2020,7 +2020,7 @@ p.user span{
     cursor: pointer;
     transition: all 0.3s ease-out;
     font-weight: 700;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
     margin-bottom: 20px;
 	color: #ffffff !important;
 }

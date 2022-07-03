@@ -1,7 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Footer from '../../components/Footer'
+import axiosClient from "api/rest/axiosClient";
+import { useNavigate } from 'react-router'
+import { pathName } from 'constants/index'
 const Lounge = () => {
   // const [toggleMenu, setToggleMenu] = React.useState(false);
+  const navigate = useNavigate();
+  const getUser = async (params) => {
+    const newParams = { ...params }
+    const response = await axiosClient.get('/api/users?page=1', {
+        params: { ...newParams },
+    });
+    return response
+  }
+
+  useEffect(async () =>{
+
+    const response = await axiosClient.get('/api/users?page=1');
+
+      console.log(response)
+  },[])
+
+  const handleLogout = async (e) => {
+    localStorage.removeItem("accessToken")
+    navigate(pathName.HOME)
+    window.location.reload()
+   }
+
   return (
 	<div id="main">
   {/* start of header */}
@@ -99,6 +124,9 @@ const Lounge = () => {
                 <a href="/">
                   Rex Mulholland <i className="fas fa-caret-down" />
                 </a>
+                <button type="button" onClick= {() => handleLogout()} className="btn btn-default fs--12">
+                 LOG OUT
+              </button>
               </p>
             </div>
           </div>

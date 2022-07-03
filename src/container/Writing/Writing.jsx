@@ -159,6 +159,7 @@ const Page = () => {
       setActiveChapter(first(first(books).chapters)),
       setActiveTopic(first(first(first(books).chapters).topics))
     ])
+    
   }, [])
   const renderTopic = (topic) => {
     const isRenderactiveTopic = topic.id == activeTopic.id

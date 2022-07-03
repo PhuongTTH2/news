@@ -6,6 +6,7 @@ export type Route = {
     guard?: React.LazyExoticComponent<ComponentType<unknown>> | ComponentType<unknown>
     layout?: React.FunctionComponent
     component?: any
+    noAuth?: any
 }
 
 export type RouteItem = Route & {
