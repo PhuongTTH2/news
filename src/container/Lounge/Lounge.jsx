@@ -3,6 +3,7 @@ import Footer from '../../components/Footer'
 import axiosClient from "api/rest/axiosClient";
 import { useNavigate } from 'react-router'
 import { pathName } from 'constants/index'
+import { map } from 'lodash';
 const Lounge = () => {
   // const [toggleMenu, setToggleMenu] = React.useState(false);
   const navigate = useNavigate();
@@ -20,6 +21,95 @@ const Lounge = () => {
 
       console.log(response)
   },[])
+
+  const newMember = [
+    {
+      name : "Jenna Smith",
+      img: "img/avatar/sophists.png",
+      message:"Hi. I'm looking forward to connecting with some of you.",
+      origin: "(Dallas, TX)"
+    },
+    {
+      name : "Tom Jones",
+      img: "img/avatar/passbarn.png",
+      message:"You all seem weird but I like it!",
+      origin: "(Berkeley, CA)"
+    },
+    {
+      name : "Phyllis Applebee",
+      img: "img/avatar/passbarn_study.png",
+      message:"Hey y'all!",
+      origin: "(Dallas, TX)"
+    },
+    {
+      name : "Jianna Jameson",
+      img: "img/avatar/sophistry_collective.png",
+      message:"I'm not very religious. Hope that's ok.",
+      origin: "(Dallas, TX)"
+    }
+  ]
+  const messages = [
+    {
+      name : "Jonbob ",
+      message:"Hey Jordan! ",
+    },
+    {
+      name : "JennyV ",
+      message:"Coffee sometime?  ",
+    },
+    {
+      name : "TinaFab",
+      message:"Like your bio ",
+    },
+    {
+      name : "Jacko",
+      message:"Hey Jordan! ",
+    },
+    {
+      name : "Jonbob",
+      message:"Hey Jordan! ",
+    },
+    {
+      name : "Richard",
+      message:"Coffee sometime? ",
+    },
+    {
+      name : "DannyDanko",
+      message:"Like your bio",
+    },
+    {
+      name : "Barbie",
+      message:"Hey Jordan!",
+    },
+    {
+      name : "KennyJ",
+      message:"Coffee sometime?",
+    },
+    {
+      name : "ZackB",
+      message:"Like your bio",
+    },
+    {
+      name : "Tiegaya",
+      message:" Coffee sometime?",
+    },
+    {
+      name : "Juanne",
+      message:"Like your bio",
+    },
+    {
+      name : "JennaS",
+      message:"Hey Jordan! ",
+    },
+    {
+      name : "PhyllisA",
+      message:"Coffee sometime?",
+    },
+    {
+      name : "TomJ",
+      message:"Like your bio",
+    },
+  ]
 
   const handleLogout = async (e) => {
     localStorage.removeItem("accessToken")
@@ -318,72 +408,28 @@ const Lounge = () => {
             <div className="card-header">New Members</div>
             <div className="card-body">
               <p className="fs--12">
-                <i>5 new members this month</i>
+                <i>{newMember.length} new members this month</i>
               </p>
               {/* start of group */}
-              <div className="author">
-                <img alt="alt" className="avatarIcon" src="img/avatar/sophists.png" />
-                <p className="fs--12">
-                  <a className="bright-blue" href="/">
-                    Jenna Smith <span>(Dallas, TX)</span>
-                  </a>
-                  <br />
-                  <small className="fs--12">
-                    "Hi. I'm looking forward to connecting with some of you."
-                  </small>
-                </p>
-                <div className="clearfix" />
-              </div>
-              {/* end of group */}
-              {/* start of group */}
-              <div className="author mt--5">
-                <img alt="alt" className="avatarIcon" src="img/avatar/passbarn.png" />
-                <p className="fs--12">
-                  <a className="bright-blue" href="/">
-                    Tom Jones <span>(Berkeley, CA)</span>
-                  </a>
-                  <br />
-                  <small className="fs--12">
-                    "You all seem weird but I like it!"
-                  </small>
-                </p>
-                <div className="clearfix" />
-              </div>
-              {/* end of group */}
-              {/* start of group */}
-              <div className="author mt--5">
-                <img alt="alt"
-                  className="avatarIcon"
-                  src="img/avatar/passbarn_study.png"
-                />
-                <p className="fs--12">
-                  <a className="bright-blue" href="/">
-                    Phyllis Applebee <span>(Dallas, TX)</span>
-                  </a>
-                  <br />
-                  <small className="fs--12">"Hey y'all!"</small>
-                </p>
-                <div className="clearfix" />
-              </div>
-              {/* end of group */}
-              {/* start of group */}
-              <div className="author mt--5">
-                <img alt="alt"
-                  className="avatarIcon"
-                  src="img/avatar/sophistry_collective.png"
-                />
-                <p className="fs--12">
-                  <a className="bright-blue" href="/">
-                    Jianna Jameson <span>(Dallas, TX)</span>
-                  </a>
-                  <br />
-                  <small className="fs--12">
-                    "I'm not very religious. Hope that's ok."
-                  </small>
-                </p>
-                <div className="clearfix" />
-              </div>
-              {/* end of group */}
+              {
+                newMember && newMember.map((item) => {
+                  return (
+                  <div className="author mt--5">
+                    <img alt="alt" className="avatarIcon" src={item.img} />
+                    <p className="fs--12">
+                      <a className="bright-blue" href="/">
+                        {item.name} <span>{item.origin}</span>
+                      </a>
+                      <br />
+                      <small className="fs--12">
+                       {item.message}
+                      </small>
+                    </p>
+                    <div className="clearfix" />
+                  </div>
+                  )
+                })
+              }
             </div>
           </div>
           {/* end of card */}
@@ -683,160 +729,17 @@ const Lounge = () => {
             </div>
             <div className="card-body">
               <ul className="msgs">
-                <li>
-                  <a
-                    href="/"
-                    data-toggle="modal"
-                    data-target="#newMsg"
-                    className="fs--12"
-                  >
-                    <span className="bright-blue">Jonbob</span>: Hey Jordan!{" "}
-                    <img alt="alt" src="img/msg-icon.jpg" />
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    data-toggle="modal"
-                    data-target="#newMsg"
-                    className="fs--12"
-                  >
-                    <span className="bright-blue">JennyV</span>: Coffee
-                    sometime? <img alt="alt" src="img/msg-icon.jpg" />
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    data-toggle="modal"
-                    data-target="#newMsg"
-                    className="fs--12"
-                  >
-                    <span className="bright-blue">TinaFab</span>: Like your bio{" "}
-                    <img alt="alt" src="img/msg-icon.jpg" />
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    data-toggle="modal"
-                    data-target="#newMsg"
-                    className="fs--12"
-                  >
-                    <span className="bright-blue">Jacko</span>: Hey Jordan!{" "}
-                    <img alt="alt" src="img/msg-icon.jpg" />
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    data-toggle="modal"
-                    data-target="#newMsg"
-                    className="fs--12"
-                  >
-                    <span className="bright-blue">Richard</span>: Coffee
-                    sometime? <img alt="alt" src="img/msg-icon.jpg" />
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    data-toggle="modal"
-                    data-target="#newMsg"
-                    className="fs--12"
-                  >
-                    <span className="bright-blue">DannyDanko</span>: Like your
-                    bio <img alt="alt" src="img/msg-icon.jpg" />
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    data-toggle="modal"
-                    data-target="#newMsg"
-                    className="fs--12"
-                  >
-                    <span className="bright-blue">Barbie</span>: Hey Jordan!{" "}
-                    <img alt="alt" src="img/msg-icon.jpg" />
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    data-toggle="modal"
-                    data-target="#newMsg"
-                    className="fs--12"
-                  >
-                    <span className="bright-blue">KennyJ</span>: Coffee
-                    sometime? <img alt="alt" src="img/msg-icon.jpg" />
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    data-toggle="modal"
-                    data-target="#newMsg"
-                    className="fs--12"
-                  >
-                    <span className="bright-blue">ZackB</span>: Like your bio{" "}
-                    <img alt="alt" src="img/msg-icon.jpg" />
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    data-toggle="modal"
-                    data-target="#newMsg"
-                    className="fs--12"
-                  >
-                    <span className="bright-blue">Tiegaya</span>: Coffee
-                    sometime? <img alt="alt" src="img/msg-icon.jpg" />
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    data-toggle="modal"
-                    data-target="#newMsg"
-                    className="fs--12"
-                  >
-                    <span className="bright-blue">Juanne</span>: Like your bio{" "}
-                    <img alt="alt" src="img/msg-icon.jpg" />
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    data-toggle="modal"
-                    data-target="#newMsg"
-                    className="fs--12"
-                  >
-                    <span className="bright-blue">JennaS</span>: Hey Jordan!{" "}
-                    <img alt="alt" src="img/msg-icon.jpg" />
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    data-toggle="modal"
-                    data-target="#newMsg"
-                    className="fs--12"
-                  >
-                    <span className="bright-blue">PhyllisA</span>: Coffee
-                    sometime? <img alt="alt" src="img/msg-icon.jpg" />
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    data-toggle="modal"
-                    data-target="#newMsg"
-                    className="fs--12"
-                  >
-                    <span className="bright-blue">TomJ</span>: Like your bio{" "}
-                    <img alt="alt" src="img/msg-icon.jpg" />
-                  </a>
-                </li>
+                {
+                  messages && messages.map((item) => {
+                  return (
+                    <li>
+                      <a href="/" data-toggle="modal" data-target="#newMsg" className="fs--12" >
+                        <span className="bright-blue">{item.name}</span>: {item.message}
+                        <img alt="alt" src="img/msg-icon.jpg" />
+                      </a>
+                    </li>
+                  )})
+                }
               </ul>
               <form style={{ display: "none" }} className="msg-form">
                 <button>See All Messages</button>
@@ -891,6 +794,8 @@ const Lounge = () => {
                 </p>
               </div>
               {/* end of member */}
+
+              
               {/* start of member */}
               <div className="member mt--10">
                 <img alt="alt" src="img/avatar/sophists.png" />

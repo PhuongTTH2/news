@@ -10,10 +10,10 @@ const CreateReligion =() =>{
               <div className="container no-padding-lr">
                 <div className="holder">
                   <div className="logoHolder width154">
-                    <a href="index.html" className="logo">
+                    <a href="/" className="logo">
                       <img src="img/logo.png" />
                     </a>
-                    <a href="index.html" className="showOnMobile text-white fs--20">
+                    <a href="/" className="showOnMobile text-white fs--20">
                       N<span className="colorYellow2">L</span>
                     </a>
                   </div>

@@ -1219,7 +1219,9 @@ p.user span{
 	font-size: 12px;
 	font-weight: 300;
 	color: #4B4F56;
-	display: block;
+	display: flex;
+	justify-content: start;
+	align-items: center;
 	width: 100%;
 }
 #surveyLayout {

@@ -419,7 +419,6 @@ const PersonalProfile = () => {
                       <input
                         type="radio"
                         name="afterDeath"
-                        className="form-control"
                       />
                       &nbsp; Yes
                     </label>
@@ -427,7 +426,6 @@ const PersonalProfile = () => {
                       <input
                         type="radio"
                         name="afterDeath"
-                        className="form-control"
                       />
                       &nbsp; No
                     </label>
@@ -435,7 +433,6 @@ const PersonalProfile = () => {
                       <input
                         type="radio"
                         name="afterDeath"
-                        className="form-control"
                       />
                       &nbsp; I don't know
                     </label>
@@ -455,7 +452,6 @@ const PersonalProfile = () => {
                       <input
                         type="radio"
                         name="GodExist"
-                        className="form-control"
                       />
                       &nbsp; Yes
                     </label>
@@ -463,7 +459,6 @@ const PersonalProfile = () => {
                       <input
                         type="radio"
                         name="GodExist"
-                        className="form-control"
                       />
                       &nbsp; No
                     </label>
@@ -471,7 +466,6 @@ const PersonalProfile = () => {
                       <input
                         type="radio"
                         name="GodExist"
-                        className="form-control"
                       />
                       &nbsp; I don't know
                     </label>
@@ -492,7 +486,6 @@ const PersonalProfile = () => {
                       <input
                         type="radio"
                         name="ownDecisions"
-                        className="form-control"
                       />
                       &nbsp; Yes
                     </label>
@@ -500,7 +493,6 @@ const PersonalProfile = () => {
                       <input
                         type="radio"
                         name="ownDecisions"
-                        className="form-control"
                       />
                       &nbsp; No
                     </label>
@@ -508,7 +500,6 @@ const PersonalProfile = () => {
                       <input
                         type="radio"
                         name="ownDecisions"
-                        className="form-control"
                       />
                       &nbsp; I don't know
                     </label>
@@ -538,7 +529,6 @@ const PersonalProfile = () => {
                       <input
                         type="radio"
                         name="socialNetwork"
-                        className="form-control"
                       />
                       &nbsp; Not importante to me at all
                     </label>
@@ -546,7 +536,6 @@ const PersonalProfile = () => {
                       <input
                         type="radio"
                         name="socialNetwork"
-                        className="form-control"
                       />
                       &nbsp; Somewhat importante to me
                     </label>
@@ -554,7 +543,6 @@ const PersonalProfile = () => {
                       <input
                         type="radio"
                         name="socialNetwork"
-                        className="form-control"
                       />
                       &nbsp; Very importante to me
                     </label>
@@ -562,7 +550,6 @@ const PersonalProfile = () => {
                       <input
                         type="radio"
                         name="socialNetwork"
-                        className="form-control"
                       />
                       &nbsp; Extremely important to me
                     </label>
@@ -582,15 +569,12 @@ const PersonalProfile = () => {
                       <input
                         type="radio"
                         name="moralCodes"
-                        className="form-control"
                       />
                       &nbsp; Not importante to me at all
                     </label>
                     <label>
                       <input
                         type="radio"
-                        name="moralCodes"
-                        className="form-control"
                       />
                       &nbsp; Somewhat importante to me
                     </label>
@@ -598,7 +582,6 @@ const PersonalProfile = () => {
                       <input
                         type="radio"
                         name="moralCodes"
-                        className="form-control"
                       />
                       &nbsp; Very importante to me
                     </label>
@@ -606,7 +589,6 @@ const PersonalProfile = () => {
                       <input
                         type="radio"
                         name="moralCodes"
-                        className="form-control"
                       />
                       &nbsp; Extremely important to me
                     </label>
@@ -626,7 +608,6 @@ const PersonalProfile = () => {
                       <input
                         type="radio"
                         name="moralCodes"
-                        className="form-control"
                       />
                       &nbsp; Not importante to me at all
                     </label>
@@ -634,7 +615,6 @@ const PersonalProfile = () => {
                       <input
                         type="radio"
                         name="moralCodes"
-                        className="form-control"
                       />
                       &nbsp; Somewhat importante to me
                     </label>
@@ -642,7 +622,6 @@ const PersonalProfile = () => {
                       <input
                         type="radio"
                         name="moralCodes"
-                        className="form-control"
                       />
                       &nbsp; Very importante to me
                     </label>
@@ -650,7 +629,6 @@ const PersonalProfile = () => {
                       <input
                         type="radio"
                         name="moralCodes"
-                        className="form-control"
                       />
                       &nbsp; Extremely important to me
                     </label>

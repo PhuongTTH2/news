@@ -91,12 +91,12 @@ const Footer = () =>{
                         <div className="col-lg-6 col-md-12 text-right socialNavigation">
                             <ul className="list-unstyled">
                                 <li>
-                                    <a href="/">
+                                    <a href="https://www.youtube.com">
                                         <img alt="alt" className="iconasset" src="img/icons/youtube_96px.png"/>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/">
+                                    <a href="https://www.instagram.com">
                                         <img alt="alt"
                                             className="iconasset"
                                             src="img/icons/instagram_96px.png"
@@ -104,7 +104,7 @@ const Footer = () =>{
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/">
+                                    <a href="https://www.pinterest.com">
                                         <img alt="alt"
                                             className="iconasset"
                                             src="img/icons/pinterest_96px.png"
@@ -112,7 +112,7 @@ const Footer = () =>{
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/">
+                                    <a href="https://twitter.com">
                                         <img alt="alt"
                                             className="iconasset"
                                             src="img/icons/twitter_squared_96px.png"
@@ -120,7 +120,7 @@ const Footer = () =>{
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="/">
+                                    <a href="http://facebook.com">
                                         <img alt="alt"
                                             className="iconasset"
                                             src="img/icons/facebook_f_96px.png"

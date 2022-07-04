@@ -85,7 +85,6 @@ const renderRoutes = (routes: RouteItem[]) => {
             
           }
         >
-          {route.routes && renderRoutes(route.routes)}
         </Route>
       // ) :(
       //   ""
