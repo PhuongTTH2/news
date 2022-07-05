@@ -36,7 +36,7 @@ export default function () {
                                     </div>
                                     <ul className="suggested-links">
                                         <li><a href>NRM Directory</a></li>
-                                        <li><a href>About Newligion</a></li>
+                                        <li><a href ="/about-us">About Newligion</a></li>
                                     </ul>
                                 </div>
                             </div>

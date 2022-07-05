@@ -86,7 +86,7 @@ const Profile = () =>{
                     <a href="">NRM Directory</a>
                   </li>
                   <li>
-                    <a href="">About Newligion</a>
+                    <a href="/about-us">About Newligion</a>
                   </li>
                 </ul>
               </div>
@@ -684,7 +684,7 @@ const Profile = () =>{
               <textarea
                 type="text"
                 placeholder="Please summarize the essence of your religion in 60 characters or less"
-                style={{ height: 41, lineHeight: 19, resize: "none" }}
+                style={{ height: 41, resize: "none" }}
                 defaultValue={""}
               />
               <div className="field-range">0/60 </div>
@@ -794,7 +794,7 @@ const Profile = () =>{
           </div>{" "}
           {/* .create-cont */}
           <div className="create-cont submit-create pt-40">
-            <a href="/">Submit</a>
+            <a href="/" style={{cursor:'pointer', color:'#FFF'}}>Submit</a>
             <div className="clearfix" />
           </div>{" "}
           {/* .create-cont */}

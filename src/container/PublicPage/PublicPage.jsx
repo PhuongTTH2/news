@@ -88,7 +88,7 @@ const PublicPage = () => {
                                           <a href="">NRM Directory</a>
                                       </li>
                                       <li>
-                                          <a href="">About Newligion</a>
+                                          <a href="/about-us">About Newligion</a>
                                       </li>
                                   </ul>
                               </div>
