@@ -4,9 +4,12 @@ import axiosClient from "api/rest/axiosClient";
 import { useNavigate } from 'react-router'
 import { pathName } from 'constants/index'
 import { map } from 'lodash';
+import { isAdminSelector } from 'selectors/authSelector'
+import { useSelector } from 'react-redux'
 const Lounge = () => {
   // const [toggleMenu, setToggleMenu] = React.useState(false);
   const navigate = useNavigate();
+  const test = useSelector(isAdminSelector)
   const getUser = async (params) => {
     const newParams = { ...params }
     const response = await axiosClient.get('/api/users?page=1', {
