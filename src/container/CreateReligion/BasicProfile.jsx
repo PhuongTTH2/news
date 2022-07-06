@@ -1,7 +1,10 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Footer from '../../components/Footer'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 const BasicProfile = ({handleStep}) =>{
-  // const [toggleMenu, setToggleMenu] = React.useState(false);
+  const [startDate, setStartDate] = useState(new Date());
   return (
     <div className="bg--white">
       <div id="main" className="surveyTemplate">
@@ -84,7 +87,7 @@ const BasicProfile = ({handleStep}) =>{
                     </div>
                     <ul className="suggested-links">
                       <li>
-                        <a href="">NRM Directory</a>
+                        <a href="/create-religion">NRM Directory</a>
                       </li>
                       <li>
                         <a href="/about-us">About Newligion</a>
@@ -724,14 +727,12 @@ const BasicProfile = ({handleStep}) =>{
                           <textarea type="text" defaultValue={""} />
                           <div className="field-range">0/100 </div>
                         </div>
-                        <div className="me-caldr">
-                          <label>
-                            Start:
-                            <input id="event-start" className="datepicker" />
+                        <div className="me-caldr" style={{display: "flex"}}>
+                          <label style={{display: "flex" , alignItems: "center"}}>
+                            Start: <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
                           </label>
-                          <label>
-                            End:
-                            <input id="event-end" className="datepicker" />
+                          <label style={{ marginLeft:2, display: "flex", alignItems: "center"}}>
+                            End:<DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
                           </label>
                         </div>
                         <div className="me-check">

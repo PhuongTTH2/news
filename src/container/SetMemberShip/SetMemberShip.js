@@ -35,9 +35,13 @@ export default function () {
                                         <button className="submitBtn" type="submit"><img className="iconasset" src="img/icons/search_reverse_96px.png" /></button>
                                     </div>
                                     <ul className="suggested-links">
-                                        <li><a href>NRM Directory</a></li>
-                                        <li><a href ="/about-us">About Newligion</a></li>
-                                    </ul>
+                                      <li>
+                                          <a href="/create-religion">NRM Directory</a>
+                                      </li>
+                                      <li>
+                                          <a href="/about-us">About Newligion</a>
+                                      </li>
+                                  </ul>
                                 </div>
                             </div>
                             <div className="width147">

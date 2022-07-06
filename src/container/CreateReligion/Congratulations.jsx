@@ -83,7 +83,7 @@ const CreateReligion =() =>{
                       </div>
                       <ul className="suggested-links">
                         <li>
-                          <a href="">NRM Directory</a>
+                          <a href="/create-religion">NRM Directory</a>
                         </li>
                         <li>
                           <a href="/about-us">About Newligion</a>
