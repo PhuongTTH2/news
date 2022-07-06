@@ -1679,7 +1679,7 @@ p.user span{
     font-weight: normal;
 }
 
-.updatesWrapper .card-header ul li.active a {
+.updatesWrapper .card-header ul li.active {
     font-weight: 500;
 	color: #fff200;
 }

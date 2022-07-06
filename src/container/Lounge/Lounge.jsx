@@ -1,15 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Footer from '../../components/Footer'
 import axiosClient from "api/rest/axiosClient";
 import { useNavigate } from 'react-router'
 import { pathName } from 'constants/index'
-import { map } from 'lodash';
 import { isAdminSelector } from 'selectors/authSelector'
 import { useSelector } from 'react-redux'
+import All from './components/All'
+import Announcements from './components/Announcements';
+import Education from './components/Education';
+import Events from './components/Events';
+import Polls from './components/Polls';
 const Lounge = () => {
   // const [toggleMenu, setToggleMenu] = React.useState(false);
   const navigate = useNavigate();
   const test = useSelector(isAdminSelector)
+  const [activeTab, setActiveTab] = useState("tab1")
+  const handleTab = (tab) => {
+    // update the state to tab1
+    setActiveTab(tab);
+  };
+
   const getUser = async (params) => {
     const newParams = { ...params }
     const response = await axiosClient.get('/api/users?page=1', {
@@ -441,6 +451,8 @@ const Lounge = () => {
         {/* .sibar-inner-wrapper */}
       </div>
       {/* end of left side rail */}
+
+
       {/* start of updates */}
       <div className="div503">
         {/* start of updates */}
@@ -448,23 +460,39 @@ const Lounge = () => {
           <div className="card-header">
             Updates
             <ul>
-              <li className="fs--12 active">
-                <a href="/">All</a>
+            {/* <li className="fs--12"></li> */}
+              <li className={`fs--12 pointerA + ${activeTab === "tab1" ? "active" : ""}`}
+                onClick={() => handleTab('tab1')}
+              >
+                All
               </li>
-              <li className="fs--12">
-                <a href="/">Announcements</a>
+              <li className={`fs--12 pointerA + ${activeTab === "tab2" ? "active" : ""}`}
+                onClick={() => handleTab('tab2')}
+              >
+                Announcements
               </li>
-              <li className="fs--12">
-                <a href="/">Education</a>
+              <li className={`fs--12 pointerA + ${activeTab === "tab3" ? "active" : ""}`}
+                onClick={() => handleTab('tab3')}
+              >
+                Education
               </li>
-              <li className="fs--12">
-                <a href="/">Polls</a>
+              <li className={`fs--12 pointerA + ${activeTab === "tab4" ? "active" : ""}`}
+                onClick={() => handleTab('tab4')}
+              >
+                Polls
               </li>
-              <li className="fs--12">
-                <a href="/">Events</a>
+              <li className={`fs--12 pointerA + ${activeTab === "tab5" ? "active" : ""}`}
+                onClick={() => handleTab('tab5')}
+              >
+                Events
               </li>
             </ul>
           </div>
+          {/* <All/>
+          <Announcements/>
+          <Education/>
+          <Events/>
+          <Polls/> */}
           <div className="updatesContent mb--5">
             <div className="row flexThis">
               <div className="col-md-5 makeRelative">
@@ -650,6 +678,10 @@ const Lounge = () => {
         </div>
         {/* end of updates */}
       </div>
+
+
+
+
       {/* end of updates */}
       {/* start of right rails */}
       <div id="sidebarright" className="div306 rightSideBar">
