@@ -1005,7 +1005,7 @@ const PublicPage = () => {
                                                   type="text"
                                                   placeholder="Reply to Melissa Gertrude"
                                               />
-                                              <button className="submitBtn" type="submit">
+                                              <button className="submitBtn" type="submit" style={{zIndex: 2}} >
                                                    <img alt="alt"
                                                       className="iconasset"
                                                       src="img/icons/telegram_app_96px.png"

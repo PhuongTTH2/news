@@ -3285,6 +3285,7 @@ input#ccdetails:focus {
 	cursor: pointer;
 }
 .signup-content {
-	background-color: #f5f6f7;
+	/* background-color: #f5f6f7; */
+	display: 'flex';
   }
   
