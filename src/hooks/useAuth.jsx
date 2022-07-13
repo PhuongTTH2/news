@@ -1,4 +1,6 @@
 import { CognitoUser, CognitoUserPool, AuthenticationDetails } from 'amazon-cognito-identity-js'
+import { isAuthSelector, isUserSelector } from "selectors/authSelector";
+import { useSelector } from "react-redux";
 const getAccessToken = async () => {
     // try {
     //   var authenticationData = {
@@ -55,9 +57,12 @@ const getAccessToken = async () => {
     //     })
     //   })
     // } catch (error: any) {
-    //   console.log('vooooooooooooooooo ', error)
     //   return null
     // }
   }
 
-  export { getAccessToken,getRefreshToken }
+const getToken = () => {
+
+    return localStorage.getItem(process.env.REACT_APP_JWT_SECRET) || ''
+}
+  export { getAccessToken,getRefreshToken, getToken }

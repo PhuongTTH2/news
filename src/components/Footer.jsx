@@ -13,7 +13,7 @@ const Footer = () =>{
         handleModalOpen();
     }
     const handleModalOpen = (e) => {
-        console.log('return')
+
         setModalSignin(false)
         setModalForgotPassword(false)
         setModalForgotUsername(false)
@@ -28,7 +28,6 @@ const Footer = () =>{
             setModalForgotPassword(true)
         }
     }
-    console.log(modalSignUp)
     return (
         <footer>
             {/* start of upper footer */}

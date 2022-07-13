@@ -1,61 +1,79 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import axiosClients from "api/rest/axiosClients";
+import apiPosts from "api/rest/apiPosts";
 import { useNavigate } from "react-router";
 import { pathName } from "constants/index";
-import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Controller, useForm } from 'react-hook-form'
-import Alert from 'react-bootstrap/Alert'
-import { useAppDispatch } from "app/hooks"
-import { getAccountScopes } from "slices";
-import {isEmpty} from 'lodash'
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
+import { useAppDispatch } from "app/hooks";
+import { isEmpty } from "lodash";
+import { UserKey } from "constants/enum";
+import { loginStart, loginSuccess } from "slices";
 const ModalSignin = ({ modalOpen, close, handleModalOpen }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [errorMessage, setErrorMessage] = React.useState("");
+  const [errorValidate, setErrorValidate] = React.useState("");
   const [show, setShow] = React.useState(false);
   const schema = yup.object().shape({
-    username: yup.string().required('Username is required').min(6).label('Username'),
-    password: yup.string().required('Password is required').min(6)
-    .matches(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#$&*])/, 'Password include at least one letter each for uppercase letters, lowercase letters, special characters and numbers')
-    .label('Password'),
-})
-   // Get maintenance company from graphql api
-   const defaultValues = {
-    username:'',
-    password:'',
-}
+    username: yup
+      .string()
+      .required("Username is required")
+      .min(6)
+      .label("Username"),
+    password: yup
+      .string()
+      .required("Password is required")
+      .min(6)
+      .matches(
+        /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#$&*])/,
+        "Password include at least one letter each for uppercase letters, lowercase letters, special characters and numbers"
+      )
+      .label("Password"),
+  });
+  // Get maintenance company from graphql api
+  const defaultValues = {
+    username: "",
+    password: "",
+  };
 
-  const form= useForm({
+  const form = useForm({
     defaultValues: defaultValues,
     resolver: yupResolver(schema),
-  })
-  const errors = form.formState.errors
-  console.log(errors)
+  });
+  // const errors = form.formState.errors
+  useEffect(() => {
+    if (modalOpen) {
+      setErrorValidate("");
+      setErrorMessage("");
+    }
+  }, [modalOpen]);
+  useEffect(() => {
+    if (form.formState.errors) {
+      setErrorValidate(form.formState.errors);
+    }
+  }, [form.formState.errors]);
+
   const onSubmit = async (inputs) => {
-    const data = await axiosClients.post("/auth/signin", {
-      username:"jettest1",
-      password:"Password123!2",
+    dispatch(loginStart());
+    const data = await axiosClients.post(apiPosts.signIn, {
+      username: "jettest1",
+      password: "Password123!2",
       // username:inputs.username,
       // password:inputs.password,
-    })
+    });
 
-    if(data.message ==="ok"){
-    axiosClients.setLocalAccessToken = (data) =>{
-      localStorage.setItem("access", JSON.stringify(data));
+    if (data.message === "ok") {
+      dispatch(loginSuccess(data));
+      handleModalOpen();
+      navigate(pathName.LOUNGE);
+      window.location.reload();
+    } else {
+      setShow(true);
+      setErrorMessage(data.message);
     }
-    localStorage.setItem("accessToken", data.AccessToken);
-    localStorage.setItem("username", "jettest1");
-    localStorage.setItem("RefreshToken", data.RefreshToken);
-    handleModalOpen();
-    navigate(pathName.LOUNGE);
-    window.location.reload();
-    }else{
-      setShow(true); 
-      setErrorMessage(data.message)
-    }
-
   };
   return (
     <Modal
@@ -70,37 +88,56 @@ const ModalSignin = ({ modalOpen, close, handleModalOpen }) => {
           <img alt="alt" src="img/logo.png" />
         </a>
       </div>
-      <div
-        className="modal-body"
-        //  style={{ marginLeft:20 }}
-      >
-        {
-          show ? (<Alert variant="danger">{errorMessage}</Alert>):("")
-        }
-        <p className={`${ !isEmpty(errors?.username) ? "error-border" : ""}`}>
+      <div className="modal-body">
+        {show ? (
+          <>
+            <div class="alert alert-danger alert-dismissible">
+              <a
+                onClick={() => setShow(false)}
+                class="close"
+                data-dismiss="alert"
+                aria-label="close"
+              >
+                &times;
+              </a>
+              <strong> {errorMessage}</strong>
+            </div>
+          </>
+        ) : (
+          ""
+        )}
+        <p
+          className={`${
+            !isEmpty(errorValidate?.username) ? "error-border" : ""
+          }`}
+        >
           <input
             placeholder="USERNAME"
             name="username"
             onChange={(e) => form.setValue("username", e.target.value)}
           />
-          {errors.username && (
-              <span className="error-login">
-                {errors.username.message}
-              </span>
+          {errorValidate.username && (
+            <span className="error-login">
+              {errorValidate.username.message}
+            </span>
           )}
         </p>
-        <p className={`${ !isEmpty(errors?.password) ? "error-border" : ""}`}>
-          <input 
+        <p
+          className={`${
+            !isEmpty(errorValidate?.password) ? "error-border" : ""
+          }`}
+        >
+          <input
             placeholder="PASSWORD"
             type="password"
             name="password"
             onChange={(e) => form.setValue("password", e.target.value)}
           />
-          {errors.password && (
-              <span className="error-login">
-                {errors.password.message}
-              </span>
-            )}
+          {errorValidate.password && (
+            <span className="error-login">
+              {errorValidate.password.message}
+            </span>
+          )}
         </p>
         <button
           type="button"
@@ -114,7 +151,7 @@ const ModalSignin = ({ modalOpen, close, handleModalOpen }) => {
           <a
             class="bright-blue firstLink pointerA "
             onClick={() => {
-              handleModalOpen("ForgotUsername");
+              handleModalOpen(UserKey.ForgotUsername);
             }}
           >
             Forgot username
@@ -122,7 +159,7 @@ const ModalSignin = ({ modalOpen, close, handleModalOpen }) => {
           <a
             class="bright-blue  pointerA"
             onClick={() => {
-              handleModalOpen("ForgotPassword");
+              handleModalOpen(UserKey.ForgotPassword);
             }}
           >
             Forgot password
@@ -132,7 +169,7 @@ const ModalSignin = ({ modalOpen, close, handleModalOpen }) => {
           New to Newligion?{" "}
           <a
             onClick={() => {
-              handleModalOpen("SignUp");
+              handleModalOpen(UserKey.SignUp);
             }}
             class="bright-blue  pointerA "
           >

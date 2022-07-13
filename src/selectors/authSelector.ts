@@ -1,9 +1,15 @@
 import { createSelector } from '@reduxjs/toolkit'
 import { RootState } from '../app/store'
 
-export const isAdminSelector = createSelector(
-    (state: RootState) => state.account,
+export const isAuthSelector = createSelector(
+    (state: RootState) => state.persistedReducer.account,
     (account) => {
         return account
+    },
+)
+export const isUserSelector = createSelector(
+    (state: RootState) => state.users,
+    (users) => {
+        return users
     },
 )

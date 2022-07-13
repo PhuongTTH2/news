@@ -1,22 +1,22 @@
-import { useState, useEffect, FC } from 'react'
-// import { useHistory } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router";
 import { pathName } from "constants/index";
-
+import { isAuthSelector } from "selectors/authSelector";
+import { useSelector } from "react-redux";
+import {isEmpty} from 'lodash'
 
 /**
  * Only access if logged in.
  * Redirect to login page if not logged in by default.
  */
 export const AuthGuard = ({ children }) => {
-    // const history = useHistory()
     const navigate = useNavigate();
+    const auth = useSelector(isAuthSelector);
     const [isAuthenticated, setIsAuthenticated] = useState(false)
 
     useEffect(() => {
-        ;(async () => {
-            const currentUser = false
-            if (currentUser) {
+        ;(() => {
+            if (!isEmpty(auth.current.currentUser)) {
                 setIsAuthenticated(true)
             } else {
                 navigate(pathName.FORBIDDEN);

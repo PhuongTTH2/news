@@ -3,7 +3,7 @@ import Footer from "../../components/Footer";
 import axiosAuth from "api/rest/axiosAuth";
 import { useNavigate } from "react-router";
 import { pathName } from "constants/index";
-import { isAdminSelector } from "selectors/authSelector";
+import { isUserSelector } from "selectors/authSelector";
 import { useSelector } from "react-redux";
 // import All from './components/All'
 // import Announcements from './components/Announcements';
@@ -13,26 +13,25 @@ import { useSelector } from "react-redux";
 const Lounge = () => {
   // const [toggleMenu, setToggleMenu] = React.useState(false);
   const navigate = useNavigate();
-  const test = useSelector(isAdminSelector);
+  const user = useSelector(isUserSelector);
+  const [currentUser, setCurrentUser] = useState("");
+  useEffect( () => {
+    if(user){
+      setCurrentUser(user.users.data)
+    }
+  }, [user]);
+
   const [activeTab, setActiveTab] = useState("tab1");
   const handleTab = (tab) => {
     // update the state to tab1
     setActiveTab(tab);
   };
 
-  // const getUser = async (params) => {
-  //   const newParams = { ...params }
-  //   const response = await axiosClient.get('/api/users?page=1', {
-  //       params: { ...newParams },
-  //   });
-  //   return response
-  // }
+  // useEffect(async () => {
+  //   // const response = await axiosAuth.get("/api/users?page=1");
 
-  useEffect(async () => {
-    // const response = await axiosAuth.get("/api/users?page=1");
-
-    // console.log(response);
-  }, []);
+  //   // console.log(response);
+  // }, []);
 
   const newMember = [
     {
@@ -239,7 +238,7 @@ const Lounge = () => {
                   <p className="user">
                     <span className="backgroundLightGreen text-white">RM</span>{" "}
                     <a href="/">
-                      Rex Mulholland <i className="fas fa-caret-down" />
+                      {currentUser?.first_name + ' ' + currentUser?.last_name} <i className="fas fa-caret-down" />
                     </a>
                     {/* <button type="button" onClick= {() => handleLogout()} className="btn btn-default fs--12">
                  LOG OUT
