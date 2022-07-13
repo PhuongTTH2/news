@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Footer from "../../components/Footer";
-import axiosClient from "api/rest/axiosClient";
+import axiosAuth from "api/rest/axiosAuth";
 import { useNavigate } from "react-router";
 import { pathName } from "constants/index";
 import { isAdminSelector } from "selectors/authSelector";
@@ -29,9 +29,9 @@ const Lounge = () => {
   // }
 
   useEffect(async () => {
-    const response = await axiosClient.get("/api/users?page=1");
+    // const response = await axiosAuth.get("/api/users?page=1");
 
-    console.log(response);
+    // console.log(response);
   }, []);
 
   const newMember = [

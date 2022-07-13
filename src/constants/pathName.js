@@ -11,5 +11,6 @@ const pathName = {
   PROGRAM_POLICIES:'/program-policies',
   USER_AGREEMENT:'/user-agreement',
   ABOUT_US:'/about-us',
+  FORBIDDEN:'/forbidden'
 }
 export default pathName;

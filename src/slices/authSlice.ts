@@ -1,15 +1,17 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { STORAGE_KEY } from 'constants/index'
-import axiosClient from 'api/rest/axiosClient'
+import axiosClients from 'api/rest/axiosClients'
+export const getAccountScopes = createAsyncThunk('auth/getAccountScopes', async () => {
 
-export const getAccountScopes = createAsyncThunk('auth/getAccountScopes', async (accountId: string) => {
-    const data: any = await axiosClient.get('/api/users/2')
+    axiosClients.defaults.headers.common['username'] = `${localStorage.getItem("username")}`;
+    axiosClients.defaults.headers.common['access_token'] = `${localStorage.getItem("accessToken")}`;
+    const data: any = await axiosClients.get('/account')
     localStorage.setItem(STORAGE_KEY.AUTH_CURRENT, JSON.stringify(data))
     return data
 })
 
 const authSlice = createSlice({
-    name: 'auth',
+    name: 'account',
     initialState: {
         current: JSON.parse(localStorage.getItem(STORAGE_KEY.AUTH_CURRENT) ?? '{}'),
     },

@@ -2011,7 +2011,14 @@ p.user span{
     color: #a5a4a4;
     /* text-transform: uppercase; */
 }
-
+.Acct input:hover {
+    padding: 16px 20px;
+    border-radius: 5px;
+    width: 100%;
+    border: solid 1px #aaaaaa;
+    color: #a5a4a4;
+    /* text-transform: uppercase; */
+}
 .Acct .btn {
     font-family: 'Poppins', sans-serif;
     background-color: #0079d3;
@@ -3288,4 +3295,23 @@ input#ccdetails:focus {
 	/* background-color: #f5f6f7; */
 	display: 'flex';
   }
-  
+.error-login{
+	padding-left: 2px;
+	color: #ff0000 !important;
+}  
+.Acct .error-border input {
+    border: solid 1px #ff0000;
+}
+.text-wrapper {
+   height: 100vh;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+}
+.title {
+    font-size: 70px;
+    font-weight: 700;
+    /* color: #EE4B5E; */
+}
+

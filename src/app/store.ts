@@ -2,7 +2,7 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import authReducer from 'slices/authSlice'
 
 const rootReducer = {
-    auth: authReducer,
+    account: authReducer,
 }
 
 const store = configureStore({
