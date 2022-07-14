@@ -8,6 +8,8 @@ import {isEmpty} from 'lodash'
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
   const auth = useSelector(isAuthSelector);
+  console.log('first')
+  console.log(auth)
   const [isLoading, setIsLoading] = useState(false)
   useEffect(() => {
     (async () => {

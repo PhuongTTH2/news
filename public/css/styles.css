@@ -1869,7 +1869,7 @@ p.user span{
     color: #fff;
 }
 
-.signup .close {
+.signup .closeSignup {
     font-weight: normal;
     font-size: 30px;
     margin: 15px 25px;
@@ -3309,6 +3309,11 @@ input#ccdetails:focus {
    align-items: center;
    justify-content: center;
 }
+.text-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+ }
 .title {
     font-size: 70px;
     font-weight: 700;

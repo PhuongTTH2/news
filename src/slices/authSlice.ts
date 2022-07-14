@@ -6,7 +6,8 @@ const authSlice = createSlice({
         current: {
             currentUser:null,
             isFetching: false,
-            error:false
+            error:false,
+            token:null
         },
     },
     reducers: {
@@ -15,6 +16,7 @@ const authSlice = createSlice({
         },
         loginSuccess:(state, action) =>{
             state.current.currentUser = action.payload
+            state.current.token = action.payload.AccessToken
             state.current.isFetching = false
         },
         loginError:(state, action) =>{
@@ -25,11 +27,15 @@ const authSlice = createSlice({
             state.current.currentUser = null
             state.current.error = false
             state.current.isFetching = false
+        },
+        refreshTokenSuccess:(state, action) =>{
+            state.current.token = action.payload
         }
     },
 })
 export const {
     loginStart,
-    loginSuccess
+    loginSuccess,
+    refreshTokenSuccess
 } = authSlice.actions
 export default authSlice.reducer;

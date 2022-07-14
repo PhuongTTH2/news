@@ -4,10 +4,11 @@ import axiosClients from "api/rest/axiosClients";
 import apiPosts from "api/rest/apiPosts";
 import { useNavigate } from "react-router";
 import { pathName } from "constants/index";
+import { useAppDispatch } from "app/hooks";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { useAppDispatch } from "app/hooks";
+
 import { isEmpty } from "lodash";
 import { UserKey } from "constants/enum";
 import { loginStart, loginSuccess } from "slices";
@@ -59,14 +60,12 @@ const ModalSignin = ({ modalOpen, close, handleModalOpen }) => {
   const onSubmit = async (inputs) => {
     dispatch(loginStart());
     const data = await axiosClients.post(apiPosts.signIn, {
-      username: "jettest1",
-      password: "Password123!2",
-      // username:inputs.username,
-      // password:inputs.password,
+      username: inputs.username,
+      password: inputs.password,
     });
 
     if (data.message === "ok") {
-      dispatch(loginSuccess(data));
+      await dispatch(loginSuccess(data));
       handleModalOpen();
       navigate(pathName.LOUNGE);
       window.location.reload();
@@ -88,6 +87,7 @@ const ModalSignin = ({ modalOpen, close, handleModalOpen }) => {
           <img alt="alt" src="img/logo.png" />
         </a>
       </div>
+
       <div className="modal-body">
         {show ? (
           <>
@@ -101,6 +101,7 @@ const ModalSignin = ({ modalOpen, close, handleModalOpen }) => {
                 &times;
               </a>
               <strong> {errorMessage}</strong>
+              <br />
             </div>
           </>
         ) : (

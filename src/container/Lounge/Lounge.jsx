@@ -27,12 +27,6 @@ const Lounge = () => {
     setActiveTab(tab);
   };
 
-  // useEffect(async () => {
-  //   // const response = await axiosAuth.get("/api/users?page=1");
-
-  //   // console.log(response);
-  // }, []);
-
   const newMember = [
     {
       name: "Jenna Smith",

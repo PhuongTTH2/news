@@ -10,9 +10,9 @@ const authHeader = ()=> {
    };
 
 }
-const headerFefreshToken = ()=> {
+const headerRefreshToken = ()=> {
   return { 
     'refresh_token':  `${localStorage.getItem("RefreshToken")}`
  };
 }
-export {authHeaderAccount, authHeader, headerFefreshToken}
+export {authHeaderAccount, authHeader, headerRefreshToken}

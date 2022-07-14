@@ -1,6 +1,9 @@
 import axios from 'axios'
 import {getAccessToken, getRefreshToken} from '../../hooks/useAuth'
-import {headerFefreshToken} from 'api/rest/header'
+import {headerRefreshToken} from 'api/rest/header'
+import { refreshTokenSuccess } from "slices";
+import { useAppDispatch } from "app/hooks";
+
 const axiosClients = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
     headers: {
@@ -15,10 +18,9 @@ axiosClients.interceptors.request.use(
     (config) => {
           // if(error.response.status ===401){
     //     // originalRequest._retry = true;
-    //     const data = await axios.get(process.env.REACT_APP_API_URL + '/auth/refresh-token',{ headers: headerFefreshToken() });
+    //     const data = await axios.get(process.env.REACT_APP_API_URL + '/auth/refresh-token',{ headers: headerRefreshToken() });
     //     if(data.data.message === 'ok'){
     //         axiosClients.defaults.headers.common['access_token'] = `${data.data.access_token}`
-    //         localStorage.setItem(process.env.REACT_APP_JWT_SECRET, data.data.access_token);
     //         return axiosClients(originalRequest);
     //     }
     // }
@@ -36,16 +38,16 @@ axiosClients.interceptors.response.use((response) => {
     }
     return response;
 }, async (error) => {
-    // const originalRequest = error.config;
-    // if(error.response.status ===401){
-    //     // originalRequest._retry = true;
-    //     const data = await axios.get(process.env.REACT_APP_API_URL + '/auth/refresh-token',{ headers: headerFefreshToken() });
-    //     if(data.data.message === 'ok'){
-    //         axiosClients.defaults.headers.common['access_token'] = `${data.data.access_token}`
-    //         localStorage.setItem(process.env.REACT_APP_JWT_SECRET, data.data.access_token);
-    //         return axiosClients(originalRequest);
-    //     }
-    // }
+    console.log('error',error)
+    const originalRequest = error.config;
+    if(error.response.status ===401){
+        const data = await axios.get(process.env.REACT_APP_API_URL + '/auth/refresh-token',{ headers: headerRefreshToken() });
+        if(data.data.message === 'ok'){
+            useAppDispatch()(refreshTokenSuccess(data.data.access_token));
+            axiosClients.defaults.headers.common['access_token'] = `${data.data.access_token}`
+            return axiosClients(originalRequest);
+        }
+    }
 
     if (error && error.response.data) {
         return error.response.data;

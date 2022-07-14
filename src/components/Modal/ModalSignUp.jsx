@@ -1,15 +1,21 @@
 import React, { useEffect } from "react";
-import "./Modal.css";
 import { Modal } from "react-bootstrap";
 import axiosClients from "api/rest/axiosClients";
 import apiPosts from "api/rest/apiPosts";
 import Recaptcha from "react-recaptcha";
+
+import { useNavigate } from "react-router";
 import { pathName } from "constants/index";
+import { useAppDispatch } from "app/hooks";
+import { loginSuccess } from "slices";
+
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { isEmpty } from "lodash";
 const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [openEmail, setOpenEmail] = React.useState(false);
   const [openUser, setOpenUser] = React.useState(false);
   const [email, setEmail] = React.useState("");
@@ -20,6 +26,12 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
   const [errorSignUp, setErrorSignUp] = React.useState("");
   const [show, setShow] = React.useState(false);
   const [showSignUp, setShowSignUp] = React.useState(false);
+
+  const [openCode, setOpenCode] = React.useState(false);
+  const [code, setCode] = React.useState("");
+  const [showCode, setShowCode] = React.useState(false);
+  const [errorCode, setErrorCode] = React.useState("");
+  const [isDisabled, setIsDisabled] = React.useState(false);
   const schema = yup.object().shape({
     email: yup.string().required("Email is required").email().label("Email"),
   });
@@ -83,6 +95,7 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
     if (data.message === "ok") {
       setOpenEmail(false);
       setOpenUser(true);
+      setOpenCode(false);
       setEmail(inputs.email);
     } else {
       setShow(true);
@@ -98,12 +111,33 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
         password: inputs.password,
       });
       if (data.message === "ok") {
+        setOpenCode(true);
+        setOpenUser(false);
+        setOpenEmail(false);
       } else {
         setShowSignUp(true);
         setErrorSignUp(data.message);
       }
     } else {
       alert("Please verify that you are a human!");
+    }
+  };
+  const handleCode = async () => {
+    setIsDisabled(true)
+    const data = await axiosClients.post(apiPosts.signUpConfirm, {
+      username: formSignUp.getValues("username"),
+      password: formSignUp.getValues("password"),
+      code: code,
+    });
+    if (data.message === "ok") {
+      dispatch(loginSuccess(data));
+      handleModalOpen();
+      navigate(pathName.PERSONAL_PROFILE);
+      window.location.reload();
+    } else {
+      setShowCode(true);
+      setIsDisabled(false);
+      setErrorCode(data.message);
     }
   };
   const handleBack = () => {
@@ -134,15 +168,16 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
       size="lg"
     >
       <div class="Acct signup" id="signUp1st">
-        <button
-          type="button"
-          class="close"
+        <a
           onClick={() => {
             handleModalClose();
           }}
+          class="closeSignup pointerA"
         >
+          {" "}
           &times;
-        </button>
+        </a>
+
         <div class="signup-header">
           <a href="/" class="logo">
             <img src="img/logo.png" />
@@ -151,16 +186,21 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
         <div class="signup-body">
           {show ? (
             <>
-              <div class="alert alert-danger alert-dismissible">
+              <div
+                class="alert alert-danger alert-dismissible"
+                //  style={{height: '40px'}}
+              >
                 <a
                   onClick={() => setShow(false)}
                   class="close"
                   data-dismiss="alert"
                   aria-label="close"
+                  style={{ margin: "0px" }}
                 >
                   &times;
                 </a>
                 <strong> {errorEmail}</strong>
+                <br />
               </div>
             </>
           ) : (
@@ -174,7 +214,6 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
             <input
               placeholder="EMAIL"
               name="email"
-              value={form.getValues("email")}
               onChange={(e) => form.setValue("email", e.target.value)}
             />
             {errorValidate.email && (
@@ -226,16 +265,21 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
         <div class="modal-body">
           {showSignUp ? (
             <>
-              <div class="alert alert-danger alert-dismissible">
+              <div
+                class="alert alert-danger alert-dismissible"
+                style={{ height: "50px" }}
+              >
                 <a
                   onClick={() => setShowSignUp(false)}
                   class="close"
                   data-dismiss="alert"
                   aria-label="close"
+                  style={{ margin: "0px" }}
                 >
                   &times;
                 </a>
                 <strong> {errorSignUp}</strong>
+                <br />
               </div>
             </>
           ) : (
@@ -303,6 +347,63 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
 
           <div class="clearfix"></div>
         </div>
+      </div>
+    </Modal>
+  ): openCode ? (
+    <Modal
+      show={openCode}
+      className="Acct signup"
+      onHide={handleModalClose}
+      size="lg"
+    >
+      <div class="Acct signup" id="signUp1st">
+        <div class="signup-header">
+          <a href="/" class="logo">
+            <img src="img/logo.png" />
+          </a>
+        </div>
+        <div class="signup-body">
+          {showCode ? (
+            <>
+              <div
+                class="alert alert-danger alert-dismissible"
+                //  style={{height: '40px'}}
+              >
+                <a
+                  onClick={() => setShowCode(false)}
+                  class="close"
+                  data-dismiss="alert"
+                  aria-label="close"
+                  style={{ margin: "0px" }}
+                >
+                  &times;
+                </a>
+                <strong> {errorCode}</strong>
+                <br />
+              </div>
+            </>
+          ) : (
+            ""
+          )}
+          <p>
+            <input
+              placeholder="Code"
+              name="code"
+              onChange={(e) => setCode(e.target.value)}
+              value={code}
+            />
+          </p>
+          <button
+            type="button"
+            onClick={handleCode}
+            disabled={isDisabled}
+            className="btn btn-default fs--12"
+          >
+            Confirm
+          </button>
+        </div>
+
+        <div class="clearfix"></div>
       </div>
     </Modal>
   ) : (
