@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "../../components/Footer";
-import axiosAuth from "api/rest/axiosAuth";
 import { useNavigate } from "react-router";
 import { pathName } from "constants/index";
 import { isUserSelector } from "selectors/authSelector";
 import { useSelector } from "react-redux";
+// import { getAccountScopes, refreshTokenSuccess } from "slices";
+// import { useAppDispatch } from "app/hooks";
 // import All from './components/All'
 // import Announcements from './components/Announcements';
 // import Education from './components/Education';
 // import Events from './components/Events';
 // import Polls from './components/Polls';
 const Lounge = () => {
-  // const [toggleMenu, setToggleMenu] = React.useState(false);
   const navigate = useNavigate();
   const user = useSelector(isUserSelector);
   const [currentUser, setCurrentUser] = useState("");
+  // const dispatch = useAppDispatch();
   useEffect( () => {
     if(user){
       setCurrentUser(user.users.data)
     }
   }, [user]);
-
   const [activeTab, setActiveTab] = useState("tab1");
   const handleTab = (tab) => {
     // update the state to tab1

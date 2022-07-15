@@ -4,10 +4,13 @@ const authSlice = createSlice({
     name: 'account',
     initialState: {
         current: {
-            currentUser:null,
+            currentUser:{
+                AccessToken:null,
+                RefreshToken: null,
+                username:null,
+            },
             isFetching: false,
             error:false,
-            token:null
         },
     },
     reducers: {
@@ -15,8 +18,9 @@ const authSlice = createSlice({
             state.current.isFetching = true
         },
         loginSuccess:(state, action) =>{
-            state.current.currentUser = action.payload
-            state.current.token = action.payload.AccessToken
+            state.current.currentUser.AccessToken = action.payload.AccessToken
+            state.current.currentUser.RefreshToken = action.payload.RefreshToken
+            state.current.currentUser.username = action.payload.username
             state.current.isFetching = false
         },
         loginError:(state, action) =>{
@@ -24,12 +28,11 @@ const authSlice = createSlice({
             state.current.isFetching = false
         },
         logoutSuccess:(state, action) =>{
-            state.current.currentUser = null
             state.current.error = false
             state.current.isFetching = false
         },
         refreshTokenSuccess:(state, action) =>{
-            state.current.token = action.payload
+            state.current.currentUser.AccessToken = action.payload
         }
     },
 })

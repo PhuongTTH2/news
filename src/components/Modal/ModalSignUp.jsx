@@ -132,6 +132,7 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
     if (data.message === "ok") {
       dispatch(loginSuccess(data));
       handleModalOpen();
+      localStorage.setItem("ExpiresIn", Date.now() + 86400)
       navigate(pathName.PERSONAL_PROFILE);
       window.location.reload();
     } else {

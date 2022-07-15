@@ -9,12 +9,11 @@ import { useForm } from "react-hook-form";
 
 import axiosClients from "api/rest/axiosClients";
 import apiPuts from "api/rest/apiPuts";
-
+import { forOwn } from "lodash";
 const PersonalProfile = () => {
-  const user = useSelector(isUserSelector);
-
+  const users = useSelector(isUserSelector);
   const schema = yup.object().shape({});
-  // Get maintenance company from graphql api
+
   const defaultValues = {
     first_name: "",
     last_name: "",
@@ -22,7 +21,7 @@ const PersonalProfile = () => {
     street_address_1: "",
     street_address_2: "",
     city: "",
-    state:"",
+    state: "",
     zip_code: "",
     country: "",
     birth_day: "",
@@ -36,24 +35,17 @@ const PersonalProfile = () => {
     resolver: yupResolver(schema),
   });
 
-  const [currentUser, setCurrentUser] = useState("");
   useEffect(() => {
-    if (user) {
-      setCurrentUser(user.users.data);
+    if (users) {
+      let scopeUser = users?.users?.data;
+      forOwn(scopeUser, (value, key) => form.setValue(key, value));
     }
-  }, [user]);
-  console.log(currentUser);
-
+  }, [users]);
   const handleProfile = async (inputs) => {
-    // const data = await axiosClients.post(apiPuts.updateAccount, {
-    //   email: inputs.email,
-    // });
-
-    // if (data.message === "ok") {
-
-    // } else {
-
-    // }
+    const data = await axiosClients.post(apiPuts.updateAccount, {});
+    if (data.message === "ok") {
+    } else {
+    }
   };
 
   return (
@@ -149,6 +141,7 @@ const PersonalProfile = () => {
                           className="form-control"
                           placeholder="First Name"
                           name="first_name"
+                          {...form.register("first_name")}
                           onChange={(e) =>
                             form.setValue("first_name", e.target.value)
                           }
@@ -162,6 +155,7 @@ const PersonalProfile = () => {
                           className="form-control"
                           placeholder="Last Name"
                           name="last_name"
+                          {...form.register("last_name")}
                           onChange={(e) =>
                             form.setValue("last_name", e.target.value)
                           }
@@ -175,6 +169,7 @@ const PersonalProfile = () => {
                           className="form-control"
                           placeholder="Mobile Number"
                           name="phone"
+                          {...form.register("phone")}
                           onChange={(e) =>
                             form.setValue("phone", e.target.value)
                           }
@@ -217,6 +212,7 @@ const PersonalProfile = () => {
                           className="form-control"
                           placeholder="Street Address"
                           name="street_address_1"
+                          {...form.register("street_address_1")}
                           onChange={(e) =>
                             form.setValue("street_address_1", e.target.value)
                           }
@@ -228,8 +224,9 @@ const PersonalProfile = () => {
                         <input
                           type="text"
                           className="form-control"
-                          placeholder="Street Address Line 2"
+                          placeholder="Street Address 2"
                           name="street_address_2"
+                          {...form.register("street_address_2")}
                           onChange={(e) =>
                             form.setValue("street_address_2", e.target.value)
                           }
@@ -243,6 +240,7 @@ const PersonalProfile = () => {
                           className="form-control"
                           placeholder="City"
                           name="city"
+                          {...form.register("city")}
                           onChange={(e) =>
                             form.setValue("city", e.target.value)
                           }
@@ -256,6 +254,7 @@ const PersonalProfile = () => {
                           className="form-control"
                           placeholder="Province"
                           name="state"
+                          {...form.register("state")}
                           onChange={(e) =>
                             form.setValue("state", e.target.value)
                           }
@@ -269,6 +268,7 @@ const PersonalProfile = () => {
                           className="form-control"
                           placeholder="Postal / Zip Code"
                           name="zip_code"
+                          {...form.register("zip_code")}
                           onChange={(e) =>
                             form.setValue("zip_code", e.target.value)
                           }
@@ -426,6 +426,7 @@ const PersonalProfile = () => {
                             "Tell us a little bit about yourself. Possible topics - your interests and hobbies, your life philosophy, your goals, what you do for a living, etc., your favorite foods, etc."
                           }
                           name="about"
+                          {...form.register("about")}
                           onChange={(e) =>
                             form.setValue("about", e.target.value)
                           }
@@ -665,14 +666,16 @@ const PersonalProfile = () => {
                 </div>
                 {/* end of survey field */}
               </div>
-              <div className= "text-center" style={{width: '100%'}}>
-                    <button
-                      type="button"
-                      className="btn btn-primary fs--12"
-                        >
-                    SUBMIT
-                  </button>
-            </div>
+              <div className="text-center" style={{ width: "100%" }}>
+                <button
+                  type="button"
+                  className="btn btn-primary fs--12"
+                  onClick={form.handleSubmit(handleProfile)}
+                  disabled={form.formState.isSubmitting}
+                >
+                  SUBMIT
+                </button>
+              </div>
               {/* end of full width */}
             </div>
           </form>

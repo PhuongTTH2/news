@@ -1,6 +1,4 @@
-// import "./Modal.css";
 import { Modal } from "react-bootstrap";
-// import 'bootstrap/dist/css/bootstrap.min.css';
 const ModalForgotPassword = ({ modalOpen, close, handleModalOpen }) => {
   if (!modalOpen) {
     return null;

@@ -16,7 +16,7 @@ export const AuthGuard = ({ children }) => {
 
     useEffect(() => {
         ;(() => {
-            if (!isEmpty(auth.current.currentUser)) {
+            if (!isEmpty(auth.current.currentUser.AccessToken)) {
                 setIsAuthenticated(true)
             } else {
                 navigate(pathName.FORBIDDEN);

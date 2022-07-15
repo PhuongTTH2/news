@@ -67,6 +67,7 @@ const ModalSignin = ({ modalOpen, close, handleModalOpen }) => {
     if (data.message === "ok") {
       await dispatch(loginSuccess(data));
       handleModalOpen();
+      localStorage.setItem("ExpiresIn", Date.now() + 86400)
       navigate(pathName.LOUNGE);
       window.location.reload();
     } else {

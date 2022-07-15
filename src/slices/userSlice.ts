@@ -5,6 +5,7 @@ import apiGets from "api/rest/apiGets";
 export const getAccountScopes = createAsyncThunk('auth/getAccountScopes', async (account: any) => {
     localStorage.setItem("RefreshToken",account.RefreshToken)
     const data: any = await axiosClients.get(apiGets.getAccount,{ headers: authHeaderAccount(account) })
+    localStorage.removeItem("RefreshToken")
     return data
 })
 
