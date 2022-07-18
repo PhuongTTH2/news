@@ -1,12 +1,12 @@
 import React from 'react';
 // import { Modal} from 'react-bootstrap'
 import ModalSignin from './Modal/ModalSignin'
-import ModalForgotPassword from './Modal/ModalForgotPassword'
+import ModalForgotEmail from './Modal/ModalForgotEmail'
 import ModalForgotUsername from './Modal/ModalForgotUsername'
 import ModalSignUp from './Modal/ModalSignUp'
 const Footer = () =>{
     const [modalSignin, setModalSignin] = React.useState(false);
-    const [modalForgotPassword, setModalForgotPassword] = React.useState(false);
+    const [modalForgotEmail, setModalForgotEmail] = React.useState(false);
     const [modalForgotUsername, setModalForgotUsername] = React.useState(false);
     const [modalSignUp, setModalSignUp] = React.useState(false);
     const handleToggleModal = () => {
@@ -15,7 +15,7 @@ const Footer = () =>{
     const handleModalOpen = (e) => {
 
         setModalSignin(false)
-        setModalForgotPassword(false)
+        setModalForgotEmail(false)
         setModalForgotUsername(false)
         setModalSignUp(false)
         if(e ==="Signin"){
@@ -25,7 +25,7 @@ const Footer = () =>{
         }else if(e ==="ForgotUsername"){
             setModalForgotUsername(true)
         }else if(e ==="ForgotPassword"){
-            setModalForgotPassword(true)
+            setModalForgotEmail(true)
         }
     }
     return (
@@ -77,7 +77,7 @@ const Footer = () =>{
             {/* start of lower footer */}
             <ModalSignin modalOpen={modalSignin} close={handleToggleModal} handleModalOpen={handleModalOpen}/>
             <ModalSignUp modalOpen={modalSignUp} close={handleToggleModal} handleModalOpen={handleModalOpen}/>
-            <ModalForgotPassword modalOpen={modalForgotPassword} close={handleToggleModal} handleModalOpen={handleModalOpen}/>
+            <ModalForgotEmail modalOpen={modalForgotEmail} close={handleToggleModal} handleModalOpen={handleModalOpen}/>
             <ModalForgotUsername modalOpen={modalForgotUsername} close={handleToggleModal} handleModalOpen={handleModalOpen}/>
             <div className="no-gutters lowerFooter">
                 <div className="container no-padding-lr">

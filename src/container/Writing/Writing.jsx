@@ -645,7 +645,7 @@ const Page = () => {
                   data-target="#forgotAcct"
                   data-dismiss="modal"
                 >
-                  Forgot password
+                  Forgot email
                 </a>
               </div>
               <p>

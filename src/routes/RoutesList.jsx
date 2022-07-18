@@ -3,7 +3,6 @@ import { Route, Routes } from 'react-router-dom'
 import { pathName } from 'constants/index'
 // import BaseLayout from 'container/Layouts/BaseLayout'
 import { AuthGuard } from 'guards'
-const accessToken = localStorage.getItem('accessToken')
 const routes = [
     {
       path: pathName.HOME,

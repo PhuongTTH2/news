@@ -13,7 +13,8 @@ export const AuthGuard = ({ children }) => {
     const navigate = useNavigate();
     const auth = useSelector(isAuthSelector);
     const [isAuthenticated, setIsAuthenticated] = useState(false)
-
+    // console.log(auth.current.currentUser.AccessToken)
+    // console.log('auth.current.currentUser.AccessToken')
     useEffect(() => {
         ;(() => {
             if (!isEmpty(auth.current.currentUser.AccessToken)) {

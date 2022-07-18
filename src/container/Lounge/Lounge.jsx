@@ -4,7 +4,9 @@ import { useNavigate } from "react-router";
 import { pathName } from "constants/index";
 import { isUserSelector } from "selectors/authSelector";
 import { useSelector } from "react-redux";
-// import { getAccountScopes, refreshTokenSuccess } from "slices";
+
+import { useAppDispatch } from "app/hooks";
+import { logoutSuccess, logoutStart } from "slices";
 // import { useAppDispatch } from "app/hooks";
 // import All from './components/All'
 // import Announcements from './components/Announcements';
@@ -15,7 +17,7 @@ const Lounge = () => {
   const navigate = useNavigate();
   const user = useSelector(isUserSelector);
   const [currentUser, setCurrentUser] = useState("");
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   useEffect( () => {
     if(user){
       setCurrentUser(user.users.data)
@@ -117,7 +119,10 @@ const Lounge = () => {
   ];
 
   const handleLogout = async (e) => {
-    localStorage.removeItem("accessToken");
+    dispatch(logoutStart());
+
+    dispatch(logoutSuccess());
+    localStorage.clear()
     navigate(pathName.HOME);
     window.location.reload();
   };
@@ -1136,7 +1141,7 @@ const Lounge = () => {
                   data-target="#forgotAcct"
                   data-dismiss="modal"
                 >
-                  Forgot password
+                  Forgot email
                 </a>
               </div>
               <p>

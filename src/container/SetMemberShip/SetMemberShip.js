@@ -780,7 +780,7 @@ export default function () {
                     <button type="button" className="btn btn-default fs--12">SIGN IN</button>
                     <div className="login-signup-links">
                         <a href="#" className="bright-blue firstLink" data-toggle="modal" data-target="#forgotAcct" data-dismiss="modal">Forgot username</a>
-                        <a href="#rstPassword" className="bright-blue" data-toggle="modal" data-target="#forgotAcct" data-dismiss="modal">Forgot password</a>
+                        <a href="#rstPassword" className="bright-blue" data-toggle="modal" data-target="#forgotAcct" data-dismiss="modal">Forgot email</a>
                     </div>
                     <p>New to Newligion? <a href="#" className="bright-blue" data-toggle="modal" data-target="#signUp1st" data-dismiss="modal">Sign Up</a>.</p>
                 </div>

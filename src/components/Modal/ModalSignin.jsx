@@ -34,7 +34,7 @@ const ModalSignin = ({ modalOpen, close, handleModalOpen }) => {
       )
       .label("Password"),
   });
-  // Get maintenance company from graphql api
+
   const defaultValues = {
     username: "",
     password: "",
@@ -164,7 +164,7 @@ const ModalSignin = ({ modalOpen, close, handleModalOpen }) => {
               handleModalOpen(UserKey.ForgotPassword);
             }}
           >
-            Forgot password
+            Forgot email
           </a>
         </div>
         <p>

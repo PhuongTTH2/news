@@ -27,8 +27,14 @@ const authSlice = createSlice({
             state.current.error = true
             state.current.isFetching = false
         },
+        logoutStart:(state) =>{
+            state.current.isFetching = true
+        },
         logoutSuccess:(state, action) =>{
             state.current.error = false
+            state.current.currentUser.AccessToken = null
+            state.current.currentUser.RefreshToken = null
+            state.current.currentUser.username = null
             state.current.isFetching = false
         },
         refreshTokenSuccess:(state, action) =>{
@@ -39,6 +45,8 @@ const authSlice = createSlice({
 export const {
     loginStart,
     loginSuccess,
+    logoutStart,
+    logoutSuccess,
     refreshTokenSuccess
 } = authSlice.actions
 export default authSlice.reducer;

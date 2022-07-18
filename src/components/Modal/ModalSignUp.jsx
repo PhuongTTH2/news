@@ -52,7 +52,6 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
       .label("Password"),
   });
 
-  // Get maintenance company from graphql api
   const defaultValues = {
     email: "",
   };
