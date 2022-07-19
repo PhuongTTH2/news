@@ -21,13 +21,13 @@ import {
 
 const rootReducer = combineReducers({
     account: authReducer,
+    users: userReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 export const store = configureStore({
     reducer: {
-        persistedReducer,
-        users: userReducer
+        persistedReducer
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({

@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Footer from "../../components/Footer";
+import Header from "../../components/Header";
 import { isUserSelector } from "selectors/authSelector";
 import { useSelector } from "react-redux";
 
@@ -9,7 +10,7 @@ import { useForm } from "react-hook-form";
 
 import axiosClients from "api/rest/axiosClients";
 import apiPuts from "api/rest/apiPuts";
-import { forOwn } from "lodash";
+import { forOwn, isEmpty } from "lodash";
 const PersonalProfile = () => {
   const users = useSelector(isUserSelector);
   const schema = yup.object().shape({});
@@ -34,89 +35,58 @@ const PersonalProfile = () => {
     defaultValues: defaultValues,
     resolver: yupResolver(schema),
   });
-
+  const [arrayReligiousAffiliations, setArrayReligiousAffiliations] = useState(
+    []
+  );
   useEffect(() => {
-    if (users) {
+    if (users?.users?.data) {
       let scopeUser = users?.users?.data;
       forOwn(scopeUser, (value, key) => form.setValue(key, value));
+      setArrayReligiousAffiliations(
+        Array(form.getValues("religious_affiliations"))
+      );
     }
-  }, [users]);
+  }, [users?.users?.data]);
+
   const handleProfile = async (inputs) => {
-    const data = await axiosClients.post(apiPuts.updateAccount, {});
+    const data = await axiosClients.post(apiPuts.updateAccount, {
+      first_name: inputs.first_name,
+      last_name: inputs.last_name,
+      profile_picture: inputs.profile_picture,
+      phone: inputs.phone,
+      birth_day: inputs.birth_day,
+      about: inputs.about,
+      street_address_1: inputs.street_address_1,
+      street_address_2: inputs.street_address_2,
+      city: inputs.city,
+      state: inputs.state,
+      zip_code: inputs.zip_code,
+      country: inputs.country,
+      audience_type: inputs.audience_type,
+      religious_affiliations: inputs.religious_affiliations,
+    });
     if (data.message === "ok") {
     } else {
     }
   };
-
+  const ref = useRef();
+  const handleClick = () => {
+    // ref.current.click();
+  };
+  const handleUploadFileLocal = (event) => {
+    // const file = event.target.files[0]
+    // const name = event.target.files[0].name
+  };
+  const removePhoto = () => {};
+  const handleReligiousAffiliations = (e, index) => {
+    let newReligiousAffiliations = [...arrayReligiousAffiliations];
+    newReligiousAffiliations[index] = e.target.value;
+    setArrayReligiousAffiliations(newReligiousAffiliations);
+  };
   return (
     <div id="main" className="singlePageTwoColumnLayout">
       {/* start of header */}
-      <div className="no-gutters">
-        <header>
-          <div className="container no-padding-lr">
-            <div className="holder">
-              <div className="row">
-                <div className="col-lg-6 col-md-2 col-sm-2 logoWrapper ">
-                  <div className="logoHolder width154">
-                    <a href="/" className="logo">
-                      <img alt="alt" src="img/logo.png" />
-                    </a>
-                    <a href="/" className="showOnMobile text-white fs--20">
-                      N<span className="colorYellow2">L</span>
-                    </a>
-                  </div>
-                </div>
-                {/* start of login */}
-                <div className="col-lg-6 col-md-10 col-sm-10 loginWrapper hideOnMobile">
-                  <form className="form-inline">
-                    <div className="form-group mr--10">
-                      <input
-                        type="email"
-                        className="form-control"
-                        id="email"
-                        placeholder="Email"
-                      />
-                    </div>
-                    <div className="form-group mr--10">
-                      <input
-                        type="password"
-                        className="form-control"
-                        id="password"
-                        placeholder="Password"
-                      />
-                    </div>
-                    <button
-                      type="submit"
-                      className="btn btn-round backgroundLightOrange"
-                    >
-                      Login
-                    </button>
-                    <p className="forgotAccount">
-                      <a
-                        href="/"
-                        data-toggle="modal"
-                        data-target="#forgotAcct"
-                        data-dismiss="modal"
-                      >
-                        Forgot Account?
-                      </a>
-                    </p>
-                  </form>
-                </div>
-                {/* end of login */}
-                {/* mobile menu icon */}
-                <div className="mobeMenuIconWrapper width128">
-                  <a id="rside-btn" href="/">
-                    <img alt="alt" src="img/mmemu_icon.png" />
-                  </a>
-                </div>
-                {/* end of mobile menu icon */}
-              </div>
-              <div className="clearfix" />
-            </div>
-          </div>
-        </header>
-      </div>
+      <Header />
       {/* end of header */}
       {/* start of content */}
       <div className="content subPages">
@@ -351,26 +321,48 @@ const PersonalProfile = () => {
                     <h4>Religious Affiliations</h4>
                   </div>
                   <div className="row no-margin-lr">
-                    <div className="col-md-12 no-padding-lr">
+                    {arrayReligiousAffiliations.map((value, index) => (
+                      <div className="col-md-12 no-padding-lr">
+                        <div className="form-group">
+                          <input
+                            type="text"
+                            className="form-control"
+                            value={value}
+                            onChange={(e) =>
+                              handleReligiousAffiliations(e, index)
+                            }
+                          />
+                        </div>
+                      </div>
+                    ))}
+                    {/* <div className="col-md-12 no-padding-lr">
                       <div className="form-group">
                         <input
                           type="text"
                           className="form-control"
-                          id="religion"
+                          name="religion"
                           placeholder="Roman Catholic"
+                          {...form.register("religious_affiliations.0")}
+                          onChange={(e) =>
+                            form.setValue("religion", e.target.value)
+                          }
                         />
                       </div>
-                    </div>
-                    <div className="col-md-12 no-padding-lr">
+                    </div> */}
+                    {/* <div className="col-md-12 no-padding-lr">
                       <div className="form-group">
                         <input
                           type="text"
                           className="form-control"
-                          id="affiliate"
+                          name="affiliate"
                           placeholder="New Affiliation"
+                          {...form.register("affiliate")}
+                          onChange={(e) =>
+                            form.setValue("affiliate", e.target.value)
+                          }
                         />
                       </div>
-                    </div>
+                    </div> */}
                     <div className="col-md-1 no-padding-lr iconAdd">
                       <div className="form-group pl--10">
                         <button
@@ -393,24 +385,42 @@ const PersonalProfile = () => {
               {/* start of right column */}
               <div className="col-md-6 createProfileRighttColumn">
                 {/* start of profile photo  */}
-                {/* <div className="inputForm basicInfo">
-                <div className="headerHolder mb--12">
-                  <h4>Upload Your Photo</h4>
-                </div>
-                <div className="uploadPhotoWrapper">
-                  <div className="imgHolder float-left">
-                    <div className="thisPhoto">
-                      <img alt="alt" src="img/noPhotoImage.jpg" />
-                    </div>
+                <div className="inputForm basicInfo">
+                  <div className="headerHolder mb--12">
+                    <h4>Upload Your Photo</h4>
                   </div>
-                  <p className="removePhoto float-left">
-                    <a className="colorDarkRed" href="/">
-                      Remove Photo
-                    </a>
-                  </p>
+                  <div className="uploadPhotoWrapper">
+                    <div className="imgHolder float-left">
+                      <div className="thisPhoto">
+                        <label htmlFor="contained-button-file">
+                          <input
+                            id="contained-button-file"
+                            type="file"
+                            accept=".jpg,.jpeg,.png"
+                            style={{ display: "none" }}
+                            ref={ref}
+                            alt="Upload"
+                            onChange={handleUploadFileLocal}
+                          />
+                          <img
+                            alt="alt"
+                            src="img/noPhotoImage.jpg"
+                            onClick={handleClick}
+                          />
+                        </label>
+                      </div>
+                    </div>
+                    <p className="removePhoto float-left ">
+                      <span
+                        className="colorDarkRed pointerA"
+                        onClick={removePhoto}
+                      >
+                        Remove Photo
+                      </span>
+                    </p>
+                  </div>
+                  <div className="clearfix" />
                 </div>
-                <div className="clearfix" />
-              </div> */}
                 {/* end of profile photo */}
                 {/* start of About */}
                 <div className="inputForm basicInfo">
@@ -445,10 +455,33 @@ const PersonalProfile = () => {
                     <div className="col-md-3 no-padding-lr">
                       <div className="form-group pr--5">
                         <select id="privacy" className="form-control">
-                          <option value="Public" selected="">
+                          <option
+                            value="Public"
+                            selected={
+                              form.getValues("audience_type") === "Public"
+                                ? true
+                                : false
+                            }
+                            onChange={(e) =>
+                              form.setValue("audience_type", e.target.value)
+                            }
+                          >
                             Public
                           </option>
-                          <option value="Private">Private</option>
+                          <option
+                            value="Private"
+                            selected={
+                              form.getValues("audience_type") === "Private"
+                                ? true
+                                : false
+                            }
+                            onChange={(e) =>
+                              form.setValue("audience_type", e.target.value)
+                            }
+                          >
+                            {" "}
+                            Private{" "}
+                          </option>
                         </select>
                       </div>
                     </div>
@@ -465,7 +498,18 @@ const PersonalProfile = () => {
                     </div>
                   </div>
                 </div>
+
                 {/* end of audience */}
+              </div>
+              <div className="text-center" style={{ width: "100%" }}>
+                <button
+                  type="button"
+                  className="btn btn-primary fs--12"
+                  onClick={form.handleSubmit(handleProfile)}
+                  disabled={form.formState.isSubmitting}
+                >
+                  SUBMIT
+                </button>
               </div>
               {/* end of right column */}
               {/* start of full width */}
@@ -620,7 +664,7 @@ const PersonalProfile = () => {
                         &nbsp; Not importante to me at all
                       </label>
                       <label>
-                        <input type="radio" />
+                        <input type="radio" name="moralCodes" />
                         &nbsp; Somewhat importante to me
                       </label>
                       <label>
@@ -665,16 +709,6 @@ const PersonalProfile = () => {
                   {/* survey end */}
                 </div>
                 {/* end of survey field */}
-              </div>
-              <div className="text-center" style={{ width: "100%" }}>
-                <button
-                  type="button"
-                  className="btn btn-primary fs--12"
-                  onClick={form.handleSubmit(handleProfile)}
-                  disabled={form.formState.isSubmitting}
-                >
-                  SUBMIT
-                </button>
               </div>
               {/* end of full width */}
             </div>

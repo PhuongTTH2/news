@@ -8,10 +8,10 @@ import { useAppDispatch } from "app/hooks";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-
+import { STORAGE_KEY } from 'constants/index'
 import { isEmpty } from "lodash";
 import { UserKey } from "constants/enum";
-import { loginStart, loginSuccess } from "slices";
+import { loginStart, loginSuccess, getAccountScopes } from "slices";
 const ModalSignin = ({ modalOpen, close, handleModalOpen }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -65,9 +65,13 @@ const ModalSignin = ({ modalOpen, close, handleModalOpen }) => {
     });
 
     if (data.message === "ok") {
-      await dispatch(loginSuccess(data));
+      // await dispatch(loginSuccess(data));
+      await dispatch(getAccountScopes(data));
+      localStorage.setItem(STORAGE_KEY.EXPIRES_IN, Date.now() + 86400)
+      localStorage.setItem(STORAGE_KEY.ACCESS_TOKEN, data.AccessToken)
+      localStorage.setItem(STORAGE_KEY.REFRESH_TOKEN, data.RefreshToken)
+      localStorage.setItem(STORAGE_KEY.USER_CURRENT, data.username)
       handleModalOpen();
-      localStorage.setItem("ExpiresIn", Date.now() + 86400)
       navigate(pathName.LOUNGE);
       window.location.reload();
     } else {
@@ -93,14 +97,14 @@ const ModalSignin = ({ modalOpen, close, handleModalOpen }) => {
         {show ? (
           <>
             <div class="alert alert-danger alert-dismissible">
-              <a
+              <span
                 onClick={() => setShow(false)}
                 class="close"
                 data-dismiss="alert"
                 aria-label="close"
               >
                 &times;
-              </a>
+              </span>
               <strong> {errorMessage}</strong>
               <br />
             </div>
@@ -150,33 +154,33 @@ const ModalSignin = ({ modalOpen, close, handleModalOpen }) => {
           SIGN IN
         </button>
         <div className="login-signup-links">
-          <a
+          <span
             class="bright-blue firstLink pointerA "
             onClick={() => {
               handleModalOpen(UserKey.ForgotUsername);
             }}
           >
             Forgot username
-          </a>
-          <a
+          </span>
+          <span
             class="bright-blue  pointerA"
             onClick={() => {
               handleModalOpen(UserKey.ForgotPassword);
             }}
           >
             Forgot email
-          </a>
+          </span>
         </div>
         <p>
           New to Newligion?{" "}
-          <a
+          <span
             onClick={() => {
               handleModalOpen(UserKey.SignUp);
             }}
             class="bright-blue  pointerA "
           >
             Sign Up
-          </a>
+          </span>
           .
         </p>
       </div>

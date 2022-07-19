@@ -1,3 +1,7 @@
 export const STORAGE_KEY = {
-    AUTH_CURRENT: 'auth.current',
+    USER_CURRENT: 'userCurrent',
+    EXPIRES_IN: 'ExpiresIn',
+    ACCESS_TOKEN: 'accessToken',
+    REFRESH_TOKEN: 'RefreshToken',
 }
+

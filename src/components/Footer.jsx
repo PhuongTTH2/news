@@ -1,14 +1,30 @@
-import React from 'react';
+import { useEffect, useState } from "react";
 // import { Modal} from 'react-bootstrap'
 import ModalSignin from './Modal/ModalSignin'
 import ModalForgotEmail from './Modal/ModalForgotEmail'
 import ModalForgotUsername from './Modal/ModalForgotUsername'
 import ModalSignUp from './Modal/ModalSignUp'
+import { isUserSelector } from "selectors/authSelector";
+import { useSelector } from "react-redux";
+
+import { useAppDispatch } from "app/hooks";
+import { isEmpty } from "lodash";
 const Footer = () =>{
-    const [modalSignin, setModalSignin] = React.useState(false);
-    const [modalForgotEmail, setModalForgotEmail] = React.useState(false);
-    const [modalForgotUsername, setModalForgotUsername] = React.useState(false);
-    const [modalSignUp, setModalSignUp] = React.useState(false);
+    const [modalSignin, setModalSignin] = useState(false);
+    const [modalForgotEmail, setModalForgotEmail] = useState(false);
+    const [modalForgotUsername, setModalForgotUsername] = useState(false);
+    const [modalSignUp, setModalSignUp] = useState(false);
+    
+    const user = useSelector(isUserSelector);
+    const [currentUser, setCurrentUser] = useState("");
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+      if (user) {
+        setCurrentUser(user.users.data);
+      }
+    }, [user]);
+
+    
     const handleToggleModal = () => {
         handleModalOpen();
     }
@@ -48,9 +64,11 @@ const Footer = () =>{
                                 <li>
                                     <a href="/create-religion">Create</a>
                                 </li>
+                                {isEmpty(user.users) ? (
                                 <li>
                                     <a  onClick={() => { setModalSignin(true) }}  style={{color:'#FFF', cursor: 'pointer'}}>Join / Signin</a>
                                 </li>
+                                ):("")}
                                 <li>
                                     <a href="/">Message</a>
                                 </li>

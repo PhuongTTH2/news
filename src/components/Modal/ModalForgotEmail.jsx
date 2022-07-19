@@ -52,7 +52,7 @@ const ModalForgotEmail = ({ modalOpen, close, handleModalOpen }) => {
         {show ? (
           <>
             <div class="alert alert-danger alert-dismissible" >
-              <a
+              <span
                 onClick={() => setShow(false)}
                 class="close"
                 data-dismiss="alert"
@@ -60,7 +60,7 @@ const ModalForgotEmail = ({ modalOpen, close, handleModalOpen }) => {
                 style={{ margin: "0px" }}
               >
                 &times;
-              </a>
+              </span>
               <strong> {errorEmail}</strong>
               <br />
             </div>
@@ -102,22 +102,22 @@ const ModalForgotEmail = ({ modalOpen, close, handleModalOpen }) => {
           .
         </p>
         <div className="login-signup-links">
-          <a
+          <span
             onClick={() => {
               handleModalOpen("Signin");
             }}
             class="bright-blue fw--700 firstLink pointerA"
           >
             LOG IN
-          </a>
-          <a
+          </span>
+          <span
             onClick={() => {
               handleModalOpen("SignUp");
             }}
             class="bright-blue fw--700 pointerA"
           >
             SIGN UP
-          </a>
+          </span>
         </div>
       </div>
     </Modal>

@@ -13,5 +13,8 @@ const apiPosts = {
   createBook: "/book",
   createBookChapter: "/book/{book_id}/chapter",
   createBookTopic: "/book/{book_id}/chapter/{chapter_id}/topic",
+  
+  signOut: "/account/signout",
+
 };
 export default apiPosts;

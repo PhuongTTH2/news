@@ -561,8 +561,13 @@ a:hover {
 .userWrapper {
     padding-top: 57px;
 }
+p.user {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 p.user span{
-	color: #000;
+	color: #fff;
 	/*background: #f9dd8f;*/
 	width: 33px;
 	height: 33px;

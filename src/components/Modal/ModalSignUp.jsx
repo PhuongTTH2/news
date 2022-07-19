@@ -13,6 +13,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { isEmpty } from "lodash";
+import { STORAGE_KEY } from "constants/index";
 const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -44,7 +45,7 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
     password: yup
       .string()
       .required("Password is required")
-      .min(6)
+      .min(7)
       .matches(
         /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[!@#$&*])/,
         "Password include at least one letter each for uppercase letters, lowercase letters, special characters and numbers"
@@ -122,7 +123,7 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
     }
   };
   const handleCode = async () => {
-    setIsDisabled(true)
+    setIsDisabled(true);
     const data = await axiosClients.post(apiPosts.signUpConfirm, {
       username: formSignUp.getValues("username"),
       password: formSignUp.getValues("password"),
@@ -130,8 +131,13 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
     });
     if (data.message === "ok") {
       dispatch(loginSuccess(data));
+      // await dispatch(getAccountScopes(data));
+      localStorage.setItem(STORAGE_KEY.EXPIRES_IN, Date.now() + 86400);
+      localStorage.setItem(STORAGE_KEY.ACCESS_TOKEN,JSON.stringify(data.AccessToken));
+      localStorage.setItem(STORAGE_KEY.REFRESH_TOKEN,JSON.stringify(data.RefreshToken));
+      localStorage.setItem(STORAGE_KEY.USER_CURRENT,JSON.stringify(data.username));
       handleModalOpen();
-      localStorage.setItem("ExpiresIn", Date.now() + 86400)
+      localStorage.setItem("ExpiresIn", Date.now() + 86400);
       navigate(pathName.PERSONAL_PROFILE);
       window.location.reload();
     } else {
@@ -168,7 +174,7 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
       size="lg"
     >
       <div class="Acct signup" id="signUp1st">
-        <a
+        <span
           onClick={() => {
             handleModalClose();
           }}
@@ -176,11 +182,11 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
         >
           {" "}
           &times;
-        </a>
+        </span>
 
         <div class="signup-header">
           <a href="/" class="logo">
-            <img src="img/logo.png" />
+            <img src="img/logo.png" alt="alt" />
           </a>
         </div>
         <div class="signup-body">
@@ -190,7 +196,7 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
                 class="alert alert-danger alert-dismissible"
                 //  style={{height: '40px'}}
               >
-                <a
+                <span
                   onClick={() => setShow(false)}
                   class="close"
                   data-dismiss="alert"
@@ -198,7 +204,7 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
                   style={{ margin: "0px" }}
                 >
                   &times;
-                </a>
+                </span>
                 <strong> {errorEmail}</strong>
                 <br />
               </div>
@@ -230,14 +236,14 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
           </button>
           <p>
             Already a Newligion?
-            <a
+            <span
               onClick={() => {
                 handleModalClose("Signin");
               }}
               class="fw--700 pl--10 bright-blue pointerA"
             >
               LOG IN
-            </a>
+            </span>
           </p>
           <p>
             By continuing, you agree to our{" "}
@@ -259,7 +265,7 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
       <div class="Acct signup" id="signUp2nd">
         <div class="modal-header">
           <a href="/" class="logo">
-            <img src="img/logo.png" />
+            <img src="img/logo.png" alt="alt" />
           </a>
         </div>
         <div class="modal-body">
@@ -269,7 +275,7 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
                 class="alert alert-danger alert-dismissible"
                 style={{ height: "50px" }}
               >
-                <a
+                <span
                   onClick={() => setShowSignUp(false)}
                   class="close"
                   data-dismiss="alert"
@@ -277,7 +283,7 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
                   style={{ margin: "0px" }}
                 >
                   &times;
-                </a>
+                </span>
                 <strong> {errorSignUp}</strong>
                 <br />
               </div>
@@ -328,13 +334,13 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
           />
         </div>
         <div class="modal-footer">
-          <a
+          <span
             onClick={() => handleBack()}
             class="bright-blue backLink"
             style={{ cursor: "pointer" }}
           >
             Back
-          </a>
+          </span>
 
           <button
             type="button"
@@ -349,7 +355,7 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
         </div>
       </div>
     </Modal>
-  ): openCode ? (
+  ) : openCode ? (
     <Modal
       show={openCode}
       className="Acct signup"
@@ -359,7 +365,7 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
       <div class="Acct signup" id="signUp1st">
         <div class="signup-header">
           <a href="/" class="logo">
-            <img src="img/logo.png" />
+            <img src="img/logo.png" alt="alt" />
           </a>
         </div>
         <div class="signup-body">
@@ -369,7 +375,7 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
                 class="alert alert-danger alert-dismissible"
                 //  style={{height: '40px'}}
               >
-                <a
+                <span
                   onClick={() => setShowCode(false)}
                   class="close"
                   data-dismiss="alert"
@@ -377,7 +383,7 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
                   style={{ margin: "0px" }}
                 >
                   &times;
-                </a>
+                </span>
                 <strong> {errorCode}</strong>
                 <br />
               </div>

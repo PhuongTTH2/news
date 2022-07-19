@@ -8,7 +8,7 @@ export const isAuthSelector = createSelector(
     },
 )
 export const isUserSelector = createSelector(
-    (state: RootState) => state.users,
+    (state: RootState) => state.persistedReducer.users,
     (users) => {
         return users
     },
