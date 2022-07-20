@@ -24,7 +24,7 @@ const Lounge = () => {
   // const dispatch = useAppDispatch();
   useEffect( () => {
     if(user){
-      setCurrentUser(user.users.data)
+      setCurrentUser(user.users)
     }
   }, [user]);
   const [activeTab, setActiveTab] = useState("tab1");

@@ -18,15 +18,16 @@ const Header = () => {
   const [currentUser, setCurrentUser] = useState("");
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (user?.users.data) {
-      setCurrentUser(user?.users?.data);
+    if (user?.users) {
+      setCurrentUser(user?.users);
     }
-  }, [user?.users.data]);
+  }, [user?.users]);
 
   const handleLogout = async (e) => {
     dispatch(logoutStart());
     const data = await axiosClients.post(apiPosts.signOut, {
       headers: authHeaderAndAccount(),
+      
     });
     if (data.message === "ok") {
       dispatch(logoutSuccess());
@@ -157,8 +158,10 @@ const Header = () => {
                     </>
                   ) : (
                     <>
-                      {isEmpty(user.users.data.first_name) ? (
-                        ""
+                      {isEmpty(user.users.first_name) ? (
+                        <span onClick={() => handleLogout()} class="pointerA ">
+                          Logout
+                             </span>
                       ) : (
                         <>
                           <div>
@@ -166,21 +169,24 @@ const Header = () => {
                               RM
                             </span>
                           </div>
-                          <div style={{ minWidth: 70 }}>
+                          <div style={{ minWidth: 150 }}>
                             <span>
-                              {currentUser?.first_name +
+                            Hi, {currentUser?.first_name +
                                 " " +
                                 currentUser?.last_name}
                             </span>
+                            <span onClick={() => handleLogout()} class="pointerA ">
+                          Logout
+                             </span>
                           </div>
                           {/* <i className="fas fa-caret-down" /> */}
                         </>
                       )}
-                      <div>
+                      {/* <div>
                         <span onClick={() => handleLogout()} class="pointerA ">
                           Logout
                         </span>
-                      </div>
+                      </div> */}
                     </>
                   )}
                 </p>

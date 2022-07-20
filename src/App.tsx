@@ -29,7 +29,7 @@ const App: React.FC = () => {
       setIsLoading(false)
     })();
   }, [auth.current.currentUser.AccessToken]);
-  if (isLoading) return null
+  if (isLoading) return <p>Loading...</p>
   return <RoutesList />;
 };
 

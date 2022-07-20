@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import "./PersonalProfile.css";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import { isUserSelector } from "selectors/authSelector";
@@ -11,13 +12,28 @@ import { useForm } from "react-hook-form";
 import axiosClients from "api/rest/axiosClients";
 import apiPuts from "api/rest/apiPuts";
 import { forOwn, isEmpty } from "lodash";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import moment from "moment";
+import { useAppDispatch } from "app/hooks";
+import {updateAccount } from "slices";
+import {authHeaderAndAccount} from 'api/rest/header'
+import { COUNTRY } from "constants/index";
+import localStorage from "redux-persist/es/storage";
+import { STORAGE_KEY } from 'constants/index'
 const PersonalProfile = () => {
   const users = useSelector(isUserSelector);
-  const schema = yup.object().shape({});
+  const dispatch = useAppDispatch();
+  const [fullDate, setFullDate] = useState(new Date());
+  const minDate = new Date(fullDate.getFullYear(), fullDate.getMonth(), 1);
+  const maxDate = new Date(fullDate.getFullYear(), fullDate.getMonth() + 1, 0);
+  const [isOpenDatePicker, setIsOpenDatePicker] = useState(false);
 
+  const schema = yup.object().shape({});
   const defaultValues = {
     first_name: "",
     last_name: "",
+    profile_picture_url: "",
     phone: "",
     street_address_1: "",
     street_address_2: "",
@@ -38,23 +54,65 @@ const PersonalProfile = () => {
   const [arrayReligiousAffiliations, setArrayReligiousAffiliations] = useState(
     []
   );
+  const [uploadFile, setUploadFile] = useState(null);
   useEffect(() => {
-    if (users?.users?.data) {
-      let scopeUser = users?.users?.data;
+    if (users?.users) {
+      let scopeUser = users?.users;
       forOwn(scopeUser, (value, key) => form.setValue(key, value));
+
       setArrayReligiousAffiliations(
-        Array(form.getValues("religious_affiliations"))
+        JSON.parse(form.getValues("religious_affiliations"))
       );
+      setFullDate(new Date(form.getValues("birth_day")));
+      setUploadFile(form.getValues("profile_picture_url"));
     }
-  }, [users?.users?.data]);
+  }, [users?.users]);
+
+  const ref = useRef();
+  const handleClick = () => {
+    ref.current.click();
+  };
+
+  const handleUploadFileLocal = (event) => {
+    const objectUrl = URL.createObjectURL(event.target.files[0]);
+    setUploadFile(objectUrl);
+    event.target.value = null;
+  };
+  const removePhoto = () => {
+    setUploadFile(null);
+  };
+
+  const handleReligiousAffiliations = (e, index) => {
+    let newReligiousAffiliations = [...arrayReligiousAffiliations];
+    newReligiousAffiliations[index] = e.target.value;
+    setArrayReligiousAffiliations(newReligiousAffiliations);
+  };
+
+  const renderDayContents = (day, date) => {
+    if (date < minDate || date > maxDate) {
+      return <span></span>;
+    }
+    return <span>{date.getDate()}</span>;
+  };
+  const datepickerRef = useRef(null);
+  const handleClickDatePicker = () => {
+    setIsOpenDatePicker(!isOpenDatePicker);
+    const datepickerElement = datepickerRef.current;
+
+    datepickerElement.setFocus(true);
+  };
+  const handleChangeDatePicker = (date) => {
+    setIsOpenDatePicker(!isOpenDatePicker);
+    setFullDate(date);
+  };
 
   const handleProfile = async (inputs) => {
-    const data = await axiosClients.post(apiPuts.updateAccount, {
+    const data = await axiosClients.put(apiPuts.updateAccount, {
       first_name: inputs.first_name,
       last_name: inputs.last_name,
-      profile_picture: inputs.profile_picture,
+      profile_picture: uploadFile,
       phone: inputs.phone,
-      birth_day: inputs.birth_day,
+      birth_day: moment(fullDate).format("MM/DD/YYYY"),
       about: inputs.about,
       street_address_1: inputs.street_address_1,
       street_address_2: inputs.street_address_2,
@@ -63,32 +121,26 @@ const PersonalProfile = () => {
       zip_code: inputs.zip_code,
       country: inputs.country,
       audience_type: inputs.audience_type,
-      religious_affiliations: inputs.religious_affiliations,
-    });
+      religious_affiliations: JSON.stringify(arrayReligiousAffiliations),
+    },{ headers: authHeaderAndAccount() } );
     if (data.message === "ok") {
+      await dispatch(updateAccount(data.updatedAccount));
     } else {
     }
   };
-  const ref = useRef();
-  const handleClick = () => {
-    // ref.current.click();
+
+  const handleOption = (e) => {
+    form.setValue("country", e.target.value);
   };
-  const handleUploadFileLocal = (event) => {
-    // const file = event.target.files[0]
-    // const name = event.target.files[0].name
-  };
-  const removePhoto = () => {};
-  const handleReligiousAffiliations = (e, index) => {
-    let newReligiousAffiliations = [...arrayReligiousAffiliations];
-    newReligiousAffiliations[index] = e.target.value;
-    setArrayReligiousAffiliations(newReligiousAffiliations);
-  };
+
   return (
+    
     <div id="main" className="singlePageTwoColumnLayout">
       {/* start of header */}
       <Header />
       {/* end of header */}
       {/* start of content */}
+      
       <div className="content subPages">
         <div className="container no-padding-lr">
           <div className="headerHolder">
@@ -247,12 +299,24 @@ const PersonalProfile = () => {
                     </div>
                     <div className="col-md-6 no-padding-lr">
                       <div className="form-group pl--5">
-                        <select id="state" className="form-control">
-                          <option value="United States" selected="">
-                            United States
-                          </option>
-                          <option value="Hong Kong">Hong Kong</option>
-                          <option value="Singapore">Singapore</option>
+                        <select
+                          onChange={(e) => handleOption(e)}
+                          id="country"
+                          className="form-control"
+                        >
+                          {COUNTRY.map((option, index) => (
+                            <option
+                              key={index}
+                              value={option.code}
+                              selected={
+                                form.getValues("country") === option.code
+                                  ? true
+                                  : false
+                              }
+                            >
+                              {option.name}
+                            </option>
+                          ))}
                         </select>
                       </div>
                     </div>
@@ -260,59 +324,59 @@ const PersonalProfile = () => {
                 </div>
                 {/* end of info address */}
                 {/* start of birthday */}
-                <div className="inputForm infoBday">
+                <div>
                   <div className="headerHolder mb--12">
                     <h4>Birthday</h4>
                   </div>
-                  <div className="row no-margin-lr">
-                    <div className="col-md-3 no-padding-lr">
-                      <div className="form-group pr--5">
-                        <select id="b_month" className="form-control">
-                          <option value="January" selected="">
-                            January
-                          </option>
-                          <option value="February">February</option>
-                        </select>
-                      </div>
+                  <div className="myContainerDatePicker">
+                    <div className="customDatePickerWidth">
+                      <DatePicker
+                        showMonthYearPicker
+                        dateFormat="MMMM"
+                        renderCustomHeader={({ date }) => <div></div>}
+                        selected={fullDate}
+                        onChange={(date) => handleChangeDatePicker(date)}
+                      />
                     </div>
-                    <div className="col-md-2 no-padding-lr">
-                      <div className="form-group pl--5">
-                        <select id="b_day" className="form-control">
-                          <option value={1}>1</option>
-                          <option value={2}>2</option>
-                          <option value={3} selected="">
-                            3
-                          </option>
-                        </select>
-                      </div>
+                    <div className="customDatePickerWidth">
+                      {/* <div className="form-group pl--5"> */}
+                      <DatePicker
+                        dateFormat="dd"
+                        renderCustomHeader={({ date }) => <div></div>}
+                        selected={fullDate}
+                        renderDayContents={renderDayContents}
+                        onChange={(date) => handleChangeDatePicker(date)}
+                      />
+                      {/* </div> */}
                     </div>
-                    <div className="col-md-2 no-padding-lr yearSelect">
-                      <div className="form-group pl--10">
-                        <select id="b_year" className="form-control">
-                          <option value={1991}>1991</option>
-                          <option value={1992}>1992</option>
-                          <option value={1993}>1993</option>
-                          <option value={1994}>1994</option>
-                          <option value={1995} selected="">
-                            1995
-                          </option>
-                          <option value={1996}>1996</option>
-                          <option value={1997}>1997</option>
-                        </select>
-                      </div>
+                    <div className="customDatePickerWidth" >
+                      <DatePicker
+                        selected={fullDate}
+                        onChange={(date) => handleChangeDatePicker(date)}
+                        showYearPicker
+                        dateFormat="yyyy"
+                      />
                     </div>
-                    <div className="col-md-2 no-padding-lr iconCalendar">
-                      <div className="form-group pl--10">
-                        <button className="btnAddon mt--10" type="submit">
-                          <img
-                            alt="alt"
-                            className="iconasset"
-                            src="img/icons/calendar_96px.png"
-                          />
-                        </button>
-                      </div>
+                    <div style={{paddingTop:12}}>
+                      <img
+                        alt="alt"
+                        className="iconasset"
+                        src="img/icons/calendar_96px.png"
+                        onClick={handleClickDatePicker}
+                      />
+                      <DatePicker
+                        selected={fullDate}
+                        className="datePickerHide"
+                        onChange={(date) => handleChangeDatePicker(date)}
+                        ref={datepickerRef}
+                      />
                     </div>
                   </div>
+                  {/* <DatePicker
+                      selected={fullDate}
+                      onChange={(date) => setFullDate(date)}
+                    />
+                  </div> */}
                 </div>
                 {/* end of birthday */}
                 {/* start of info Religious Affiliations */}
@@ -392,22 +456,31 @@ const PersonalProfile = () => {
                   <div className="uploadPhotoWrapper">
                     <div className="imgHolder float-left">
                       <div className="thisPhoto">
-                        <label htmlFor="contained-button-file">
-                          <input
-                            id="contained-button-file"
-                            type="file"
-                            accept=".jpg,.jpeg,.png"
-                            style={{ display: "none" }}
-                            ref={ref}
-                            alt="Upload"
-                            onChange={handleUploadFileLocal}
+                        {/* <label htmlFor="contained-button-file"> */}
+                        <input
+                          // id="contained-button-file"
+                          type="file"
+                          accept=".jpg,.jpeg,.png"
+                          style={{ display: "none" }}
+                          ref={ref}
+                          alt="Upload"
+                          onChange={(e) => handleUploadFileLocal(e)}
+                        />
+                        {uploadFile !== null ? (
+                          <img
+                            alt="uploadFile"
+                            style={{ width: 171, height: 171 }}
+                            src={uploadFile}
+                            onClick={handleClick}
                           />
+                        ) : (
                           <img
                             alt="alt"
                             src="img/noPhotoImage.jpg"
                             onClick={handleClick}
                           />
-                        </label>
+                        )}
+                        {/* </label> */}
                       </div>
                     </div>
                     <p className="removePhoto float-left ">

@@ -1,4 +1,4 @@
-const pathName = {
+export const pathName = {
   HOME: '/',
   WRITING: '/writing',
   LOUNGE:'/lounge',
@@ -13,4 +13,3 @@ const pathName = {
   ABOUT_US:'/about-us',
   FORBIDDEN:'/forbidden'
 }
-export default pathName;

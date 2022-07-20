@@ -2012,7 +2012,7 @@ p.user span{
     padding: 16px 20px;
     border-radius: 5px;
     width: 100%;
-    border: solid 1px #aaaaaa;
+    border: solid 1px #212529;
     color: #a5a4a4;
     /* text-transform: uppercase; */
 }
@@ -2020,7 +2020,7 @@ p.user span{
     padding: 16px 20px;
     border-radius: 5px;
     width: 100%;
-    border: solid 1px #aaaaaa;
+    border: solid 1px #212529;
     color: #a5a4a4;
     /* text-transform: uppercase; */
 }
@@ -2039,7 +2039,7 @@ p.user span{
 	color: #ffffff !important;
 }
 
-.Acct .login-signup-links a.firstLink::after {
+.Acct .login-signup-links span.firstLink::after {
     content: '';
     background-color: #00aeef;
     width: 8px;
@@ -3325,3 +3325,9 @@ input#ccdetails:focus {
     /* color: #EE4B5E; */
 }
 
+.datePickerHide{
+	height: 0;
+	padding: 0;
+	width: 0;
+	position: absolute;
+}

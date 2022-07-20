@@ -20,7 +20,7 @@ const Footer = () =>{
     const dispatch = useAppDispatch();
     useEffect(() => {
       if (user) {
-        setCurrentUser(user.users.data);
+        setCurrentUser(user.users);
       }
     }, [user]);
 

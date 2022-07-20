@@ -1,3 +1,3 @@
-import pathName from 'constants/pathName'
-export { pathName };
+export * from './pathName'
 export * from './storageKey'
+export * from './common'
