@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Modal } from "react-bootstrap";
-import axiosClients from "api/rest/axiosClients";
+import axiosLogin from "api/rest/axiosLogin";
 import apiPosts from "api/rest/apiPosts";
 import { useNavigate } from "react-router";
 import { pathName } from "constants/index";
@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { STORAGE_KEY } from 'constants/index'
 import { isEmpty } from "lodash";
 import { UserKey } from "constants/enum";
-import { loginStart, loginSuccess, getAccountScopes } from "slices";
+import { loginStart, getAccountScopes } from "slices";
 const ModalSignin = ({ modalOpen, close, handleModalOpen }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -44,7 +44,7 @@ const ModalSignin = ({ modalOpen, close, handleModalOpen }) => {
     defaultValues: defaultValues,
     resolver: yupResolver(schema),
   });
-  // const errors = form.formState.errors
+
   useEffect(() => {
     if (modalOpen) {
       setErrorValidate("");
@@ -59,18 +59,18 @@ const ModalSignin = ({ modalOpen, close, handleModalOpen }) => {
 
   const onSubmit = async (inputs) => {
     dispatch(loginStart());
-    const data = await axiosClients.post(apiPosts.signIn, {
+    const data = await axiosLogin.post(apiPosts.signIn, {
       username: inputs.username,
       password: inputs.password,
     });
 
     if (data.message === "ok") {
-      // await dispatch(loginSuccess(data));
-      await dispatch(getAccountScopes(data));
-      localStorage.setItem(STORAGE_KEY.EXPIRES_IN, Date.now() + 86400)
+      localStorage.setItem(STORAGE_KEY.EXPIRES_IN, Number(Date.now()) + Number(86400))
       localStorage.setItem(STORAGE_KEY.ACCESS_TOKEN, data.AccessToken)
       localStorage.setItem(STORAGE_KEY.REFRESH_TOKEN, data.RefreshToken)
       localStorage.setItem(STORAGE_KEY.USER_CURRENT, data.username)
+      localStorage.setItem(STORAGE_KEY.IS_LOGIN, true)
+      await dispatch(getAccountScopes(data));
       handleModalOpen();
       navigate(pathName.LOUNGE);
       window.location.reload();
@@ -154,21 +154,21 @@ const ModalSignin = ({ modalOpen, close, handleModalOpen }) => {
           SIGN IN
         </button>
         <div className="login-signup-links">
-          <span
+          {/* <span
             class="bright-blue firstLink pointerA "
             onClick={() => {
               handleModalOpen(UserKey.ForgotUsername);
             }}
           >
             Forgot username
-          </span>
+          </span> */}
           <span
             class="bright-blue  pointerA"
             onClick={() => {
               handleModalOpen(UserKey.ForgotPassword);
             }}
           >
-            Forgot email
+            Forgot password
           </span>
         </div>
         <p>

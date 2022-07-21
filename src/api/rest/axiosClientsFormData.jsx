@@ -1,25 +1,26 @@
 import axios from 'axios'
 import {headerRefreshToken} from 'api/rest/header'
-import { isEmpty } from "lodash";
+import { isEmpty, lte } from "lodash";
 import { STORAGE_KEY } from 'constants/index'
-const axiosClients = axios.create({
+const axiosClientsFormData = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
     headers: {
-        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
 
     }
 })
 
-axiosClients.interceptors.request.use(
+axiosClientsFormData.interceptors.request.use(
     async (config) => {
         let dateExpired = localStorage.getItem(STORAGE_KEY.EXPIRES_IN);
         let isExpired = Number(dateExpired) > Number(Date.now())
-        if (isExpired) {
+        if (isExpired ) {
             return config
         }else{
             const data = await axios.get(process.env.REACT_APP_API_URL + '/auth/refresh-token',{ headers: headerRefreshToken() });
             if(data.data.message === 'ok'){
-                axiosClients.defaults.headers.common['access_token'] = `${data.data.access_token}`
+                axiosClientsFormData.defaults.headers.common['access_token'] = `${data.data.access_token}`
                 localStorage.setItem(STORAGE_KEY.ACCESS_TOKEN, data.data.access_token)
                 localStorage.setItem(STORAGE_KEY.EXPIRES_IN, Number(Date.now()) + Number(86400))
                 return config;
@@ -32,7 +33,7 @@ axiosClients.interceptors.request.use(
   );
 
 
-axiosClients.interceptors.response.use((response) => {
+  axiosClientsFormData.interceptors.response.use((response) => {
     if (response && response.data) {
         return response.data;
     }
@@ -43,5 +44,5 @@ axiosClients.interceptors.response.use((response) => {
     }
 });
 
-export default axiosClients;
+export default axiosClientsFormData;
 

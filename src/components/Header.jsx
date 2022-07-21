@@ -5,10 +5,10 @@ import { isUserSelector } from "selectors/authSelector";
 import { useSelector } from "react-redux";
 
 import { useAppDispatch } from "app/hooks";
-import { logoutSuccess, logoutStart } from "slices";
+import { logoutSuccess, logoutStart,removeAccount } from "slices";
 import axiosClients from "api/rest/axiosClients";
 import apiPosts from "api/rest/apiPosts";
-
+import { STORAGE_KEY } from "constants/index";
 import { isEmpty } from "lodash";
 import { authHeaderAndAccount } from "api/rest/header";
 
@@ -22,15 +22,16 @@ const Header = () => {
       setCurrentUser(user?.users);
     }
   }, [user?.users]);
-
+  
   const handleLogout = async (e) => {
     dispatch(logoutStart());
-    const data = await axiosClients.post(apiPosts.signOut, {
+    const data = await axiosClients.post(apiPosts.signOut, {}, {
       headers: authHeaderAndAccount(),
-      
     });
+
     if (data.message === "ok") {
       dispatch(logoutSuccess());
+      dispatch(removeAccount())
       localStorage.clear();
       navigate(pathName.HOME);
       window.location.reload();
@@ -51,7 +52,7 @@ const Header = () => {
             </div>
 
             <div className="width145 hideOnMobile">
-              {isEmpty(user.users) ? (
+              {!localStorage.getItem(STORAGE_KEY.IS_LOGIN) ? (
                 <div style={{ width: 144 }}></div>
               ) : (
                 <ul className="menuIcon ">
@@ -87,7 +88,7 @@ const Header = () => {
             </div>
 
             <div className="width145 showOnMobile">
-              {isEmpty(user.users) ? (
+              {!localStorage.getItem(STORAGE_KEY.IS_LOGIN) ? (
                 <div style={{ width: 144 }}></div>
               ) : (
                 <ul className="menuIcon">
@@ -152,7 +153,7 @@ const Header = () => {
             <div className="width147">
               <div className="float-right userWrapper">
                 <p className="user">
-                  {isEmpty(user.users) ? (
+                  {!localStorage.getItem(STORAGE_KEY.IS_LOGIN) ? (
                     <>
                       <span style={{ minWidth: 70 }} > Hi, Guest </span>
                     </>
@@ -165,9 +166,11 @@ const Header = () => {
                       ) : (
                         <>
                           <div>
-                            <span className="backgroundLightGreen text-white">
-                              RM
-                            </span>
+                            <img
+                            alt="uploadFile"
+                            style={{ width: 31, height: 31, borderRadius: '50%' }}
+                            src={currentUser?.profile_picture_url}
+                          />
                           </div>
                           <div style={{ minWidth: 150 }}>
                             <span>

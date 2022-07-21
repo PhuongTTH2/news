@@ -1,13 +1,11 @@
 import React, { useEffect } from "react";
 import { Modal } from "react-bootstrap";
-import axiosClients from "api/rest/axiosClients";
+import axiosLogin from "api/rest/axiosLogin";
 import apiPosts from "api/rest/apiPosts";
 import Recaptcha from "react-recaptcha";
 
 import { useNavigate } from "react-router";
 import { pathName } from "constants/index";
-import { useAppDispatch } from "app/hooks";
-import { loginSuccess } from "slices";
 
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -16,7 +14,6 @@ import { isEmpty } from "lodash";
 import { STORAGE_KEY } from "constants/index";
 const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const [openEmail, setOpenEmail] = React.useState(false);
   const [openUser, setOpenUser] = React.useState(false);
   const [email, setEmail] = React.useState("");
@@ -88,7 +85,7 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
   }, [modalOpen]);
 
   const handleEmail = async (inputs) => {
-    const data = await axiosClients.post(apiPosts.signUpValidateEmail, {
+    const data = await axiosLogin.post(apiPosts.signUpValidateEmail, {
       email: inputs.email,
     });
 
@@ -105,7 +102,7 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
 
   const handleSignUp = async (inputs) => {
     if (captcha) {
-      const data = await axiosClients.post(apiPosts.signUp, {
+      const data = await axiosLogin.post(apiPosts.signUp, {
         username: inputs.username,
         email: email,
         password: inputs.password,
@@ -124,20 +121,18 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
   };
   const handleCode = async () => {
     setIsDisabled(true);
-    const data = await axiosClients.post(apiPosts.signUpConfirm, {
+    const data = await axiosLogin.post(apiPosts.signUpConfirm, {
       username: formSignUp.getValues("username"),
       password: formSignUp.getValues("password"),
       code: code,
     });
     if (data.message === "ok") {
-      dispatch(loginSuccess(data));
-      // await dispatch(getAccountScopes(data));
       localStorage.setItem(STORAGE_KEY.EXPIRES_IN, Date.now() + 86400);
       localStorage.setItem(STORAGE_KEY.ACCESS_TOKEN,JSON.stringify(data.AccessToken));
       localStorage.setItem(STORAGE_KEY.REFRESH_TOKEN,JSON.stringify(data.RefreshToken));
       localStorage.setItem(STORAGE_KEY.USER_CURRENT,JSON.stringify(data.username));
+      localStorage.setItem(STORAGE_KEY.IS_LOGIN, true)
       handleModalOpen();
-      localStorage.setItem("ExpiresIn", Date.now() + 86400);
       navigate(pathName.PERSONAL_PROFILE);
       window.location.reload();
     } else {

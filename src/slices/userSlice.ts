@@ -5,6 +5,7 @@ import apiGets from "api/rest/apiGets";
 export const getAccountScopes = createAsyncThunk('auth/getAccountScopes', async (account: any) => {
     const data: any = await axiosClients.get(apiGets.getAccount,{ headers: authHeaderAccount(account) })
     return data.data
+    // return {}
 })
 
 const userSlice = createSlice({
@@ -16,6 +17,9 @@ const userSlice = createSlice({
         updateAccount:(state,action) =>{
             state.users = action.payload
         },
+        removeAccount:(state) =>{
+            state.users = {}
+        },
     },
     extraReducers: {
         [getAccountScopes.fulfilled as any]: (state, action) => {
@@ -24,6 +28,7 @@ const userSlice = createSlice({
     },
 })
 export const {
-    updateAccount
+    updateAccount,
+    removeAccount
 } = userSlice.actions
 export default userSlice.reducer

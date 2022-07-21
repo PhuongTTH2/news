@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 // import { Modal} from 'react-bootstrap'
 import ModalSignin from './Modal/ModalSignin'
-import ModalForgotEmail from './Modal/ModalForgotEmail'
+import ModalForgotPassword from './Modal/ModalForgotPassword'
 import ModalForgotUsername from './Modal/ModalForgotUsername'
 import ModalSignUp from './Modal/ModalSignUp'
 import { isUserSelector } from "selectors/authSelector";
 import { useSelector } from "react-redux";
-
+import { STORAGE_KEY } from "constants/index";
 import { useAppDispatch } from "app/hooks";
 import { isEmpty } from "lodash";
 const Footer = () =>{
     const [modalSignin, setModalSignin] = useState(false);
-    const [modalForgotEmail, setModalForgotEmail] = useState(false);
+    const [modalForgotPassword, setModalForgotPassword] = useState(false);
     const [modalForgotUsername, setModalForgotUsername] = useState(false);
     const [modalSignUp, setModalSignUp] = useState(false);
     
@@ -31,7 +31,7 @@ const Footer = () =>{
     const handleModalOpen = (e) => {
 
         setModalSignin(false)
-        setModalForgotEmail(false)
+        setModalForgotPassword(false)
         setModalForgotUsername(false)
         setModalSignUp(false)
         if(e ==="Signin"){
@@ -41,7 +41,7 @@ const Footer = () =>{
         }else if(e ==="ForgotUsername"){
             setModalForgotUsername(true)
         }else if(e ==="ForgotPassword"){
-            setModalForgotEmail(true)
+            setModalForgotPassword(true)
         }
     }
     return (
@@ -64,7 +64,7 @@ const Footer = () =>{
                                 <li>
                                     <a href="/create-religion">Create</a>
                                 </li>
-                                {isEmpty(user.users) ? (
+                                {!localStorage.getItem(STORAGE_KEY.IS_LOGIN) ? (
                                 <li>
                                     <a  onClick={() => { setModalSignin(true) }}  style={{color:'#FFF', cursor: 'pointer'}}>Join / Signin</a>
                                 </li>
@@ -95,7 +95,7 @@ const Footer = () =>{
             {/* start of lower footer */}
             <ModalSignin modalOpen={modalSignin} close={handleToggleModal} handleModalOpen={handleModalOpen}/>
             <ModalSignUp modalOpen={modalSignUp} close={handleToggleModal} handleModalOpen={handleModalOpen}/>
-            <ModalForgotEmail modalOpen={modalForgotEmail} close={handleToggleModal} handleModalOpen={handleModalOpen}/>
+            <ModalForgotPassword modalOpen={modalForgotPassword} close={handleToggleModal} handleModalOpen={handleModalOpen}/>
             <ModalForgotUsername modalOpen={modalForgotUsername} close={handleToggleModal} handleModalOpen={handleModalOpen}/>
             <div className="no-gutters lowerFooter">
                 <div className="container no-padding-lr">

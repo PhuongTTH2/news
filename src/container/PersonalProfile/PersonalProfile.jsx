@@ -9,18 +9,20 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 
-import axiosClients from "api/rest/axiosClients";
+import axiosClientsFormData from "api/rest/axiosClientsFormData";
 import apiPuts from "api/rest/apiPuts";
-import { forOwn, isEmpty } from "lodash";
+import { forOwn } from "lodash";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import { useAppDispatch } from "app/hooks";
-import {updateAccount } from "slices";
-import {authHeaderAndAccount} from 'api/rest/header'
+import { updateAccount } from "slices";
+import { authHeaderAndAccount } from "api/rest/header";
 import { COUNTRY } from "constants/index";
-import localStorage from "redux-persist/es/storage";
-import { STORAGE_KEY } from 'constants/index'
+import axios from "axios";
+
+import { STORAGE_KEY } from "constants/index";
+
 const PersonalProfile = () => {
   const users = useSelector(isUserSelector);
   const dispatch = useAppDispatch();
@@ -42,7 +44,7 @@ const PersonalProfile = () => {
     zip_code: "",
     country: "",
     birth_day: "",
-    religious_affiliations: [],
+    religious_affiliations: ["", ""],
     about: "",
     audience_type: "",
   };
@@ -56,18 +58,31 @@ const PersonalProfile = () => {
   );
   const [uploadFile, setUploadFile] = useState(null);
   useEffect(() => {
-    if (users?.users) {
-      let scopeUser = users?.users;
-      forOwn(scopeUser, (value, key) => form.setValue(key, value));
-
-      setArrayReligiousAffiliations(
-        JSON.parse(form.getValues("religious_affiliations"))
-      );
-      setFullDate(new Date(form.getValues("birth_day")));
-      setUploadFile(form.getValues("profile_picture_url"));
-    }
+    (async () => {
+      if (users?.users) {
+        let scopeUser = users?.users;
+        forOwn(scopeUser, (value, key) => form.setValue(key, value));
+        if (form.getValues("religious_affiliations")) {
+          setArrayReligiousAffiliations(
+            Array.isArray(form.getValues("religious_affiliations"))
+              ? form.getValues("religious_affiliations")
+              : JSON.parse(form.getValues("religious_affiliations"))
+          );
+        }
+        if (form.getValues("birth_day")) {
+          setFullDate(new Date(form.getValues("birth_day")));
+        }
+        if (form.getValues("profile_picture_url")) {
+          fetch(form.getValues("profile_picture_url"))
+            .then((response) => response.blob())
+            .then((imageBlob) => {
+              const imageObjectURL = URL.createObjectURL(imageBlob);
+              setUploadFile(imageObjectURL);
+            });
+        }
+      }
+    })();
   }, [users?.users]);
-
   const ref = useRef();
   const handleClick = () => {
     ref.current.click();
@@ -107,24 +122,48 @@ const PersonalProfile = () => {
   };
 
   const handleProfile = async (inputs) => {
-    const data = await axiosClients.put(apiPuts.updateAccount, {
-      first_name: inputs.first_name,
-      last_name: inputs.last_name,
-      profile_picture: uploadFile,
-      phone: inputs.phone,
-      birth_day: moment(fullDate).format("MM/DD/YYYY"),
-      about: inputs.about,
-      street_address_1: inputs.street_address_1,
-      street_address_2: inputs.street_address_2,
-      city: inputs.city,
-      state: inputs.state,
-      zip_code: inputs.zip_code,
-      country: inputs.country,
-      audience_type: inputs.audience_type,
-      religious_affiliations: JSON.stringify(arrayReligiousAffiliations),
-    },{ headers: authHeaderAndAccount() } );
-    if (data.message === "ok") {
-      await dispatch(updateAccount(data.updatedAccount));
+
+    // const data = await axiosClients.put(apiPuts.updateAccount,{data: {
+    //   first_name: inputs.first_name,
+    //   last_name: inputs.last_name,
+    //   profile_picture: uploadFile,
+    //   phone: inputs.phone,
+    //   birth_day: moment(fullDate).format("MM/DD/YYYY"),
+    //   about: inputs.about,
+    //   street_address_1: inputs.street_address_1,
+    //   street_address_2: inputs.street_address_2,
+    //   city: inputs.city,
+    //   state: inputs.state,
+    //   zip_code: inputs.zip_code,
+    //   country: inputs.country,
+    //   audience_type: inputs.audience_type,
+    //   religious_affiliations: JSON.stringify(arrayReligiousAffiliations),
+    // }},{ headers: authHeaderAndAccount() } );
+
+    const res = await axiosClientsFormData({
+      method: "put",
+      url: apiPuts.updateAccount,
+      headers: authHeaderAndAccount(),
+
+      data: {
+        first_name: inputs.first_name,
+        last_name: inputs.last_name,
+        profile_picture: uploadFile,
+        phone: inputs.phone,
+        birth_day: moment(fullDate).format("MM/DD/YYYY"),
+        about: inputs.about,
+        street_address_1: inputs.street_address_1,
+        street_address_2: inputs.street_address_2,
+        city: inputs.city,
+        state: inputs.state,
+        zip_code: inputs.zip_code,
+        country: inputs.country,
+        audience_type: inputs.audience_type,
+        religious_affiliations: JSON.stringify(arrayReligiousAffiliations),
+      },
+    });
+    if (res.message === "ok") {
+      await dispatch(updateAccount(res.updatedAccount));
     } else {
     }
   };
@@ -134,13 +173,12 @@ const PersonalProfile = () => {
   };
 
   return (
-    
     <div id="main" className="singlePageTwoColumnLayout">
       {/* start of header */}
       <Header />
       {/* end of header */}
       {/* start of content */}
-      
+
       <div className="content subPages">
         <div className="container no-padding-lr">
           <div className="headerHolder">
@@ -349,7 +387,7 @@ const PersonalProfile = () => {
                       />
                       {/* </div> */}
                     </div>
-                    <div className="customDatePickerWidth" >
+                    <div className="customDatePickerWidth">
                       <DatePicker
                         selected={fullDate}
                         onChange={(date) => handleChangeDatePicker(date)}
@@ -357,7 +395,7 @@ const PersonalProfile = () => {
                         dateFormat="yyyy"
                       />
                     </div>
-                    <div style={{paddingTop:12}}>
+                    <div style={{ paddingTop: 12 }}>
                       <img
                         alt="alt"
                         className="iconasset"
@@ -429,16 +467,16 @@ const PersonalProfile = () => {
                     </div> */}
                     <div className="col-md-1 no-padding-lr iconAdd">
                       <div className="form-group pl--10">
-                        <button
+                        {/* <button
                           className="btnAddon opacity--50 mt--5"
                           type="submit"
-                        >
-                          <img
-                            alt="alt"
-                            className="width35"
-                            src="img/icons/add_96px.png"
-                          />
-                        </button>
+                        > */}
+                        <img
+                          alt="alt"
+                          className="width35"
+                          src="img/icons/add_96px.png"
+                        />
+                        {/* </button> */}
                       </div>
                     </div>
                   </div>
