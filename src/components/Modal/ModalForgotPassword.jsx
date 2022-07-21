@@ -13,6 +13,7 @@ const ModalForgotPassword = ({ modalOpen, close, handleModalOpen }) => {
   const [errorEmail, setErrorEmail] = useState("");
   const [show, setShow] = useState(false);
   const [openEmail, setOpenEmail] = useState(false);
+  const [username, setUsername] = useState("");
   const [openNewPassword, setOpenNewPassword] = useState(false);
   const [errorValidateNewPassword, setErrorValidateNewPassword] = useState("");
   const [showNewPassword, setShowNewPassword] = useState(false);
@@ -94,6 +95,7 @@ const ModalForgotPassword = ({ modalOpen, close, handleModalOpen }) => {
     if (data.message === "ok") {
       setOpenEmail(false);
       setOpenNewPassword(true);
+      setUsername(data.username)
     } else {
       setShow(true);
       setErrorEmail(data.message);
@@ -102,7 +104,7 @@ const ModalForgotPassword = ({ modalOpen, close, handleModalOpen }) => {
 
   const handleNewPassword = async (inputs) => {
     const data = await axiosLogin.post(apiPosts.forgotPasswordChange, {
-      email: form.getValues("email"),
+      username: username,
       password: inputs.password,
       code: inputs.code,
     });
@@ -110,7 +112,6 @@ const ModalForgotPassword = ({ modalOpen, close, handleModalOpen }) => {
     if (data.message === "ok") {
       alert("Password reset successful");
       setOpenEmail(true);
-      setOpenNewPassword(true);
       handleModalOpen();
     } else {
       setShowNewPassword(true);
