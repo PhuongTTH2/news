@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./PersonalProfile.css";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
@@ -19,9 +19,6 @@ import { useAppDispatch } from "app/hooks";
 import { updateAccount } from "slices";
 import { authHeaderAndAccount } from "api/rest/header";
 import { COUNTRY } from "constants/index";
-import axios from "axios";
-
-import { STORAGE_KEY } from "constants/index";
 
 const PersonalProfile = () => {
   const users = useSelector(isUserSelector);
@@ -57,6 +54,7 @@ const PersonalProfile = () => {
     []
   );
   const [uploadFile, setUploadFile] = useState(null);
+  const [uploadFileSave, setUploadFileSave] = useState(null);
   useEffect(() => {
     (async () => {
       if (users?.users) {
@@ -73,12 +71,7 @@ const PersonalProfile = () => {
           setFullDate(new Date(form.getValues("birth_day")));
         }
         if (form.getValues("profile_picture_url")) {
-          fetch(form.getValues("profile_picture_url"))
-            .then((response) => response.blob())
-            .then((imageBlob) => {
-              const imageObjectURL = URL.createObjectURL(imageBlob);
-              setUploadFile(imageObjectURL);
-            });
+          setUploadFile(form.getValues("profile_picture_url"));
         }
       }
     })();
@@ -91,10 +84,12 @@ const PersonalProfile = () => {
   const handleUploadFileLocal = (event) => {
     const objectUrl = URL.createObjectURL(event.target.files[0]);
     setUploadFile(objectUrl);
+    setUploadFileSave(event.target.files[0])
     event.target.value = null;
   };
   const removePhoto = () => {
     setUploadFile(null);
+    setUploadFileSave(null)
   };
 
   const handleReligiousAffiliations = (e, index) => {
@@ -123,44 +118,28 @@ const PersonalProfile = () => {
 
   const handleProfile = async (inputs) => {
 
-    // const data = await axiosClients.put(apiPuts.updateAccount,{data: {
-    //   first_name: inputs.first_name,
-    //   last_name: inputs.last_name,
-    //   profile_picture: uploadFile,
-    //   phone: inputs.phone,
-    //   birth_day: moment(fullDate).format("MM/DD/YYYY"),
-    //   about: inputs.about,
-    //   street_address_1: inputs.street_address_1,
-    //   street_address_2: inputs.street_address_2,
-    //   city: inputs.city,
-    //   state: inputs.state,
-    //   zip_code: inputs.zip_code,
-    //   country: inputs.country,
-    //   audience_type: inputs.audience_type,
-    //   religious_affiliations: JSON.stringify(arrayReligiousAffiliations),
-    // }},{ headers: authHeaderAndAccount() } );
-
+    var bodyFormData = new FormData();
+    bodyFormData.append('first_name',  inputs.first_name);
+    bodyFormData.append('last_name',  inputs.last_name);
+    if(uploadFileSave){
+      bodyFormData.append('profile_picture', uploadFileSave);
+    }
+    bodyFormData.append('phone', inputs.phone);
+    bodyFormData.append('birth_day', moment(fullDate).format("MM/DD/YYYY"));
+    bodyFormData.append('about', inputs.about);
+    bodyFormData.append('street_address_1', inputs.street_address_1);
+    bodyFormData.append('street_address_2', inputs.street_address_2);
+    bodyFormData.append('city', inputs.city);
+    bodyFormData.append('state', inputs.state);
+    bodyFormData.append('zip_code', inputs.zip_code);
+    bodyFormData.append('country', inputs.country);
+    bodyFormData.append('audience_type', inputs.audience_type);
+    bodyFormData.append('religious_affiliations', JSON.stringify(arrayReligiousAffiliations));
     const res = await axiosClientsFormData({
       method: "put",
       url: apiPuts.updateAccount,
       headers: authHeaderAndAccount(),
-
-      data: {
-        first_name: inputs.first_name,
-        last_name: inputs.last_name,
-        profile_picture: uploadFile,
-        phone: inputs.phone,
-        birth_day: moment(fullDate).format("MM/DD/YYYY"),
-        about: inputs.about,
-        street_address_1: inputs.street_address_1,
-        street_address_2: inputs.street_address_2,
-        city: inputs.city,
-        state: inputs.state,
-        zip_code: inputs.zip_code,
-        country: inputs.country,
-        audience_type: inputs.audience_type,
-        religious_affiliations: JSON.stringify(arrayReligiousAffiliations),
-      },
+      data: bodyFormData,
     });
     if (res.message === "ok") {
       await dispatch(updateAccount(res.updatedAccount));

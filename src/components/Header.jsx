@@ -167,7 +167,7 @@ const Header = () => {
                         <>
                           <div>
                             <img
-                            alt="uploadFile"
+                            alt="File"
                             style={{ width: 31, height: 31, borderRadius: '50%' }}
                             src={currentUser?.profile_picture_url}
                           />

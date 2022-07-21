@@ -1,6 +1,5 @@
 import axios from 'axios'
 import {headerRefreshToken} from 'api/rest/header'
-import { isEmpty, lte } from "lodash";
 import { STORAGE_KEY } from 'constants/index'
 const axiosClientsFormData = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
