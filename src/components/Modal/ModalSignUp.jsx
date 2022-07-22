@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Modal } from "react-bootstrap";
-import axiosLogin from "api/rest/axiosLogin";
+import axiosNoAuth from "api/rest/axiosNoAuth";
 import apiPosts from "api/rest/apiPosts";
 import Recaptcha from "react-recaptcha";
 
@@ -16,19 +16,21 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
   const navigate = useNavigate();
   const [openEmail, setOpenEmail] = React.useState(false);
   const [openUser, setOpenUser] = React.useState(false);
-  const [email, setEmail] = React.useState("");
-  const [captcha, setCaptcha] = React.useState(false);
+  const [openCode, setOpenCode] = React.useState(false);
+
   const [errorValidate, setErrorValidate] = React.useState("");
   const [errorValidateSignUp, setErrorValidateSignUp] = React.useState("");
   const [errorEmail, setErrorEmail] = React.useState("");
   const [errorSignUp, setErrorSignUp] = React.useState("");
+  const [errorCode, setErrorCode] = React.useState("");
+
   const [show, setShow] = React.useState(false);
   const [showSignUp, setShowSignUp] = React.useState(false);
-
-  const [openCode, setOpenCode] = React.useState(false);
-  const [code, setCode] = React.useState("");
   const [showCode, setShowCode] = React.useState(false);
-  const [errorCode, setErrorCode] = React.useState("");
+
+  const [code, setCode] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [captcha, setCaptcha] = React.useState(false);
   const [isDisabled, setIsDisabled] = React.useState(false);
   const schema = yup.object().shape({
     email: yup.string().required("Email is required").email().label("Email"),
@@ -85,7 +87,7 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
   }, [modalOpen]);
 
   const handleEmail = async (inputs) => {
-    const data = await axiosLogin.post(apiPosts.signUpValidateEmail, {
+    const data = await axiosNoAuth.post(apiPosts.signUpValidateEmail, {
       email: inputs.email,
     });
 
@@ -94,6 +96,8 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
       setOpenUser(true);
       setOpenCode(false);
       setEmail(inputs.email);
+      setShow(false);
+      setErrorEmail("");
     } else {
       setShow(true);
       setErrorEmail(data.message);
@@ -102,7 +106,7 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
 
   const handleSignUp = async (inputs) => {
     if (captcha) {
-      const data = await axiosLogin.post(apiPosts.signUp, {
+      const data = await axiosNoAuth.post(apiPosts.signUp, {
         username: inputs.username,
         email: email,
         password: inputs.password,
@@ -111,6 +115,8 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
         setOpenCode(true);
         setOpenUser(false);
         setOpenEmail(false);
+        setShowSignUp(false);
+        setErrorSignUp("");
       } else {
         setShowSignUp(true);
         setErrorSignUp(data.message);
@@ -121,17 +127,18 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
   };
   const handleCode = async () => {
     setIsDisabled(true);
-    const data = await axiosLogin.post(apiPosts.signUpConfirm, {
+    const data = await axiosNoAuth.post(apiPosts.signUpConfirm, {
       username: formSignUp.getValues("username"),
       password: formSignUp.getValues("password"),
       code: code,
     });
     if (data.message === "ok") {
-      localStorage.setItem(STORAGE_KEY.EXPIRES_IN, Date.now() + 86400);
+      localStorage.setItem(STORAGE_KEY.EXPIRES_IN, Number(Date.now()/1000) + Number(86400));
       localStorage.setItem(STORAGE_KEY.ACCESS_TOKEN,JSON.stringify(data.AccessToken));
       localStorage.setItem(STORAGE_KEY.REFRESH_TOKEN,JSON.stringify(data.RefreshToken));
       localStorage.setItem(STORAGE_KEY.USER_CURRENT,JSON.stringify(data.username));
       localStorage.setItem(STORAGE_KEY.IS_LOGIN, true)
+      setShowCode(false);
       handleModalOpen();
       navigate(pathName.PERSONAL_PROFILE);
       window.location.reload();

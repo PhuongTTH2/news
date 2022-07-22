@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Modal } from "react-bootstrap";
-import axiosLogin from "api/rest/axiosLogin";
+import axiosNoAuth from "api/rest/axiosNoAuth";
 import apiPosts from "api/rest/apiPosts";
 import { useNavigate } from "react-router";
 import { pathName } from "constants/index";
@@ -59,13 +59,13 @@ const ModalSignin = ({ modalOpen, close, handleModalOpen }) => {
 
   const onSubmit = async (inputs) => {
     dispatch(loginStart());
-    const data = await axiosLogin.post(apiPosts.signIn, {
+    const data = await axiosNoAuth.post(apiPosts.signIn, {
       username: inputs.username,
       password: inputs.password,
     });
 
     if (data.message === "ok") {
-      localStorage.setItem(STORAGE_KEY.EXPIRES_IN, Number(Date.now()) + Number(86400))
+      localStorage.setItem(STORAGE_KEY.EXPIRES_IN, Number(Date.now()/1000) + Number(86400))
       localStorage.setItem(STORAGE_KEY.ACCESS_TOKEN, data.AccessToken)
       localStorage.setItem(STORAGE_KEY.REFRESH_TOKEN, data.RefreshToken)
       localStorage.setItem(STORAGE_KEY.USER_CURRENT, data.username)

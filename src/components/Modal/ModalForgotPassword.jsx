@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
-import axiosLogin from "api/rest/axiosLogin";
+import axiosNoAuth from "api/rest/axiosNoAuth";
 import apiPosts from "api/rest/apiPosts";
 
 import * as yup from "yup";
@@ -11,13 +11,17 @@ import { isEmpty } from "lodash";
 const ModalForgotPassword = ({ modalOpen, close, handleModalOpen }) => {
   const [errorValidate, setErrorValidate] = useState("");
   const [errorEmail, setErrorEmail] = useState("");
+
   const [show, setShow] = useState(false);
-  const [openEmail, setOpenEmail] = useState(false);
-  const [username, setUsername] = useState("");
-  const [openNewPassword, setOpenNewPassword] = useState(false);
-  const [errorValidateNewPassword, setErrorValidateNewPassword] = useState("");
   const [showNewPassword, setShowNewPassword] = useState(false);
+
+  const [openEmail, setOpenEmail] = useState(false);
+  const [openNewPassword, setOpenNewPassword] = useState(false);
+
+  const [errorValidateNewPassword, setErrorValidateNewPassword] = useState("");
   const [errorNewPassword, setErrorNewPassword] = useState("");
+
+  const [username, setUsername] = useState("");
   const schema = yup.object().shape({
     email: yup.string().required("Email is required").email().label("Email"),
   });
@@ -83,19 +87,24 @@ const ModalForgotPassword = ({ modalOpen, close, handleModalOpen }) => {
     setErrorValidateNewPassword("");
   };
   const handleModalClose = (e) => {
+    setShow(false)
+    showNewPassword(false);
+
     setOpenEmail(false);
-    setOpenEmail(true);
     setOpenNewPassword(false);
+    
     handleModalOpen(e);
   };
   const handleEmail = async (inputs) => {
-    const data = await axiosLogin.post(apiPosts.forgotPasswordInitiateEmail, {
+    const data = await axiosNoAuth.post(apiPosts.forgotPasswordInitiateEmail, {
       email: inputs.email,
     });
     if (data.message === "ok") {
       setOpenEmail(false);
       setOpenNewPassword(true);
       setUsername(data.username)
+      setShow(false);
+      setErrorEmail("");
     } else {
       setShow(true);
       setErrorEmail(data.message);
@@ -103,7 +112,7 @@ const ModalForgotPassword = ({ modalOpen, close, handleModalOpen }) => {
   };
 
   const handleNewPassword = async (inputs) => {
-    const data = await axiosLogin.post(apiPosts.forgotPasswordChange, {
+    const data = await axiosNoAuth.post(apiPosts.forgotPasswordChange, {
       username: username,
       password: inputs.password,
       code: inputs.code,
@@ -111,7 +120,8 @@ const ModalForgotPassword = ({ modalOpen, close, handleModalOpen }) => {
 
     if (data.message === "ok") {
       alert("Password reset successful");
-      setOpenEmail(true);
+      setShowNewPassword(false);
+      setErrorNewPassword("");
       handleModalOpen();
     } else {
       setShowNewPassword(true);
@@ -119,7 +129,7 @@ const ModalForgotPassword = ({ modalOpen, close, handleModalOpen }) => {
     }
   };
   return openEmail ? (
-    <Modal show={modalOpen} className="Acct" onHide={handleModalOpen} size="lg">
+    <Modal show={modalOpen} className="Acct" onHide={handleModalClose} size="lg">
       <div className="modal-header">
         <a href="/" className="logo">
           <img alt="alt" src="img/logo.png" />

@@ -18,8 +18,7 @@ import moment from "moment";
 import { useAppDispatch } from "app/hooks";
 import { updateAccount } from "slices";
 import { authHeaderAndAccount } from "api/rest/header";
-import { COUNTRY } from "constants/index";
-
+import { Country }  from 'country-state-city';
 const PersonalProfile = () => {
   const users = useSelector(isUserSelector);
   const dispatch = useAppDispatch();
@@ -117,7 +116,6 @@ const PersonalProfile = () => {
   };
 
   const handleProfile = async (inputs) => {
-
     var bodyFormData = new FormData();
     bodyFormData.append('first_name',  inputs.first_name);
     bodyFormData.append('last_name',  inputs.last_name);
@@ -321,12 +319,12 @@ const PersonalProfile = () => {
                           id="country"
                           className="form-control"
                         >
-                          {COUNTRY.map((option, index) => (
+                          {Country.getAllCountries().map((option, index) => (
                             <option
                               key={index}
-                              value={option.code}
+                              value={option.isoCode}
                               selected={
-                                form.getValues("country") === option.code
+                                form.getValues("country") === option.isoCode
                                   ? true
                                   : false
                               }
@@ -544,16 +542,13 @@ const PersonalProfile = () => {
                   <div className="row no-margin-lr">
                     <div className="col-md-3 no-padding-lr">
                       <div className="form-group pr--5">
-                        <select id="privacy" className="form-control">
+                        <select id="privacy" className="form-control" onChange={(e) => form.setValue("audience_type", e.target.value )}>
                           <option
                             value="Public"
                             selected={
                               form.getValues("audience_type") === "Public"
                                 ? true
                                 : false
-                            }
-                            onChange={(e) =>
-                              form.setValue("audience_type", e.target.value)
                             }
                           >
                             Public
@@ -564,9 +559,6 @@ const PersonalProfile = () => {
                               form.getValues("audience_type") === "Private"
                                 ? true
                                 : false
-                            }
-                            onChange={(e) =>
-                              form.setValue("audience_type", e.target.value)
                             }
                           >
                             {" "}

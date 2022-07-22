@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axiosClients from 'api/rest/axiosClients'
-import {authHeaderAccount} from 'api/rest/header'
+import {authHeaderAndAccount} from 'api/rest/header'
 import apiGets from "api/rest/apiGets";
 export const getAccountScopes = createAsyncThunk('auth/getAccountScopes', async (account: any) => {
-    const data: any = await axiosClients.get(apiGets.getAccount,{ headers: authHeaderAccount(account) })
+    const data: any = await axiosClients.get(apiGets.getAccount,{ headers: authHeaderAndAccount() })
     return data.data
-    // return {}
 })
 
 const userSlice = createSlice({

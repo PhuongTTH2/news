@@ -13,7 +13,7 @@ const apiPosts = {
   createBook: "/book",
   createBookChapter: "/book/{book_id}/chapter",
   createBookTopic: "/book/{book_id}/chapter/{chapter_id}/topic",
-  
+  postReligionInfluences: "/religion/influences",
   signOut: "/account/signout",
 
 };

@@ -13,7 +13,7 @@ const axiosClients = axios.create({
 axiosClients.interceptors.request.use(
     async (config) => {
         let dateExpired = localStorage.getItem(STORAGE_KEY.EXPIRES_IN);
-        let isExpired = Number(dateExpired) > Number(Date.now())
+        let isExpired = Number(dateExpired) > Number(Date.now()/1000)
         if (isExpired) {
             return config
         }else{
@@ -21,7 +21,7 @@ axiosClients.interceptors.request.use(
             if(data.data.message === 'ok'){
                 axiosClients.defaults.headers.common['access_token'] = `${data.data.access_token}`
                 localStorage.setItem(STORAGE_KEY.ACCESS_TOKEN, data.data.access_token)
-                localStorage.setItem(STORAGE_KEY.EXPIRES_IN, Number(Date.now()) + Number(86400))
+                localStorage.setItem(STORAGE_KEY.EXPIRES_IN, Number(Date.now()/1000) + Number(86400))
                 return config;
             }
         }
