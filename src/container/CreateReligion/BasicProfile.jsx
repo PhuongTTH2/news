@@ -134,23 +134,22 @@ const BasicProfile = ({ handleStep }) => {
     }
     var bodyFormData = new FormData();
     bodyFormData.append('name', inputs.name);
-    bodyFormData.append('country', inputs.country);
-    bodyFormData.append('state', inputs.state);
     bodyFormData.append('city', inputs.city);
+    bodyFormData.append('state', inputs.state);
+    bodyFormData.append('country', inputs.country);
     bodyFormData.append('major_orientation', inputs.major_orientation);
-    bodyFormData.append('influences', JSON.stringify(arrayReligionInfluencesSave));
     bodyFormData.append('mantra', inputs.mantra);
-    bodyFormData.append('founder_bio', inputs.founder_bio);
     if(inputs.founder_picture){
       bodyFormData.append('founder_picture', inputs.founder_picture);
     }
+    bodyFormData.append('founder_bio', inputs.founder_bio);
+    bodyFormData.append('influences', JSON.stringify(arrayReligionInfluencesSave));
     const res = await axiosClientsFormData({
       method: "post",
       url: apiPosts.postReligionInfluences,
       headers: authHeaderAndAccount(),
       data: bodyFormData,
     });
-    console.log(res)
     if (res.message === "ok") {
       handleStep(3)
     } else {
