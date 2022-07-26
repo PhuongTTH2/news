@@ -18,7 +18,7 @@ import moment from "moment";
 import { useAppDispatch } from "app/hooks";
 import { updateAccount } from "slices";
 import { authHeaderAndAccount } from "api/rest/header";
-import { Country }  from 'country-state-city';
+import { Country } from "country-state-city";
 const PersonalProfile = () => {
   const users = useSelector(isUserSelector);
   const dispatch = useAppDispatch();
@@ -83,12 +83,12 @@ const PersonalProfile = () => {
   const handleUploadFileLocal = (event) => {
     const objectUrl = URL.createObjectURL(event.target.files[0]);
     setUploadFile(objectUrl);
-    setUploadFileSave(event.target.files[0])
+    setUploadFileSave(event.target.files[0]);
     event.target.value = null;
   };
   const removePhoto = () => {
     setUploadFile(null);
-    setUploadFileSave(null)
+    setUploadFileSave(null);
   };
 
   const handleReligiousAffiliations = (e, index) => {
@@ -117,22 +117,25 @@ const PersonalProfile = () => {
 
   const handleProfile = async (inputs) => {
     var bodyFormData = new FormData();
-    bodyFormData.append('first_name',  inputs.first_name);
-    bodyFormData.append('last_name',  inputs.last_name);
-    if(uploadFileSave){
-      bodyFormData.append('profile_picture', uploadFileSave);
+    bodyFormData.append("first_name", inputs.first_name);
+    bodyFormData.append("last_name", inputs.last_name);
+    if (uploadFileSave) {
+      bodyFormData.append("profile_picture", uploadFileSave);
     }
-    bodyFormData.append('phone', inputs.phone);
-    bodyFormData.append('birth_day', moment(fullDate).format("MM/DD/YYYY"));
-    bodyFormData.append('about', inputs.about);
-    bodyFormData.append('street_address_1', inputs.street_address_1);
-    bodyFormData.append('street_address_2', inputs.street_address_2);
-    bodyFormData.append('city', inputs.city);
-    bodyFormData.append('state', inputs.state);
-    bodyFormData.append('zip_code', inputs.zip_code);
-    bodyFormData.append('country', inputs.country);
-    bodyFormData.append('audience_type', inputs.audience_type);
-    bodyFormData.append('religious_affiliations', JSON.stringify(arrayReligiousAffiliations));
+    bodyFormData.append("phone", inputs.phone);
+    bodyFormData.append("birth_day", moment(fullDate).format("MM/DD/YYYY"));
+    bodyFormData.append("about", inputs.about);
+    bodyFormData.append("street_address_1", inputs.street_address_1);
+    bodyFormData.append("street_address_2", inputs.street_address_2);
+    bodyFormData.append("city", inputs.city);
+    bodyFormData.append("state", inputs.state);
+    bodyFormData.append("zip_code", inputs.zip_code);
+    bodyFormData.append("country", inputs.country);
+    bodyFormData.append("audience_type", inputs.audience_type);
+    bodyFormData.append(
+      "religious_affiliations",
+      JSON.stringify(arrayReligiousAffiliations)
+    );
     const res = await axiosClientsFormData({
       method: "put",
       url: apiPuts.updateAccount,
@@ -542,7 +545,13 @@ const PersonalProfile = () => {
                   <div className="row no-margin-lr">
                     <div className="col-md-3 no-padding-lr">
                       <div className="form-group pr--5">
-                        <select id="privacy" className="form-control" onChange={(e) => form.setValue("audience_type", e.target.value )}>
+                        <select
+                          id="privacy"
+                          className="form-control"
+                          onChange={(e) =>
+                            form.setValue("audience_type", e.target.value)
+                          }
+                        >
                           <option
                             value="Public"
                             selected={

@@ -133,12 +133,17 @@ const ModalSignUp = ({ modalOpen, close, handleModalOpen }) => {
       code: code,
     });
     if (data.message === "ok") {
-      localStorage.setItem(STORAGE_KEY.EXPIRES_IN, Number(Date.now()/1000) + Number(86400));
-      localStorage.setItem(STORAGE_KEY.ACCESS_TOKEN,JSON.stringify(data.AccessToken));
-      localStorage.setItem(STORAGE_KEY.REFRESH_TOKEN,JSON.stringify(data.RefreshToken));
-      localStorage.setItem(STORAGE_KEY.USER_CURRENT,JSON.stringify(data.username));
-      localStorage.setItem(STORAGE_KEY.IS_LOGIN, true)
-      setShowCode(false);
+      localStorage.setItem(
+        STORAGE_KEY.EXPIRES_IN,
+        Number(Date.now() / 1000) + Number(86400)
+      );
+      localStorage.setItem(STORAGE_KEY.ACCESS_TOKEN, data.AccessToken);
+      localStorage.setItem(STORAGE_KEY.REFRESH_TOKEN, data.RefreshToken);
+      localStorage.setItem(
+        STORAGE_KEY.USER_CURRENT,
+        formSignUp.getValues("username")
+      );
+      localStorage.setItem(STORAGE_KEY.IS_LOGIN, true);
       handleModalOpen();
       navigate(pathName.PERSONAL_PROFILE);
       window.location.reload();

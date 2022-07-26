@@ -5,7 +5,7 @@ import { isUserSelector } from "selectors/authSelector";
 import { useSelector } from "react-redux";
 
 import { useAppDispatch } from "app/hooks";
-import { logoutSuccess, logoutStart,removeAccount } from "slices";
+import { logoutSuccess, logoutStart, removeAccount } from "slices";
 import axiosClients from "api/rest/axiosClients";
 import apiPosts from "api/rest/apiPosts";
 import { STORAGE_KEY } from "constants/index";
@@ -22,16 +22,20 @@ const Header = () => {
       setCurrentUser(user?.users);
     }
   }, [user?.users]);
-  
+
   const handleLogout = async (e) => {
     dispatch(logoutStart());
-    const data = await axiosClients.post(apiPosts.signOut, {}, {
-      headers: authHeaderAndAccount(),
-    });
+    const data = await axiosClients.post(
+      apiPosts.signOut,
+      {},
+      {
+        headers: authHeaderAndAccount(),
+      }
+    );
 
     if (data.message === "ok") {
       dispatch(logoutSuccess());
-      dispatch(removeAccount())
+      dispatch(removeAccount());
       localStorage.clear();
       navigate(pathName.HOME);
       window.location.reload();
@@ -155,32 +159,40 @@ const Header = () => {
                 <p className="user">
                   {!localStorage.getItem(STORAGE_KEY.IS_LOGIN) ? (
                     <>
-                      <span style={{ minWidth: 70 }} > Hi, Guest </span>
+                      <span style={{ minWidth: 70 }}> Hi, Guest </span>
                     </>
                   ) : (
                     <>
-                      {isEmpty(user.users.first_name) ? (
+                      {isEmpty(user?.users?.first_name) ? (
                         <span onClick={() => handleLogout()} class="pointerA ">
                           Logout
-                             </span>
+                        </span>
                       ) : (
                         <>
                           <div>
                             <img
-                            alt="File"
-                            style={{ width: 31, height: 31, borderRadius: '50%' }}
-                            src={currentUser?.profile_picture_url}
-                          />
+                              alt="File"
+                              style={{
+                                width: 31,
+                                height: 31,
+                                borderRadius: "50%",
+                              }}
+                              src={currentUser?.profile_picture_url}
+                            />
                           </div>
                           <div style={{ minWidth: 150 }}>
                             <span>
-                            Hi, {currentUser?.first_name +
+                              Hi,{" "}
+                              {currentUser?.first_name +
                                 " " +
                                 currentUser?.last_name}
                             </span>
-                            <span onClick={() => handleLogout()} class="pointerA ">
-                          Logout
-                             </span>
+                            <span
+                              onClick={() => handleLogout()}
+                              class="pointerA "
+                            >
+                              Logout
+                            </span>
                           </div>
                           {/* <i className="fas fa-caret-down" /> */}
                         </>

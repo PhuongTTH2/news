@@ -2013,7 +2013,7 @@ p.user span{
     border-radius: 5px;
     width: 100%;
     border: solid 1px #212529;
-    color: #a5a4a4;
+    color: #212529;
     /* text-transform: uppercase; */
 }
 .Acct input:hover {
@@ -2021,7 +2021,7 @@ p.user span{
     border-radius: 5px;
     width: 100%;
     border: solid 1px #212529;
-    color: #a5a4a4;
+    color: #212529;
     /* text-transform: uppercase; */
 }
 .Acct .btn {
@@ -2476,7 +2476,7 @@ p.user span{
 .create-inner input[type=text] {
 	font-size: 12px;
 	line-height: 14px;
-	color: #333;
+	color: #212529;
 	padding: 10px 12px;
 	border-radius: 5px;
 	border: 1px solid #212529;

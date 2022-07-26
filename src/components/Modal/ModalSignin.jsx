@@ -8,7 +8,7 @@ import { useAppDispatch } from "app/hooks";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
-import { STORAGE_KEY } from 'constants/index'
+import { STORAGE_KEY } from "constants/index";
 import { isEmpty } from "lodash";
 import { UserKey } from "constants/enum";
 import { loginStart, getAccountScopes } from "slices";
@@ -65,11 +65,14 @@ const ModalSignin = ({ modalOpen, close, handleModalOpen }) => {
     });
 
     if (data.message === "ok") {
-      localStorage.setItem(STORAGE_KEY.EXPIRES_IN, Number(Date.now()/1000) + Number(86400))
-      localStorage.setItem(STORAGE_KEY.ACCESS_TOKEN, data.AccessToken)
-      localStorage.setItem(STORAGE_KEY.REFRESH_TOKEN, data.RefreshToken)
-      localStorage.setItem(STORAGE_KEY.USER_CURRENT, data.username)
-      localStorage.setItem(STORAGE_KEY.IS_LOGIN, true)
+      localStorage.setItem(
+        STORAGE_KEY.EXPIRES_IN,
+        Number(Date.now() / 1000) + Number(86400)
+      );
+      localStorage.setItem(STORAGE_KEY.ACCESS_TOKEN, data.AccessToken);
+      localStorage.setItem(STORAGE_KEY.REFRESH_TOKEN, data.RefreshToken);
+      localStorage.setItem(STORAGE_KEY.USER_CURRENT, data.username);
+      localStorage.setItem(STORAGE_KEY.IS_LOGIN, true);
       await dispatch(getAccountScopes(data));
       handleModalOpen();
       navigate(pathName.LOUNGE);
