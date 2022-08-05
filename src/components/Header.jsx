@@ -42,7 +42,7 @@ const Header = () => {
     }
   };
   return (
-    <div className="no-gutters">
+    <div className="no-gutters" style={{ display: "block" }}>
       <header>
         <div className="container no-padding-lr">
           <div className="holder">

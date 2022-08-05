@@ -12,19 +12,19 @@ import { useSelector } from "react-redux";
 // import { isAuthSelector} from "selectors/authSelector";
 
 // import { useAppDispatch } from "app/hooks";
-// import All from './components/All'
-// import Announcements from './components/Announcements';
+import All from "./components/All";
+import Announcements from "./components/Announcements";
 // import Education from './components/Education';
-// import Events from './components/Events';
+import Events from "./components/Events";
 // import Polls from './components/Polls';
 const Lounge = () => {
   // const navigate = useNavigate();
   const user = useSelector(isUserSelector);
   const [currentUser, setCurrentUser] = useState("");
   // const dispatch = useAppDispatch();
-  useEffect( () => {
-    if(user){
-      setCurrentUser(user.users)
+  useEffect(() => {
+    if (user) {
+      setCurrentUser(user?.users);
     }
   }, [user]);
   const [activeTab, setActiveTab] = useState("tab1");
@@ -125,7 +125,7 @@ const Lounge = () => {
   return (
     <div id="main">
       {/* start of header */}
-        <Header/>
+      <Header />
       {/* end of header */}
       {/*- mobile search bar */}
       <div className="showOnMobile mobileSearchBar">
@@ -438,38 +438,12 @@ const Lounge = () => {
                   </div>
                 </div>
               </div>
-              <div className="updatesContent">
-                <div className="textTitle">
-                  <p>
-                    <a href="/">
-                      <strong>Tom Jones</strong>
-                    </a>{" "}
-                    <span className="fw--300">
-                      (12/15): Here is my weekly video sermon. This week's topic
-                      is "Human Frailty".
-                    </span>
-                  </p>
-                </div>
-                <div className="clearfix" />
-                <div className="videoWrapper">
-                  <a href="/">
-                    <img alt="alt" src="img/videosample.jpg" />
-                  </a>
-                </div>
-                <div className="updatesList">
-                  <ul>
-                    <li className="fs--12">
-                      <strong>Jimbob:</strong> This was really interesting!!
-                    </li>
-                    <li className="fs--12">
-                      <strong>SallyRed:</strong> Yes. we humans are fraill!
-                    </li>
-                    <li className="fs--12">
-                      <strong>TomGun:</strong> One of the best sermons ever!
-                    </li>
-                  </ul>
-                </div>
-              </div>
+
+              {/* <All /> */}
+              {/* <Announcements /> */}
+              {/* <Education/> */}
+              {/* <Events /> */}
+              {/* <Polls/>  */}
             </div>
             {/* end of updates */}
             {/* start of poll */}

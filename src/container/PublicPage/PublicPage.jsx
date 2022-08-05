@@ -1,9 +1,77 @@
-import React from "react";
+import React, { useEffect } from "react";
 // import { Button,Modal} from 'react-bootstrap'
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 const PublicPage = () => {
   const [toggleMenu, setToggleMenu] = React.useState(false);
+  const [listBestNRM, setListBestNRM] = React.useState([]);
+  const [countBestNRM, setCountBestNRM] = React.useState(4);
+  const bestNRM = [
+    {
+      name: "The Benabar",
+      img: "img/avatar/the_benabar.png",
+      message: "Life Is A Treasure!",
+      members: "87%",
+    },
+    {
+      name: "Croze Church",
+      img: "img/avatar/croze_church.png",
+      message: "Discover Yourself",
+      members: "70%",
+    },
+    {
+      name: "Hoshi Union",
+      img: "img/avatar/hoshi_union.png",
+      message: "Achievement Matters",
+      members: "53%",
+    },
+    {
+      name: " Caravane Church",
+      img: "img/avatar/caravane_church.png",
+      message: "Relaxation First",
+      members: "33%",
+    },
+    {
+      name: "The Benabar",
+      img: "img/avatar/the_benabar.png",
+      message: "Life Is A Treasure!",
+      members: "87%",
+    },
+    {
+      name: "Croze Church",
+      img: "img/avatar/croze_church.png",
+      message: "Discover Yourself",
+      members: "70%",
+    },
+    {
+      name: "Hoshi Union",
+      img: "img/avatar/hoshi_union.png",
+      message: "Achievement Matters",
+      members: "53%",
+    },
+    {
+      name: " Caravane Church",
+      img: "img/avatar/caravane_church.png",
+      message: "Relaxation First",
+      members: "33%",
+    },
+    {
+      name: " Caravane Church",
+      img: "img/avatar/caravane_church.png",
+      message: "Relaxation First",
+      members: "33%",
+    },
+  ];
+  useEffect(() => {
+    if (bestNRM) {
+      setListBestNRM(bestNRM.slice(0, countBestNRM));
+    }
+  }, [bestNRM]);
+  const handleBestNRM = () => {
+    let newCountBestNRM = countBestNRM + 4;
+    setListBestNRM(bestNRM.slice(0, newCountBestNRM));
+    setCountBestNRM(newCountBestNRM);
+  };
   return (
     <div id="main">
       {/* start of header */}
@@ -1074,143 +1142,48 @@ const PublicPage = () => {
                 <div className="card-body">
                   <p className="fs--12">NRMs trending on our site today:</p>
                   {/* start of progress bars */}
-                  <div className="author">
-                    <div className="leftAuthor">
-                      <img
-                        alt="alt"
-                        className="avatarIcon"
-                        src="img/avatar/the_benabar.png"
-                      />
-                      <p className="fs--12">
-                        <a href="/" className="bright-blue">
-                          The Benabar
-                        </a>
-                        <br />
-                        <span className="fs--11">Life Is A Treasure!</span>
-                      </p>
-                      <div className="clearfix" />
-                    </div>
-                    <div className="rightAuthor">
-                      <div className="progHolder">
-                        <div className="progress redBar">
-                          <div
-                            className="progress-bar"
-                            style={{ width: "87%" }}
-                          ></div>
-                          <span className="outside">87%</span>
+                  {listBestNRM.map((items) => {
+                    return (
+                      <div className="author">
+                        <div className="leftAuthor">
+                          <img
+                            alt="alt"
+                            className="avatarIcon"
+                            src={items.img}
+                          />
+                          <p className="fs--12">
+                            <a href="/" className="bright-blue">
+                              {items.name}
+                            </a>
+                            <br />
+                            <span className="fs--11">{items.message}</span>
+                          </p>
+                          <div className="clearfix" />
                         </div>
-                        <p className="fs--10 mt--8 mb--0">
-                          <a href="/">4</a>{" "}
-                          <span className="fw--300">new members</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="clearfix" />
-                  </div>
-                  <div className="author">
-                    <div className="leftAuthor">
-                      <img
-                        alt="alt"
-                        className="avatarIcon"
-                        src="img/avatar/croze_church.png"
-                      />
-                      <p className="fs--12">
-                        <a href="/" className="bright-blue">
-                          Croze Church
-                        </a>
-                        <br />
-                        <span className="fs--11">Discover Yourself</span>
-                      </p>
-                      <div className="clearfix" />
-                    </div>
-                    <div className="rightAuthor">
-                      <div className="progHolder">
-                        <div className="progress moderateRedBar">
-                          <div
-                            className="progress-bar"
-                            style={{ width: "70%" }}
-                          ></div>
-                          <span className="outside">70%</span>
+                        <div className="rightAuthor">
+                          <div className="progHolder">
+                            <div className="progress redBar">
+                              <div
+                                className="progress-bar"
+                                style={{ width: `${items.members}` }}
+                              ></div>
+                              <span className="outside">{items.members}</span>
+                            </div>
+                            <p className="fs--10 mt--8 mb--0">
+                              <a href="/">4</a>{" "}
+                              <span className="fw--300">new members</span>
+                            </p>
+                          </div>
                         </div>
-                        <p className="fs--10 mt--8 mb--0">
-                          <a href="/">16</a>{" "}
-                          <span className="fw--300">new members</span>
-                        </p>
+                        <div className="clearfix" />
                       </div>
-                    </div>
-                    <div className="clearfix" />
-                  </div>
-                  <div className="author">
-                    <div className="leftAuthor">
-                      <img
-                        alt="alt"
-                        className="avatarIcon"
-                        src="img/avatar/hoshi_union.png"
-                      />
-                      <p className="fs--12">
-                        <a href="/" className="bright-blue">
-                          Hoshi Union
-                        </a>
-                        <br />
-                        <span className="fs--11">Achievement Matters</span>
-                      </p>
-                      <div className="clearfix" />
-                    </div>
-                    <div className="rightAuthor">
-                      <div className="progHolder">
-                        <div className="progress orangeBar">
-                          <div
-                            className="progress-bar"
-                            style={{ width: "53%" }}
-                          ></div>
-                          <span className="outside">53%</span>
-                        </div>
-                        <p className="fs--10 mt--8 mb--0">
-                          <a href="/">7</a>{" "}
-                          <span className="fw--300">new members</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="clearfix" />
-                  </div>
-                  <div className="author">
-                    <div className="leftAuthor">
-                      <img
-                        alt="alt"
-                        className="avatarIcon"
-                        src="img/avatar/caravane_church.png"
-                      />
-                      <p className="fs--12">
-                        <a href="/" className="bright-blue">
-                          Caravane Church
-                        </a>
-                        <br />
-                        <span className="fs--11">Relaxation First</span>
-                      </p>
-                      <div className="clearfix" />
-                    </div>
-                    <div className="rightAuthor">
-                      <div className="progHolder">
-                        <div className="progress blueBar">
-                          <div
-                            className="progress-bar"
-                            style={{ width: "33%" }}
-                          ></div>
-                          <span className="outside">33%</span>
-                        </div>
-                        <p className="fs--10 mt--8 mb--0">
-                          <a href="/">5</a>{" "}
-                          <span className="fw--300">new members</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="clearfix" />
-                  </div>
+                    );
+                  })}
                   {/* end of progress bars */}
                   <a
-                    href="/"
                     className="bright-blue text-center fw--300 fs--11"
                     style={{ display: "block" }}
+                    onClick={handleBestNRM}
                   >
                     see more . . .
                   </a>

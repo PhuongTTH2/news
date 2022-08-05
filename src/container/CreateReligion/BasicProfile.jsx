@@ -14,17 +14,9 @@ import { isEmpty } from "lodash";
 import { authHeaderAndAccount } from "api/rest/header";
 import apiPosts from "api/rest/apiPosts";
 import axiosClientsFormData from "api/rest/axiosClientsFormData";
+import moment from "moment";
+import "./CreateReligion.css";
 const BasicProfile = ({ handleStep }) => {
-  const [startDate, setStartDate] = useState(new Date());
-  const [errorValidate, setErrorValidate] = useState("");
-
-  const [listCountry, setListCountry] = useState([]);
-  const [listState, setListState] = useState([]);
-  const [listCity, setListCity] = useState([]);
-  const [uploadFile, setUploadFile] = useState(null);
-  const [religionInfluences, setReligionInfluences] = useState([]);
-  const [openTextareaOther, setOpenTextareaOther] = useState(false);
-  const [arrayCheck, setArrayCheck] = useState([])
   const schema = yup.object().shape({
     name: yup.string().required("Name is required").max(40).label("Name"),
     major_orientation: yup
@@ -34,7 +26,27 @@ const BasicProfile = ({ handleStep }) => {
       .label("Major Orientation"),
     mantra: yup.string().required("Mantra is required").max(60).label("Mantra"),
     founder_bio: yup.string().max(250).label("Founder Bio"),
+    events: yup.array().of(
+      yup.object().shape({
+        name: yup.string().required("Name is required").label("Name"),
+        type: yup.string().required("Event/Ceremony/Holiday is required"),
+        description: yup
+          .string()
+          .required("Brief Description is required")
+          .max(100)
+          .label("Brief Description"),
+      })
+    ),
   });
+
+  const defaulValueEvents = {
+    name: "",
+    type: "",
+    description: "",
+    start_at: moment(new Date()).format("MM-DD"),
+    end_at: moment(new Date()).format("MM-DD"),
+  };
+
   const defaultValues = {
     name: "",
     country: "",
@@ -42,21 +54,47 @@ const BasicProfile = ({ handleStep }) => {
     city: "",
     major_orientation: "",
     influences: [],
-    otherReligion:"",
+    otherReligion: "",
     mantra: "",
     founder_picture: "",
     founder_bio: "",
+    events: [defaulValueEvents],
   };
+
+  const [startDate, setStartDate] = useState([new Date()]);
+  const [endDate, setEndDate] = useState([new Date()]);
+  const [errorValidate, setErrorValidate] = useState("");
+
+  const [listCountry, setListCountry] = useState([]);
+  const [listState, setListState] = useState([]);
+  const [listCity, setListCity] = useState([]);
+  const [uploadFile, setUploadFile] = useState(null);
+  const [religionInfluences, setReligionInfluences] = useState([]);
+  const [openTextareaOther, setOpenTextareaOther] = useState(false);
+  const [arrayCheck, setArrayCheck] = useState([]);
+  const [arrayEvents, setArrayEvents] = useState([defaulValueEvents]);
+  const ref = useRef();
+  const ref1 = useRef();
+  const ref2 = useRef();
   const form = useForm({
     defaultValues: defaultValues,
     resolver: yupResolver(schema),
   });
+
+  const handleClick = () => {
+    ref.current.click();
+  };
+  const handleClickEventStart = () => {
+    ref1.current.setFocus(true);
+  };
+  const handleClickEventEnd = () => {
+    ref2.current.setFocus(true);
+  };
   useEffect(() => {
     if (form.formState.errors) {
       setErrorValidate(form.formState.errors);
     }
   }, [form.formState.errors]);
-
   useEffect(() => {
     (async () => {
       setListCountry([Country.getCountryByCode("US")]);
@@ -65,16 +103,16 @@ const BasicProfile = ({ handleStep }) => {
       const getReligionInfluences = await axiosNoAuth.get(
         apiGets.getReligionInfluences
       );
-      let addOther = [...getReligionInfluences.influences,"Other"]
-      const getCheck = []
-      addOther.forEach((value, i)=>{
-        if(i ===0){
-          getCheck.push(true)
-        }else{
-          getCheck.push(false)
+      let addOther = [...getReligionInfluences.influences, "Other"];
+      const getCheck = [];
+      addOther.forEach((value, i) => {
+        if (i === 0) {
+          getCheck.push(true);
+        } else {
+          getCheck.push(false);
         }
-      })
-      setArrayCheck(getCheck)
+      });
+      setArrayCheck(getCheck);
       setReligionInfluences(addOther);
     })();
   }, []);
@@ -91,59 +129,91 @@ const BasicProfile = ({ handleStep }) => {
       form.getValues("country"),
       e.target.value
     );
-    form.setValue("city", "")
+    form.setValue("city", "");
     setListCity(currentCity);
   };
+
   const handleCity = (e) => {
     form.setValue("city", e.target.value);
   };
-  
-  const ref = useRef();
-  const handleClick = () => {
-    ref.current.click();
-  };
+
   const onChangeReligionInfluences = (event, index) => {
-      const newArrayCheck = [...arrayCheck]
-      newArrayCheck[index] = !arrayCheck[index]
-      const limit = newArrayCheck.filter(i => i === true).length
-      if(limit > 5) return
-      if (newArrayCheck[newArrayCheck.length - 1]) {
-        setOpenTextareaOther(true);
-      } else {
-        setOpenTextareaOther(false);
-        form.setValue("otherReligion", "");
-      }
-      setArrayCheck(newArrayCheck)
+    const newArrayCheck = [...arrayCheck];
+    newArrayCheck[index] = !arrayCheck[index];
+    const limit = newArrayCheck.filter((i) => i === true).length;
+    if (limit > 5) return;
+    if (newArrayCheck[newArrayCheck.length - 1]) {
+      setOpenTextareaOther(true);
+    } else {
+      setOpenTextareaOther(false);
+      form.setValue("otherReligion", "");
+    }
+    setArrayCheck(newArrayCheck);
   };
 
   const handleUploadFileLocal = (event) => {
     const objectUrl = URL.createObjectURL(event.target.files[0]);
     setUploadFile(objectUrl);
-    form.setValue("founder_picture", event.target.files[0])
+    form.setValue("founder_picture", event.target.files[0]);
     event.target.value = null;
   };
+
+  const handleAddRow = () => {
+    setArrayEvents([...arrayEvents, defaulValueEvents]);
+    setStartDate([...startDate, new Date()]);
+    setEndDate([...endDate, new Date()]);
+
+    form.setValue(`events.${arrayEvents.length}`, defaulValueEvents);
+  };
+
+  const onChangeEventRadio = (event, index) => {
+    form.setValue(`events.${index}.type`, event.target.value);
+  };
+
+  const hanldeEventStartDate = (date, index) => {
+    let newStartDate = [...startDate];
+    newStartDate[index] = date;
+    setStartDate(newStartDate);
+    form.setValue(`events.${index}.start_at`, moment(date).format("MM-DD"));
+    let newEndDate = [...endDate];
+    newEndDate[index] = date;
+    setEndDate(newEndDate);
+    form.setValue(`events.${index}.end_at`, moment(date).format("MM-DD"));
+  };
+
+  const hanldeEventEndDate = (date, index) => {
+    let newDate = [...endDate];
+    newDate[index] = date;
+    setEndDate(newDate);
+    form.setValue(`events.${index}.end_at`, moment(date).format("MM-DD"));
+  };
+
   const onSubmit = async (inputs) => {
-    let arrayReligionInfluencesSave = []
-    for(let i = 0; i < religionInfluences.length - 1; i++) {
-      if(arrayCheck[i]){
-        arrayReligionInfluencesSave.push(religionInfluences[i])
+    let arrayReligionInfluencesSave = [];
+    for (let i = 0; i < religionInfluences.length - 1; i++) {
+      if (arrayCheck[i]) {
+        arrayReligionInfluencesSave.push(religionInfluences[i]);
       }
     }
-    if(arrayCheck[arrayCheck.length - 1]){
-      arrayReligionInfluencesSave.push(inputs.otherReligion)
+    if (arrayCheck[arrayCheck.length - 1]) {
+      arrayReligionInfluencesSave.push(inputs.otherReligion);
     }
     var bodyFormData = new FormData();
-    bodyFormData.append('name', inputs.name);
-    bodyFormData.append('city', inputs.city);
-    bodyFormData.append('state', inputs.state);
-    bodyFormData.append('country', inputs.country);
-    bodyFormData.append('major_orientation', inputs.major_orientation);
-    bodyFormData.append('mantra', inputs.mantra);
-    if(inputs.founder_picture){
-      bodyFormData.append('founder_picture', inputs.founder_picture);
+    bodyFormData.append("name", inputs.name);
+    bodyFormData.append("city", inputs.city);
+    bodyFormData.append("state", inputs.state);
+    bodyFormData.append("country", inputs.country);
+    bodyFormData.append("major_orientation", inputs.major_orientation);
+    bodyFormData.append("mantra", inputs.mantra);
+    if (inputs.founder_picture) {
+      bodyFormData.append("founder_picture", inputs.founder_picture);
     }
-    bodyFormData.append('founder_bio', inputs.founder_bio);
-    bodyFormData.append('influences', JSON.stringify(arrayReligionInfluencesSave));
+    bodyFormData.append("founder_bio", inputs.founder_bio);
+    bodyFormData.append(
+      "influences",
+      JSON.stringify(arrayReligionInfluencesSave)
+    );
+    bodyFormData.append("events", JSON.stringify(inputs.events));
     const res = await axiosClientsFormData({
       method: "post",
       url: apiPosts.postReligionInfluences,
@@ -151,10 +221,9 @@ const BasicProfile = ({ handleStep }) => {
       data: bodyFormData,
     });
     if (res.message === "ok") {
-      handleStep(3)
+      handleStep(3);
     } else {
     }
-
   };
 
   return (
@@ -252,14 +321,13 @@ const BasicProfile = ({ handleStep }) => {
                         </option>
                       ))}
                     </select>
-                    <select {...form.register("city")} onChange={(e) => handleCity(e)}>
-                      <option value="" >
-                        City/Town
-                      </option>
+                    <select
+                      {...form.register("city")}
+                      onChange={(e) => handleCity(e)}
+                    >
+                      <option value="">City/Town</option>
                       {listCity.map((option, index) => (
-                        <option value={option.name} >
-                          {option.name}
-                        </option>
+                        <option value={option.name}>{option.name}</option>
                       ))}
                     </select>
                   </div>
@@ -319,9 +387,11 @@ const BasicProfile = ({ handleStep }) => {
                             checked={arrayCheck[index]}
                             name={index}
                             style={{ marginRight: 5 }}
-                            onClick={(e)=> onChangeReligionInfluences(e, index)}
+                            onClick={(e) =>
+                              onChangeReligionInfluences(e, index)
+                            }
                           />
-                          {value}                        
+                          {value}
                         </label>
                       ))}
                       {openTextareaOther ? (
@@ -335,11 +405,10 @@ const BasicProfile = ({ handleStep }) => {
                               form.setValue("otherReligion", e.target.value)
                             }
                           />
-
                         </label>
-                        ) : (
-                          ""
-                        )}
+                      ) : (
+                        ""
+                      )}
                     </fieldset>
                   </div>
                 </div>
@@ -377,77 +446,207 @@ const BasicProfile = ({ handleStep }) => {
                 <div className="clearfix" />
               </div>{" "}
               {/* .create-cont */}
-              {/* <div className="create-cont">
+              <div className="create-cont">
                 <div className="create-label">
-                  <h3>Major Events, Ceremonies and Holidays</h3>
+                  <h3>
+                    Major Events, Ceremonies and Holidays
+                    <span className="required">*</span>
+                  </h3>
                 </div>
                 <div className="create-inner">
                   <div className="inner-inputs">
-                    <div className="major-events">
-                      <input
-                        type="text"
-                        placeholder="Enter name of event, ceremony or holiday"
-                      />
-                      <div className="me-inner">
-                        <div className="me-buttons">
-                          <fieldset id="group2">
-                            <p>Type: </p>
-                            <label>
-                              <input type="radio" name="radio2" /> Event
-                            </label>
-                            <label>
-                              <input type="radio" name="radio2" /> Ceremony
-                            </label>
-                            <label>
-                              <input type="radio" name="radio2" /> Holiday
-                            </label>
-                          </fieldset>
-                        </div>
-                        <div className="me-disc">
-                          <label>Brief Description: </label>
-                          <textarea type="text" defaultValue={""} />
-                          <div className="field-range">0/100 </div>
-                        </div>
-                        <div className="me-caldr" style={{display: "flex"}}>
-                          <label style={{display: "flex" , alignItems: "center"}}>
-                            Start: <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
-                          </label>
-                          <label style={{ marginLeft:2, display: "flex", alignItems: "center"}}>
-                            End:<DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
-                          </label>
-                        </div>
-                        <div className="me-check">
-                          <p>
-                            Check{" "}
-                            <input
-                              type="checkbox"
-                              id="majorevent"
-                              name="majorevent"
-                              defaultValue="majorevent"
-                            />{" "}
-                            if event/ceremony ends same day as it starts.
-                          </p>
-                          <a href="/">Post</a>
+                    {arrayEvents.map((item, index) => (
+                      <div className="major-events" style={{ marginTop: 15 }}>
+                        <input
+                          style={{
+                            border:
+                              errorValidate?.events?.length &&
+                              !isEmpty(errorValidate?.events[index]?.name)
+                                ? "solid 1px #ff0000"
+                                : "",
+                          }}
+                          type="text"
+                          name="nameEvent"
+                          placeholder="Enter name of event, ceremony or holiday"
+                          onChange={(e) =>
+                            form.setValue(
+                              `events.${index}.name`,
+                              e.target.value
+                            )
+                          }
+                        />
+                        {errorValidate?.events?.length &&
+                          errorValidate?.events[index]?.name && (
+                            <span className="error-login">
+                              {errorValidate?.events[index]?.name.message}
+                            </span>
+                          )}
+                        <div className="me-inner">
+                          <div className="me-buttons">
+                            <fieldset id="group2">
+                              <p>Type: </p>
+                              <label>
+                                <input
+                                  {...form.register(`events.${index}.type`)}
+                                  type="radio"
+                                  name={`radioEvent.${index}`}
+                                  value="event"
+                                  onClick={(e) => onChangeEventRadio(e, index)}
+                                />{" "}
+                                Event
+                              </label>
+                              <label>
+                                <input
+                                  {...form.register(`events.${index}.type`)}
+                                  type="radio"
+                                  name={`radioEvent.${index}`}
+                                  value="ceremony"
+                                  onClick={(e) => onChangeEventRadio(e, index)}
+                                />{" "}
+                                Ceremony
+                              </label>
+                              <label>
+                                <input
+                                  {...form.register(`events.${index}.type`)}
+                                  type="radio"
+                                  name={`radioEvent.${index}`}
+                                  value="holiday"
+                                  onClick={(e) => onChangeEventRadio(e, index)}
+                                />{" "}
+                                Holiday
+                              </label>
+                            </fieldset>
+                            {errorValidate?.events?.length &&
+                              errorValidate?.events[index]?.type && (
+                                <span className="error-login">
+                                  {errorValidate?.events[index]?.type.message}
+                                </span>
+                              )}
+                          </div>
+                          <div className="descriptionEvent">
+                            <div style={{ minWidth: "120px" }}>
+                              <label>Brief Description:</label>
+                            </div>
+                            <div style={{ width: "100%" }}>
+                              <textarea
+                                style={{
+                                  border:
+                                    errorValidate?.events?.length &&
+                                    !isEmpty(
+                                      errorValidate?.events[index]?.description
+                                    )
+                                      ? "solid 1px #ff0000"
+                                      : "",
+                                }}
+                                type="text"
+                                defaultValue={""}
+                                onChange={(e) =>
+                                  form.setValue(
+                                    `events.${index}.description`,
+                                    e.target.value
+                                  )
+                                }
+                              />
+                              {errorValidate?.events?.length &&
+                                errorValidate?.events[index]?.description && (
+                                  <span className="error-login">
+                                    {
+                                      errorValidate?.events[index]?.description
+                                        .message
+                                    }
+                                  </span>
+                                )}
+                              <div className="field-range">0/100 </div>
+                            </div>
+                          </div>
+                          <div className="datePickerBox">
+                            <span
+                              style={{
+                                marginRight: "5px",
+                              }}
+                            >
+                              Start:
+                            </span>
+                            <div className="datePickerEvent">
+                              <DatePicker
+                                minDate={new Date()}
+                                selected={startDate[index]}
+                                dateFormat="MM-dd"
+                                onChange={(date) =>
+                                  hanldeEventStartDate(date, index)
+                                }
+                                ref={ref1}
+                              />
+                              <img
+                                alt="alt"
+                                style={{ width: "25px", height: "15px" }}
+                                className=" pl--5 pr--5"
+                                src="img/icons/icon_datepicker.png"
+                                onClick={handleClickEventStart}
+                              />
+                            </div>
+                            <span
+                              style={{
+                                marginRight: "5px",
+                              }}
+                            >
+                              End:
+                            </span>
+                            <div className="datePickerEvent">
+                              <DatePicker
+                                selected={endDate[index]}
+                                minDate={startDate[index]}
+                                dateFormat="MM-dd"
+                                onChange={(date) =>
+                                  hanldeEventEndDate(date, index)
+                                }
+                                ref={ref2}
+                              />
+                              <img
+                                alt="alt"
+                                style={{ width: "25px", height: "15px" }}
+                                className=" pl--5 pr--5"
+                                src="img/icons/icon_datepicker.png"
+                                onClick={handleClickEventEnd}
+                              />
+                            </div>
+                          </div>
+                          <div className="me-check">
+                            <p style={{ display: "inline-flex" }}>
+                              Check
+                              <input
+                                style={{ margin: "0 2px" }}
+                                type="checkbox"
+                                id="majorevent"
+                                name="majorevent"
+                                defaultValue="majorevent"
+                              />
+                              if event/ceremony ends same day as it starts.
+                            </p>
+                            <a className="  pointerA" style={{ color: "#fff" }}>
+                              Post
+                            </a>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="addevents">
-                      <a href="/">
+                    ))}
+                    <div className="addevents" style={{ marginTop: 15 }}>
+                      <span class="pointerA" onClick={() => handleAddRow()}>
                         <img alt="alt" src="img/icon-add.png" />
-                      </a>
+                      </span>
                       <p>Add New Event, Ceremony or Holiday</p>
                     </div>
                   </div>
                 </div>
                 <div className="clearfix" />
-              </div>{" "} */}
+              </div>
               {/* .create-cont */}
               <div className="create-cont">
                 <div className="create-label">
                   <h3>Founder Bio</h3>
                 </div>
                 <div className="create-inner">
-                  <div className="inner-inputs">
+                  <div className="inner-inputs" style={{ paddingTop: 15 }}>
                     <input
                       type="file"
                       accept=".jpg,.jpeg,.png"
